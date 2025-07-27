@@ -1,13 +1,21 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Wand2, Copy, Download, Sparkles, Code2, FileText } from 'lucide-react'
+import { Wand2, Copy, Download, Sparkles, Code2, FileText, ChevronDown, ChevronUp, Plus, X } from 'lucide-react'
+
+interface TestCase {
+  id: number
+  input: string
+  expectedOutput: string
+  description: string
+}
 
 const codeTemplates = {
   javascript: {
@@ -226,6 +234,58 @@ export default function GeneratorPage() {
   const [selectedTemplate, setSelectedTemplate] = useState('simple')
   const [generatedCode, setGeneratedCode] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [testCases, setTestCases] = useState<TestCase[]>([
+    { id: 1, input: '', expectedOutput: '', description: '' }
+  ])
+
+  const addTestCase = () => {
+    const newId = Math.max(...testCases.map(tc => tc.id)) + 1
+    setTestCases([...testCases, { id: newId, input: '', expectedOutput: '', description: '' }])
+  }
+
+  const removeTestCase = (id: number) => {
+    if (testCases.length > 1) {
+      setTestCases(testCases.filter(tc => tc.id !== id))
+    }
+  }
+
+  const updateTestCase = (id: number, field: 'input' | 'expectedOutput' | 'description', value: string) => {
+    setTestCases(testCases.map(tc => 
+      tc.id === id ? { ...tc, [field]: value } : tc
+    ))
+  }
+
+  const generateTestCaseCode = (testCases: TestCase[]) => {
+    if (!showAdvanced || testCases.every((tc: TestCase) => !tc.input.trim())) return ''
+    
+    const validTestCases = testCases.filter((tc: TestCase) => tc.input.trim())
+    if (validTestCases.length === 0) return ''
+
+    if (selectedLanguage === 'python') {
+      return `
+
+# Test cases
+if __name__ == "__main__":
+${validTestCases.map((tc: TestCase) => `    # ${tc.description || 'Test case'}
+    test_input = ${tc.input}
+    expected = ${tc.expectedOutput || 'None'}
+    result = ${functionName.trim().replace(/[^a-zA-Z0-9]/g, '').replace(/^[0-9]/, '_$&')}(test_input)
+    print(f"Input: {test_input}, Expected: {expected}, Got: {result}")
+    assert result == expected, f"Expected {expected}, but got {result}"`).join('\n    \n')}`
+    } else {
+      return `
+
+// Test cases
+console.log('=== Test Cases ===');
+${validTestCases.map((tc: TestCase) => `// ${tc.description || 'Test case'}
+const testInput${tc.id} = ${tc.input};
+const expected${tc.id} = ${tc.expectedOutput || 'undefined'};
+const result${tc.id} = ${functionName.trim().replace(/[^a-zA-Z0-9]/g, '').replace(/^[0-9]/, '_$&')}(testInput${tc.id});
+console.log(\`Input: \${testInput${tc.id}}, Expected: \${expected${tc.id}}, Got: \${result${tc.id}}\`);
+console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.id}}, but got \${result${tc.id}}\`);`).join('\n\n')}`
+    }
+  }
 
   const generateCode = () => {
     if (!functionName.trim() || !description.trim()) return
@@ -241,8 +301,10 @@ export default function GeneratorPage() {
     setTimeout(() => {
       const template = codeTemplates[selectedLanguage][selectedTemplate as keyof typeof codeTemplates[typeof selectedLanguage]]
       if (template) {
-        const code = template(cleanName, description.trim())
-        setGeneratedCode(code)
+        const baseCode = template(cleanName, description.trim())
+        const testCaseCode = generateTestCaseCode(testCases)
+        const finalCode = baseCode + testCaseCode
+        setGeneratedCode(finalCode)
       }
       setIsGenerating(false)
     }, 500)
@@ -359,6 +421,81 @@ export default function GeneratorPage() {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Advanced Settings */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium">
+                    Advanced Settings
+                  </label>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setShowAdvanced(!showAdvanced)}
+                    className="h-auto p-1"
+                  >
+                    {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </Button>
+                </div>
+                
+                {showAdvanced && (
+                  <div className="space-y-4 border rounded-lg p-4 bg-muted/50">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">
+                        Test Cases
+                      </label>
+                      <div className="space-y-3">
+                        {testCases.map((testCase, index) => (
+                          <div key={testCase.id} className="space-y-2 border rounded-lg p-3 bg-background">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium">Test Case {index + 1}</span>
+                              {testCases.length > 1 && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => removeTestCase(testCase.id)}
+                                  className="h-auto p-1 text-destructive hover:text-destructive"
+                                >
+                                  <X className="w-4 h-4" />
+                                </Button>
+                              )}
+                            </div>
+                            <Input
+                              placeholder="Description (optional)"
+                              value={testCase.description}
+                              onChange={(e) => updateTestCase(testCase.id, 'description', e.target.value)}
+                              className="text-sm"
+                            />
+                            <div className="grid grid-cols-2 gap-2">
+                              <Input
+                                placeholder="Input value"
+                                value={testCase.input}
+                                onChange={(e) => updateTestCase(testCase.id, 'input', e.target.value)}
+                                className="text-sm"
+                              />
+                              <Input
+                                placeholder="Expected output"
+                                value={testCase.expectedOutput}
+                                onChange={(e) => updateTestCase(testCase.id, 'expectedOutput', e.target.value)}
+                                className="text-sm"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={addTestCase}
+                          className="w-full"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Test Case
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Generate Button */}
