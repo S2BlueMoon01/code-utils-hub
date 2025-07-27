@@ -11,6 +11,7 @@ import { sampleUtilityFunctions, categories, popularTags } from '@/data/sample-f
 import { UtilityFunction } from '@/types'
 import { Search, Filter, SortAsc, SortDesc, Star, Eye } from 'lucide-react'
 import { formatDownloads, formatRating } from '@/lib/utils/formatters'
+import { FavoriteButton } from '@/components/ui/favorite-button'
 import Link from 'next/link'
 
 export default function SearchPage() {
@@ -341,10 +342,18 @@ export default function SearchPage() {
                 <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-lg line-clamp-2">{func.name}</CardTitle>
-                      <Badge variant="secondary" className="ml-2 shrink-0">
-                        {func.category}
-                      </Badge>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg line-clamp-2">{func.name}</CardTitle>
+                        <Badge variant="secondary" className="mt-1 w-fit">
+                          {func.category}
+                        </Badge>
+                      </div>
+                      <FavoriteButton
+                        functionId={func.id}
+                        functionName={func.name}
+                        language={func.language}
+                        category={func.category}
+                      />
                     </div>
                     <CardDescription className="line-clamp-2">
                       {func.description}
