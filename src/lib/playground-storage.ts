@@ -26,6 +26,12 @@ export function storePlaygroundCode(data: Omit<PlaygroundCodeData, 'id' | 'times
   }
   
   try {
+    // Check if localStorage is available
+    if (typeof window === 'undefined' || !window.localStorage) {
+      console.warn('localStorage not available, using fallback')
+      return id
+    }
+
     const existingData = getStoredData()
     existingData[id] = codeData
     
@@ -36,7 +42,7 @@ export function storePlaygroundCode(data: Omit<PlaygroundCodeData, 'id' | 'times
     return id
   } catch (error) {
     console.error('Failed to store playground code:', error)
-    throw error
+    return id // Return ID anyway so app doesn't break
   }
 }
 
@@ -45,6 +51,11 @@ export function storePlaygroundCode(data: Omit<PlaygroundCodeData, 'id' | 'times
  */
 export function getPlaygroundCode(id: string): PlaygroundCodeData | null {
   try {
+    // Check if localStorage is available
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return null
+    }
+
     const data = getStoredData()
     const codeData = data[id]
     
@@ -69,6 +80,11 @@ export function getPlaygroundCode(id: string): PlaygroundCodeData | null {
  */
 export function clearPlaygroundCode(id: string): void {
   try {
+    // Check if localStorage is available
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return
+    }
+
     const data = getStoredData()
     delete data[id]
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
@@ -82,6 +98,11 @@ export function clearPlaygroundCode(id: string): void {
  */
 export function persistPlaygroundCode(id: string, code: string, language: string): void {
   try {
+    // Check if localStorage is available
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return
+    }
+
     const persistKey = `playground-persist-${id}`
     const persistData = {
       code,
@@ -134,6 +155,11 @@ export function clearPersistedCode(id: string): void {
  */
 function getStoredData(): Record<string, PlaygroundCodeData> {
   try {
+    // Check if localStorage is available
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return {}
+    }
+
     const stored = localStorage.getItem(STORAGE_KEY)
     return stored ? JSON.parse(stored) : {}
   } catch (error) {

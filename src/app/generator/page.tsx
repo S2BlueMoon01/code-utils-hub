@@ -334,7 +334,10 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
   }
 
   const openInPlayground = () => {
-    if (!generatedCode) return
+    if (!generatedCode) {
+      console.warn('No generated code to open in playground')
+      return
+    }
     
     try {
       const codeId = storePlaygroundCode({
@@ -345,13 +348,28 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
       })
       
       const playgroundUrl = `/playground?codeId=${codeId}`
-      window.open(playgroundUrl, '_blank')
+      
+      // Use a more reliable way to open new window
+      const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer')
+      if (!newWindow) {
+        console.warn('Popup blocked, trying alternative method')
+        // Fallback: navigate in current window
+        window.location.href = playgroundUrl
+      }
     } catch (error) {
       console.error('Failed to open in playground:', error)
       // Fallback to URL encoding if storage fails
-      const encodedCode = encodeURIComponent(generatedCode)
-      const playgroundUrl = `/playground?language=${selectedLanguage}&code=${encodedCode}`
-      window.open(playgroundUrl, '_blank')
+      try {
+        const encodedCode = encodeURIComponent(generatedCode)
+        const playgroundUrl = `/playground?language=${selectedLanguage}&code=${encodedCode}`
+        const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer')
+        if (!newWindow) {
+          window.location.href = playgroundUrl
+        }
+      } catch (fallbackError) {
+        console.error('Fallback method also failed:', fallbackError)
+        alert('Failed to open playground. Please try again.')
+      }
     }
   }
 

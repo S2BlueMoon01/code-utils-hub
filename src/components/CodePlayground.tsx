@@ -312,6 +312,7 @@ export default function CodePlayground({
   const [currentUtilityId, setCurrentUtilityId] = useState<string | null>(null);
   const [hasLoadedSharedCode, setHasLoadedSharedCode] = useState(false);
   const [currentCodeId, setCurrentCodeId] = useState<string | null>(null);
+  const [originalGeneratedCode, setOriginalGeneratedCode] = useState<string | null>(null);
 
   const handleLanguageChange = useCallback((language: Language) => {
     setSelectedLanguage(language);
@@ -323,58 +324,70 @@ export default function CodePlayground({
 
   // Handle URL parameters for utility function loading
   useEffect(() => {
-    const utilityId = searchParams.get('utilityId');
-    const languageParam = searchParams.get('language');
-    const codeParam = searchParams.get('code');
-    const codeId = searchParams.get('codeId');
+    try {
+      const utilityId = searchParams.get('utilityId');
+      const languageParam = searchParams.get('language');
+      const codeParam = searchParams.get('code');
+      const codeId = searchParams.get('codeId');
 
-    if (codeId && !hasLoadedSharedCode) {
-      setCurrentCodeId(codeId);
-      
-      // First try to get persisted code from localStorage
-      const persistedCode = getPersistedCode(codeId);
-      if (persistedCode) {
-        const lang = languages.find(l => l.id === persistedCode.language);
+      if (codeId && !hasLoadedSharedCode) {
+        setCurrentCodeId(codeId);
+        
+        // Always try to get the original shared code to save as fallback
+        const sharedCode = getPlaygroundCode(codeId);
+        if (sharedCode) {
+          setOriginalGeneratedCode(sharedCode.code);
+        }
+        
+        // First try to get persisted code from localStorage
+        const persistedCode = getPersistedCode(codeId);
+        if (persistedCode) {
+          const lang = languages.find(l => l.id === persistedCode.language);
+          if (lang) {
+            setSelectedLanguage(lang);
+            setCode(persistedCode.code);
+            setOutput("");
+            setHasLoadedSharedCode(true);
+            return;
+          }
+        }
+        
+        // If no persisted code, use shared code from generator
+        if (sharedCode) {
+          const lang = languages.find(l => l.id === sharedCode.language);
+          if (lang) {
+            setSelectedLanguage(lang);
+            setCode(sharedCode.code);
+            setOutput("");
+            setHasLoadedSharedCode(true);
+            // Persist the code immediately for future page reloads
+            persistPlaygroundCode(codeId, sharedCode.code, sharedCode.language);
+          }
+        }
+      } else if (utilityId) {
+        // Find utility function by ID
+        const utility = sampleUtilityFunctions.find(func => func.id === utilityId);
+        if (utility) {
+          setCurrentUtilityId(utilityId);
+          const lang = languages.find(l => l.id === utility.language);
+          if (lang) {
+            setSelectedLanguage(lang);
+            setCode(utility.code);
+          }
+        }
+      } else if (languageParam && codeParam) {
+        // Fallback to legacy URL parameters
+        const lang = languages.find(l => l.id === languageParam);
         if (lang) {
           setSelectedLanguage(lang);
-          setCode(persistedCode.code);
-          setOutput("");
-          setHasLoadedSharedCode(true);
-          return;
+          setCode(decodeURIComponent(codeParam));
         }
       }
-      
-      // If no persisted code, get shared code from generator
-      const sharedCode = getPlaygroundCode(codeId);
-      if (sharedCode) {
-        const lang = languages.find(l => l.id === sharedCode.language);
-        if (lang) {
-          setSelectedLanguage(lang);
-          setCode(sharedCode.code);
-          setOutput("");
-          setHasLoadedSharedCode(true);
-          // Persist the code immediately for future page reloads
-          persistPlaygroundCode(codeId, sharedCode.code, sharedCode.language);
-        }
-      }
-    } else if (utilityId) {
-      // Find utility function by ID
-      const utility = sampleUtilityFunctions.find(func => func.id === utilityId);
-      if (utility) {
-        setCurrentUtilityId(utilityId);
-        const lang = languages.find(l => l.id === utility.language);
-        if (lang) {
-          setSelectedLanguage(lang);
-          setCode(utility.code);
-        }
-      }
-    } else if (languageParam && codeParam) {
-      // Fallback to legacy URL parameters
-      const lang = languages.find(l => l.id === languageParam);
-      if (lang) {
-        setSelectedLanguage(lang);
-        setCode(decodeURIComponent(codeParam));
-      }
+    } catch (error) {
+      console.error('Error in playground URL parameter processing:', error);
+      // Reset to default state on error
+      setHasLoadedSharedCode(false);
+      setCurrentCodeId(null);
     }
   }, [searchParams, hasLoadedSharedCode]);
 
@@ -388,7 +401,7 @@ export default function CodePlayground({
       
       return () => clearTimeout(timeoutId);
     }
-  }, [code, selectedLanguage.id, currentCodeId, hasLoadedSharedCode]);
+  }, [code, selectedLanguage.id, selectedLanguage.defaultCode, currentCodeId, hasLoadedSharedCode]);
 
   // Function to convert current utility to different language
   const convertUtilityToLanguage = useCallback((targetLanguage: Language) => {
@@ -546,15 +559,25 @@ export default function CodePlayground({
   }, [code, selectedLanguage]);
 
   const resetCode = useCallback(() => {
-    setCode(selectedLanguage.defaultCode);
-    setOutput("");
-    setIsSaved(false);
-    
-    // Clear persisted code if from generator
-    if (currentCodeId) {
-      clearPersistedCode(currentCodeId);
+    // If we have original generated code, reset to that
+    if (originalGeneratedCode && currentCodeId) {
+      setCode(originalGeneratedCode);
+      setOutput("");
+      setIsSaved(false);
+      // Re-persist the original code
+      persistPlaygroundCode(currentCodeId, originalGeneratedCode, selectedLanguage.id);
+    } else {
+      // Otherwise reset to default language code
+      setCode(selectedLanguage.defaultCode);
+      setOutput("");
+      setIsSaved(false);
+      
+      // Clear persisted code if from generator
+      if (currentCodeId) {
+        clearPersistedCode(currentCodeId);
+      }
     }
-  }, [selectedLanguage.defaultCode, currentCodeId]);
+  }, [selectedLanguage.defaultCode, selectedLanguage.id, currentCodeId, originalGeneratedCode]);
 
   const copyCode = useCallback(async () => {
     try {
