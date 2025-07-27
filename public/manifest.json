@@ -1,0 +1,125 @@
+{
+  "name": "CodeUtils Hub",
+  "short_name": "CodeUtils",
+  "description": "Comprehensive utility functions library and code playground for developers",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": [
+    "developer",
+    "productivity",
+    "utilities",
+    "education"
+  ],
+  "lang": "en",
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "CodeUtils Hub - Desktop Experience"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "360x800",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "CodeUtils Hub - Mobile Experience"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Code Playground",
+      "short_name": "Playground",
+      "description": "Open code playground",
+      "url": "/playground",
+      "icons": [
+        {
+          "src": "/icons/playground-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Utilities Library",
+      "short_name": "Utils",
+      "description": "Browse utility functions",
+      "url": "/utils",
+      "icons": [
+        {
+          "src": "/icons/utils-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Documentation",
+      "short_name": "Docs",
+      "description": "Read documentation",
+      "url": "/docs",
+      "icons": [
+        {
+          "src": "/icons/docs-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
