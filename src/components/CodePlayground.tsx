@@ -7,8 +7,9 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Play, Save, Download, Settings, Copy, RotateCcw } from "lucide-react";
+import { Play, Save, Download, Settings, Copy, RotateCcw, RefreshCw } from "lucide-react";
 import { sampleUtilityFunctions } from "@/data/sample-functions";
+import { multiLanguageVersions, convertToLanguage } from "@/data/multi-language-functions";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -307,6 +308,15 @@ export default function CodePlayground({
   const [output, setOutput] = useState<string>("");
   const [isRunning, setIsRunning] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [currentUtilityId, setCurrentUtilityId] = useState<string | null>(null);
+
+  const handleLanguageChange = useCallback((language: Language) => {
+    setSelectedLanguage(language);
+    setCode(language.defaultCode);
+    setOutput("");
+    setIsSaved(false);
+    setCurrentUtilityId(null); // Reset utility ID when manually switching
+  }, []);
 
   // Handle URL parameters for utility function loading
   useEffect(() => {
@@ -318,6 +328,7 @@ export default function CodePlayground({
       // Find utility function by ID
       const utility = sampleUtilityFunctions.find(func => func.id === utilityId);
       if (utility) {
+        setCurrentUtilityId(utilityId);
         const lang = languages.find(l => l.id === utility.language);
         if (lang) {
           setSelectedLanguage(lang);
@@ -334,12 +345,38 @@ export default function CodePlayground({
     }
   }, [searchParams]);
 
-  const handleLanguageChange = useCallback((language: Language) => {
-    setSelectedLanguage(language);
-    setCode(language.defaultCode);
-    setOutput("");
-    setIsSaved(false);
-  }, []);
+  // Function to convert current utility to different language
+  const convertUtilityToLanguage = useCallback((targetLanguage: Language) => {
+    if (!currentUtilityId) {
+      // No utility loaded, just switch to default
+      handleLanguageChange(targetLanguage);
+      return;
+    }
+
+    const utility = sampleUtilityFunctions.find(func => func.id === currentUtilityId);
+    if (!utility) {
+      handleLanguageChange(targetLanguage);
+      return;
+    }
+
+    try {
+      // Try to get the multi-language version
+      const convertedCode = convertToLanguage(utility.name, targetLanguage.id as 'javascript' | 'typescript' | 'python');
+      if (convertedCode) {
+        setSelectedLanguage(targetLanguage);
+        setCode(convertedCode);
+        setOutput("");
+        setIsSaved(false);
+      } else {
+        // Fallback to default language switch
+        handleLanguageChange(targetLanguage);
+      }
+    } catch (error) {
+      // If conversion fails, fallback to default language switch
+      console.warn(`Could not convert ${utility.name} to ${targetLanguage.name}:`, error);
+      handleLanguageChange(targetLanguage);
+    }
+  }, [currentUtilityId, handleLanguageChange]);
 
   const handleCodeChange = useCallback((value: string | undefined) => {
     setCode(value || "");
@@ -512,12 +549,18 @@ export default function CodePlayground({
               key={language.id}
               variant={selectedLanguage.id === language.id ? "default" : "secondary"}
               className="cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
-              onClick={() => handleLanguageChange(language)}
+              onClick={() => currentUtilityId ? convertUtilityToLanguage(language) : handleLanguageChange(language)}
             >
               {language.name}
               {language.runnable && <Play className="ml-1 h-3 w-3" />}
             </Badge>
           ))}
+          {currentUtilityId && (
+            <div className="text-xs text-muted-foreground flex items-center ml-2">
+              <RefreshCw className="h-3 w-3 mr-1" />
+              Auto-convert enabled
+            </div>
+          )}
         </div>
       </div>
 
