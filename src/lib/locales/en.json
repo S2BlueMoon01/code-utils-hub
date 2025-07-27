@@ -1,0 +1,97 @@
+{
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "utils": "Utils Library",
+    "playground": "Playground",
+    "blog": "Blog",
+    "contribute": "Contribute",
+    "docs": "Docs",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up"
+  },
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "fullName": "Full Name",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "home": {
+    "hero": {
+      "badge": "New Features Available",
+      "title": {
+        "prefix": "Build Better Software with",
+        "highlight": "Utility Functions"
+      },
+      "description": "Discover, test, and integrate high-quality utility functions into your projects. From JavaScript to Python, find the perfect tools for any development challenge.",
+      "cta": {
+        "explore": "Explore Functions",
+        "contribute": "Contribute Code"
+      }
+    },
+    "features": {
+      "title": "Why Choose CodeUtilsHub?",
+      "description": "Our platform provides everything you need to discover, test, and implement utility functions efficiently in your development workflow.",
+      "search": {
+        "title": "Advanced Search",
+        "description": "Find exactly what you need with our intelligent search engine. Filter by language, category, complexity, and more."
+      },
+      "playground": {
+        "title": "Live Playground",
+        "description": "Test functions in real-time with our interactive playground. No setup required - just code and see results instantly."
+      },
+      "community": {
+        "title": "Community Driven",
+        "description": "Join thousands of developers sharing and improving utility functions. Contribute, review, and collaborate with the community."
+      }
+    },
+    "featured": {
+      "title": "Featured Utilities",
+      "description": "Explore our most popular and highly-rated utility functions, trusted by developers worldwide.",
+      "viewAll": "View All Utilities"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join CodeUtilsHub today and accelerate your development workflow with our comprehensive utility function library.",
+      "getStarted": "Get Started Free",
+      "viewDocs": "View Documentation"
+    }
+  },
+  "search": {
+    "title": "Search Utility Functions",
+    "placeholder": "Search for functions, descriptions, or tags...",
+    "filters": {
+      "title": "Filters",
+      "language": "Language",
+      "category": "Category",
+      "difficulty": "Difficulty",
+      "all": "All"
+    },
+    "results": {
+      "found": "functions found",
+      "noResults": "No functions found matching your criteria"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "stats": {
+      "contributions": "Contributions",
+      "favorites": "Favorites",
+      "downloads": "Downloads"
+    }
+  }
+}

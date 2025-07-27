@@ -1,10 +1,12 @@
 "use client"
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSearch } from "@/hooks/useSearch";
 import { categories } from "@/data/sample-functions";
 import { UtilityFunction, Language, Difficulty, Category } from "@/types";
@@ -21,7 +23,9 @@ import {
   User,
   Heart,
   Eye,
-  ChevronRight
+  ChevronRight,
+  MessageCircle,
+  ThumbsUp
 } from "lucide-react";
 
 const languages: Language[] = ["javascript", "typescript", "python"];
@@ -294,8 +298,30 @@ export default function UtilsLibrary({
                   </div>
                 </div>
 
+                {/* Stats & Community Info */}
+                <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-3">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      <span>{utility.rating?.toFixed(1) || 'N/A'}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Eye className="h-4 w-4" />
+                      <span>{utility.usage_count || 0}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <MessageCircle className="h-4 w-4" />
+                      <span>{utility.comments_count || 0}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <ThumbsUp className="h-4 w-4" />
+                    <span>{utility.likes_count || 0}</span>
+                  </div>
+                </div>
+
                 {/* Actions */}
-                <div className="flex gap-2 pt-4 border-t">
+                <div className="flex gap-2 pt-4">
                   <Button
                     size="sm"
                     onClick={() => copyToClipboard(utility.code)}
@@ -312,6 +338,16 @@ export default function UtilsLibrary({
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Try in Playground
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    asChild
+                    className="px-3"
+                  >
+                    <Link href={`/utils/${utility.id}`}>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </div>

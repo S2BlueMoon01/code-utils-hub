@@ -1,0 +1,276 @@
+{
+  "common": {
+    "home": "Home",
+    "search": "Search",
+    "utils": "Utils Library",
+    "playground": "Playground",
+    "blog": "Blog",
+    "contribute": "Contribute",
+    "docs": "Docs",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "fullName": "Full Name",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "home": {
+    "hero": {
+      "badge": "New Features Available",
+      "title": {
+        "part1": "Build Better Software with",
+        "highlight": "Utility Functions"
+      },
+      "description": "Discover, test, and integrate high-quality utility functions into your projects. From JavaScript to Python, find the perfect tools for any development challenge.",
+      "buttons": {
+        "explore": "Explore Functions",
+        "contribute": "Contribute Code"
+      }
+    },
+    "features": {
+      "title": "Why Choose CodeUtilsHub?",
+      "description": "Our platform provides everything you need to discover, test, and implement utility functions efficiently in your development workflow.",
+      "search": {
+        "title": "Advanced Search",
+        "description": "Find exactly what you need with our intelligent search engine. Filter by language, category, complexity, and more."
+      },
+      "playground": {
+        "title": "Live Playground",
+        "description": "Test functions in real-time with our interactive playground. No setup required - just code and see results instantly."
+      },
+      "community": {
+        "title": "Community Driven",
+        "description": "Join thousands of developers sharing and improving utility functions. Contribute, review, and collaborate with the community."
+      }
+    },
+    "featured": {
+      "title": "Featured Utilities",
+      "description": "Explore our most popular and highly-rated utility functions, trusted by developers worldwide.",
+      "viewAll": "View All Utilities"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join CodeUtilsHub today and accelerate your development workflow with our comprehensive utility function library.",
+      "buttons": {
+        "getStarted": "Get Started Free",
+        "docs": "View Documentation"
+      }
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "search": "Search & Discover",
+    "utils": "Utils Library",
+    "playground": "Code Playground",
+    "blog": "Blog & Tutorials",
+    "contribute": "Contribute",
+    "docs": "Documentation",
+    "about": "About Us",
+    "dashboard": "Dashboard",
+    "faq": "FAQ"
+  },
+  "home": {
+    "hero": {
+      "badge": "New Features Available",
+      "title": "Build Better Software with Utility Functions",
+      "subtitle": "Discover, test, and integrate high-quality utility functions into your projects. From JavaScript to Python, find the perfect tools for any development challenge.",
+      "cta": {
+        "explore": "Explore Functions",
+        "contribute": "Contribute Code"
+      }
+    },
+    "features": {
+      "title": "Why Choose CodeUtilsHub?",
+      "subtitle": "Our platform provides everything you need to discover, test, and implement utility functions efficiently in your development workflow.",
+      "search": {
+        "title": "Advanced Search",
+        "description": "Find exactly what you need with our intelligent search engine. Filter by language, category, complexity, and more."
+      },
+      "playground": {
+        "title": "Live Playground",
+        "description": "Test functions in real-time with our interactive playground. No setup required - just code and see results instantly."
+      },
+      "community": {
+        "title": "Community Driven",
+        "description": "Join thousands of developers sharing and improving utility functions. Contribute, review, and collaborate with the community."
+      }
+    },
+    "featured": {
+      "title": "Featured Utilities",
+      "subtitle": "Explore our most popular and highly-rated utility functions, trusted by developers worldwide.",
+      "stats": {
+        "downloads": "{{count}} downloads"
+      },
+      "cta": "View All Utilities"
+    },
+    "stats": {
+      "title": "Trusted by Developers",
+      "subtitle": "Join a growing community of developers who rely on CodeUtilsHub for their utility function needs.",
+      "functions": "Functions Available",
+      "developers": "Active Developers",
+      "downloads": "Downloads",
+      "languages": "Languages Supported"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join CodeUtilsHub today and accelerate your development workflow with our comprehensive utility function library.",
+      "primary": "Get Started Free",
+      "secondary": "View Documentation"
+    },
+    "title": "CodeUtilsHub",
+    "subtitle": "Modern platform for developers",
+    "description": "Discover, use, and share utility functions to accelerate your development process",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "features_old": {
+      "library": {
+        "title": "Utility Library",
+        "description": "Curated collection of tested utility functions"
+      },
+      "playground": {
+        "title": "Code Playground",
+        "description": "Test and experiment with functions in real-time"
+      },
+      "community": {
+        "title": "Community Driven",
+        "description": "Share and discover functions from the community"
+      }
+    }
+  },
+  "search": {
+    "title": "Search & Discover",
+    "subtitle": "Find and filter utility functions according to your needs",
+    "searchPlaceholder": "Search functions, tags, or categories...",
+    "filters": "Search Filters",
+    "category": "Category",
+    "tag": "Tag",
+    "sortBy": "Sort by",
+    "sortOrder": "Order",
+    "allCategories": "All Categories",
+    "allTags": "All Tags",
+    "popularity": "Popularity",
+    "rating": "Rating",
+    "name": "Name A-Z",
+    "date": "Creation Date",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "clearFilters": "Clear Filters",
+    "resultsFound": "results found",
+    "noResults": "No results found",
+    "tryDifferentSearch": "Try changing search keywords or filters"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "overview": "Overview",
+    "functions": "Functions",
+    "achievements": "Achievements",
+    "activity": "Activity",
+    "stats": {
+      "functionsCreated": "Functions Created",
+      "totalViews": "Total Views",
+      "averageRating": "Average Rating",
+      "reputation": "Reputation"
+    },
+    "quickActions": "Quick Actions",
+    "createFunction": "Create New Function",
+    "exploreFunctions": "Explore Functions",
+    "profileSettings": "Profile Settings",
+    "noFunctions": "No functions yet",
+    "createFirstFunction": "Create Your First Function",
+    "recentActivity": "Recent Activity"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "welcomeBack": "Welcome back",
+    "createAccount": "Create your account",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signInWithGithub": "Sign in with GitHub",
+    "signInWithGoogle": "Sign in with Google",
+    "loginRequired": "Login Required",
+    "loginToAccess": "You need to login to access the personal dashboard"
+  },
+  "blog": {
+    "title": "Blog & Tutorials",
+    "subtitle": "Share knowledge, tips and tutorials about utility functions and web development",
+    "searchPlaceholder": "Search articles...",
+    "featured": "Featured Articles",
+    "trending": "Trending",
+    "categories": "Categories",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Subscribe to receive the latest articles about utility functions and web development",
+    "subscribe": "Subscribe",
+    "readTime": "min read",
+    "noArticles": "No articles found",
+    "tryDifferentCategory": "Try changing search keywords or category"
+  },
+  "about": {
+    "title": "About CodeUtilsHub",
+    "subtitle": "CodeUtilsHub is a community platform for developers, providing and sharing useful utility functions to accelerate the software development process",
+    "mission": "Mission",
+    "vision": "Vision",
+    "coreValues": "Core Values",
+    "team": "Development Team",
+    "techStack": "Technology Stack",
+    "techStackDescription": "Technologies we use to build CodeUtilsHub",
+    "joinUs": "Join us",
+    "joinUsDescription": "Do you have ideas for new features or want to contribute to the project? We always welcome community participation!",
+    "contributeFunction": "Contribute Function",
+    "githubRepo": "GitHub Repository",
+    "contact": "Contact"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about CodeUtilsHub",
+    "searchPlaceholder": "Search questions...",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "stats": "FAQ Stats",
+    "totalQuestions": "Total Questions",
+    "popularCategories": "Popular Categories",
+    "needMoreHelp": "Need More Help?",
+    "needMoreHelpDescription": "Can't find the answer? We're here to help!",
+    "contactSupport": "Contact Support",
+    "viewDocs": "View Documentation"
+  },
+  "function": {
+    "details": "Function Details",
+    "code": "Code",
+    "examples": "Examples",
+    "documentation": "Documentation",
+    "community": "Community",
+    "author": "Author",
+    "category": "Category",
+    "language": "Language",
+    "difficulty": "Difficulty",
+    "tags": "Tags",
+    "rating": "Rating",
+    "views": "Views",
+    "likes": "Likes",
+    "comments": "Comments",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "copyCode": "Copy Code",
+    "runCode": "Run Code",
+    "share": "Share",
+    "report": "Report"
+  }
+}

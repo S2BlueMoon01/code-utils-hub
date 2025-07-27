@@ -1,0 +1,97 @@
+{
+  "navigation": {
+    "home": "Trang chủ",
+    "search": "Tìm kiếm",
+    "utils": "Thư viện Utils",
+    "playground": "Sân chơi",
+    "blog": "Blog",
+    "contribute": "Đóng góp",
+    "docs": "Tài liệu",
+    "about": "Giới thiệu",
+    "dashboard": "Bảng điều khiển",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "signup": "Đăng ký"
+  },
+  "common": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "username": "Tên người dùng",
+    "fullName": "Họ và tên",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "view": "Xem",
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "warning": "Cảnh báo",
+    "info": "Thông tin"
+  },
+  "home": {
+    "hero": {
+      "badge": "Tính năng mới có sẵn",
+      "title": {
+        "prefix": "Xây dựng phần mềm tốt hơn với",
+        "highlight": "Các hàm tiện ích"
+      },
+      "description": "Khám phá, thử nghiệm và tích hợp các hàm tiện ích chất lượng cao vào dự án của bạn. Từ JavaScript đến Python, tìm các công cụ hoàn hảo cho mọi thách thức phát triển.",
+      "cta": {
+        "explore": "Khám phá hàm",
+        "contribute": "Đóng góp mã"
+      }
+    },
+    "features": {
+      "title": "Tại sao chọn CodeUtilsHub?",
+      "description": "Nền tảng của chúng tôi cung cấp mọi thứ bạn cần để khám phá, thử nghiệm và triển khai các hàm tiện ích một cách hiệu quả trong quy trình phát triển.",
+      "search": {
+        "title": "Tìm kiếm nâng cao",
+        "description": "Tìm chính xác những gì bạn cần với công cụ tìm kiếm thông minh. Lọc theo ngôn ngữ, danh mục, độ phức tạp và nhiều hơn nữa."
+      },
+      "playground": {
+        "title": "Sân chơi trực tiếp",
+        "description": "Thử nghiệm các hàm trong thời gian thực với sân chơi tương tác. Không cần thiết lập - chỉ cần mã hóa và xem kết quả ngay lập tức."
+      },
+      "community": {
+        "title": "Được thúc đẩy bởi cộng đồng",
+        "description": "Tham gia cùng hàng nghìn nhà phát triển chia sẻ và cải thiện các hàm tiện ích. Đóng góp, đánh giá và hợp tác với cộng đồng."
+      }
+    },
+    "featured": {
+      "title": "Tiện ích nổi bật",
+      "description": "Khám phá các hàm tiện ích phổ biến và được đánh giá cao nhất, được tin tưởng bởi các nhà phát triển trên toàn thế giới.",
+      "viewAll": "Xem tất cả tiện ích"
+    },
+    "cta": {
+      "title": "Sẵn sàng bắt đầu?",
+      "description": "Tham gia CodeUtilsHub ngay hôm nay và tăng tốc quy trình phát triển của bạn với thư viện hàm tiện ích toàn diện.",
+      "getStarted": "Bắt đầu miễn phí",
+      "viewDocs": "Xem tài liệu"
+    }
+  },
+  "search": {
+    "title": "Tìm kiếm hàm tiện ích",
+    "placeholder": "Tìm kiếm hàm, mô tả hoặc thẻ...",
+    "filters": {
+      "title": "Bộ lọc",
+      "language": "Ngôn ngữ",
+      "category": "Danh mục",
+      "difficulty": "Độ khó",
+      "all": "Tất cả"
+    },
+    "results": {
+      "found": "hàm được tìm thấy",
+      "noResults": "Không tìm thấy hàm nào phù hợp với tiêu chí của bạn"
+    }
+  },
+  "dashboard": {
+    "title": "Bảng điều khiển",
+    "welcome": "Chào mừng trở lại",
+    "stats": {
+      "contributions": "Đóng góp",
+      "favorites": "Yêu thích",
+      "downloads": "Tải xuống"
+    }
+  }
+}

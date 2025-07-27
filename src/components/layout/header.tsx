@@ -3,8 +3,14 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useAuthStore } from '@/stores/authStore'
+import { AuthModal } from '@/components/auth/AuthModal'
+import { UserProfile } from '@/components/auth/UserProfile'
+import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { 
   Search, 
   Menu, 
@@ -25,14 +31,22 @@ interface HeaderProps {
 export function Header({ className }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState('')
+  const [showAuthModal, setShowAuthModal] = React.useState(false)
+  const [showUserProfile, setShowUserProfile] = React.useState(false)
   const { theme, setTheme } = useTheme()
+  const { t } = useTranslation()
+  const { user, profile, loading } = useAuthStore()
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Utils Library', href: '/utils' },
-    { name: 'Playground', href: '/playground' },
-    { name: 'Contribute', href: '/contribute' },
-    { name: 'Docs', href: '/docs' },
+    { name: t('navigation.home'), href: '/' },
+    { name: t('navigation.search'), href: '/search' },
+    { name: t('navigation.utils'), href: '/utils' },
+    { name: t('navigation.playground'), href: '/playground' },
+    { name: t('navigation.blog'), href: '/blog' },
+    { name: t('navigation.contribute'), href: '/contribute' },
+    { name: t('navigation.docs'), href: '/docs' },
+    { name: t('navigation.about'), href: '/about' },
+    ...(user ? [{ name: t('navigation.dashboard'), href: '/dashboard' }] : [])
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -66,7 +80,7 @@ export function Header({ className }: HeaderProps) {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search functions..."
+              placeholder={t('search.placeholder')}
               className="w-64 pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -76,6 +90,9 @@ export function Header({ className }: HeaderProps) {
 
         {/* Right side buttons */}
         <div className="flex items-center space-x-2">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+          
           {/* Theme Toggle */}
           <Button
             variant="ghost"
@@ -95,10 +112,34 @@ export function Header({ className }: HeaderProps) {
           </Button>
 
           {/* Auth Buttons */}
-          <Button variant="ghost" size="sm" className="hidden md:flex">
-            <LogIn className="mr-2 h-4 w-4" />
-            Sign In
-          </Button>
+          {loading ? (
+            <div className="hidden md:flex h-8 w-8 animate-pulse bg-muted rounded-full" />
+          ) : user ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowUserProfile(true)}
+              className="hidden md:flex items-center space-x-2"
+            >
+              <Avatar className="h-6 w-6">
+                <AvatarImage src={profile?.avatar_url} alt={profile?.username} />
+                <AvatarFallback>
+                  <User className="h-3 w-3" />
+                </AvatarFallback>
+              </Avatar>
+              <span className="hidden lg:inline">{profile?.username}</span>
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowAuthModal(true)}
+              className="hidden md:flex"
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              {t('auth.login')}
+            </Button>
+          )}
 
           <Button variant="ghost" size="icon" className="hidden md:flex">
             <User className="h-4 w-4" />
@@ -126,7 +167,7 @@ export function Header({ className }: HeaderProps) {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search functions..."
+                placeholder={t('search.placeholder')}
                 className="w-full pl-10"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -146,15 +187,50 @@ export function Header({ className }: HeaderProps) {
                 </Link>
               ))}
               <div className="border-t pt-2 mt-2">
-                <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Sign In
-                </Button>
+                {user ? (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start"
+                    onClick={() => {
+                      setShowUserProfile(true)
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    {profile?.username || 'Profile'}
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start"
+                    onClick={() => {
+                      setShowAuthModal(true)
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    <LogIn className="mr-2 h-4 w-4" />
+                    {t('auth.login')}
+                  </Button>
+                )}
               </div>
             </nav>
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
+      
+      {/* User Profile Modal */}
+      <UserProfile 
+        isOpen={showUserProfile} 
+        onClose={() => setShowUserProfile(false)} 
+      />
     </header>
   )
 }

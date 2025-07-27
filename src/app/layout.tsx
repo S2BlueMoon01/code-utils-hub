@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { I18nProvider } from "@/providers/I18nProvider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
@@ -63,13 +64,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col bg-background">
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <I18nProvider>
+            <div className="flex min-h-screen flex-col bg-background">
+              <Header />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

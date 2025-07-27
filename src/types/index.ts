@@ -48,6 +48,8 @@ export interface UtilityFunction {
   tags: string[]
   author: User
   rating: number
+  likes_count: number
+  comments_count: number
   usage_count: number
   created_at: string
   updated_at: string

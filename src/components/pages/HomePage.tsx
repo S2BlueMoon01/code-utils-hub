@@ -1,12 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Code, Search, Users, Zap } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { formatDownloads, formatRating } from '@/lib/utils/formatters'
 
 // Sample utility functions for homepage display
 const featuredUtils = [
@@ -15,14 +14,16 @@ const featuredUtils = [
     name: 'formatDate',
     description: 'Format dates with customizable options and localization support',
     language: 'JavaScript',
+    category: 'Date',
     downloads: 1250,
     rating: 4.8,
   },
   {
     id: 2,
-    name: 'debounce', 
+    name: 'debounce',
     description: 'Delay function execution to improve performance in user interactions',
     language: 'TypeScript',
+    category: 'Performance',
     downloads: 2100,
     rating: 4.9,
   },
@@ -31,14 +32,27 @@ const featuredUtils = [
     name: 'validateEmail',
     description: 'Robust email validation with RFC compliance and custom rules',
     language: 'Python',
+    category: 'Validation',
     downloads: 890,
     rating: 4.7,
   }
 ]
 
 export default function HomePage() {
-  const { t } = useTranslation()
-  
+  const { t, ready } = useTranslation()
+
+  // Show loading until translations are ready
+  if (!ready) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -50,11 +64,10 @@ export default function HomePage() {
               {t('home.hero.badge')}
             </Badge>
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              {t('home.hero.title.prefix')}{' '}
-              <span className="text-primary">{t('home.hero.title.highlight')}</span>
+              {t('home.hero.title')}
             </h1>
             <p className="mb-8 text-lg text-muted-foreground sm:text-xl">
-              {t('home.hero.description')}
+              {t('home.hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
@@ -80,7 +93,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('home.features.title')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('home.features.description')}
+              {t('home.features.subtitle')}
             </p>
           </div>
 
@@ -130,13 +143,13 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('home.featured.title')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('home.featured.description')}
+              {t('home.featured.subtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {featuredUtils.map((util) => (
-              <Card key={`home-featured-${util.id}`} className="hover:shadow-lg transition-shadow">
+              <Card key={util.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{util.name}</CardTitle>
@@ -146,8 +159,8 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>{formatDownloads(util.downloads)}</span>
-                    <span>{formatRating(util.rating)}</span>
+                    <span>{t('home.featured.stats.downloads', { count: util.downloads })}</span>
+                    <span>⭐ {util.rating}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -157,10 +170,41 @@ export default function HomePage() {
           <div className="text-center">
             <Button variant="outline" size="lg" asChild>
               <Link href="/utils">
-                {t('home.featured.viewAll')}
+                {t('home.featured.cta')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">{t('home.stats.title')}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {t('home.stats.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">10K+</div>
+              <div className="text-sm text-muted-foreground">{t('home.stats.functions')}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">50K+</div>
+              <div className="text-sm text-muted-foreground">{t('home.stats.developers')}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">1M+</div>
+              <div className="text-sm text-muted-foreground">{t('home.stats.downloads')}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">25+</div>
+              <div className="text-sm text-muted-foreground">{t('home.stats.languages')}</div>
+            </div>
           </div>
         </div>
       </section>
@@ -171,17 +215,17 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold mb-4">{t('home.cta.title')}</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              {t('home.cta.description')}
+              {t('home.cta.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
                 <Link href="/dashboard">
-                  {t('home.cta.getStarted')}
+                  {t('home.cta.primary')}
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="/docs">
-                  {t('home.cta.viewDocs')}
+                  {t('home.cta.secondary')}
                 </Link>
               </Button>
             </div>
