@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+import { useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Play, Save, Download, Settings, Copy, RotateCcw } from "lucide-react";
+import { sampleUtilityFunctions } from "@/data/sample-functions";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -294,6 +296,8 @@ export default function CodePlayground({
   readOnly = false,
 }: CodePlaygroundProps) {
   const { theme } = useTheme();
+  const searchParams = useSearchParams();
+  
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(
     languages.find(lang => lang.id === initialLanguage) || languages[0]
   );
@@ -303,6 +307,32 @@ export default function CodePlayground({
   const [output, setOutput] = useState<string>("");
   const [isRunning, setIsRunning] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+
+  // Handle URL parameters for utility function loading
+  useEffect(() => {
+    const utilityId = searchParams.get('utilityId');
+    const languageParam = searchParams.get('language');
+    const codeParam = searchParams.get('code');
+
+    if (utilityId) {
+      // Find utility function by ID
+      const utility = sampleUtilityFunctions.find(func => func.id === utilityId);
+      if (utility) {
+        const lang = languages.find(l => l.id === utility.language);
+        if (lang) {
+          setSelectedLanguage(lang);
+          setCode(utility.code);
+        }
+      }
+    } else if (languageParam && codeParam) {
+      // Fallback to legacy URL parameters
+      const lang = languages.find(l => l.id === languageParam);
+      if (lang) {
+        setSelectedLanguage(lang);
+        setCode(decodeURIComponent(codeParam));
+      }
+    }
+  }, [searchParams]);
 
   const handleLanguageChange = useCallback((language: Language) => {
     setSelectedLanguage(language);

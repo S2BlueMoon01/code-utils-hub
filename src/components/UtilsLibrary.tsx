@@ -45,12 +45,14 @@ export default function UtilsLibrary({
 
   // Trigger search when filters change
   React.useEffect(() => {
-    search({
-      query: searchQuery,
+    const searchFilters = {
+      query: searchQuery.trim(),
       language: selectedLanguage !== "all" ? [selectedLanguage] : undefined,
       category: selectedCategory !== "all" ? [selectedCategory] : undefined,
       difficulty: selectedDifficulty !== "all" ? [selectedDifficulty] : undefined,
-    });
+    };
+    
+    search(searchFilters);
   }, [searchQuery, selectedLanguage, selectedCategory, selectedDifficulty, search]);
 
   const filteredUtilities = useMemo(() => {
@@ -69,8 +71,8 @@ export default function UtilsLibrary({
   };
 
   const openPlayground = (utility: UtilityFunction) => {
-    // Navigate to playground with pre-filled code
-    const playgroundUrl = `/playground?language=${utility.language}&code=${encodeURIComponent(utility.code)}`;
+    // Navigate to playground with utility ID instead of code
+    const playgroundUrl = `/playground?utilityId=${utility.id}`;
     window.open(playgroundUrl, '_blank');
   };
 

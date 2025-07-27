@@ -20,9 +20,11 @@ export function useSearch() {
       { name: 'category', weight: 0.2 },
       { name: 'author.username', weight: 0.1 }
     ],
-    threshold: 0.4,
+    threshold: 0.3, // Lower threshold for more precise search
     includeScore: true,
-    includeMatches: true
+    includeMatches: true,
+    minMatchCharLength: 1,
+    ignoreLocation: true
   }), [])
 
   const search = useCallback(async (searchFilters: SearchFilters) => {
@@ -39,34 +41,64 @@ export function useSearch() {
       if (searchFilters.query && searchFilters.query.trim()) {
         const fuseResults = fuse.search(searchFilters.query)
         filteredResults = fuseResults.map(result => result.item)
-      }
+        
+        // If there's a text search, apply other filters to the search results
+        // Apply language filter
+        if (searchFilters.language && searchFilters.language.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.language!.includes(func.language)
+          )
+        }
 
-      // Apply language filter
-      if (searchFilters.language && searchFilters.language.length > 0) {
-        filteredResults = filteredResults.filter(func =>
-          searchFilters.language!.includes(func.language)
-        )
-      }
+        // Apply category filter
+        if (searchFilters.category && searchFilters.category.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.category!.includes(func.category)
+          )
+        }
 
-      // Apply category filter
-      if (searchFilters.category && searchFilters.category.length > 0) {
-        filteredResults = filteredResults.filter(func =>
-          searchFilters.category!.includes(func.category)
-        )
-      }
+        // Apply difficulty filter
+        if (searchFilters.difficulty && searchFilters.difficulty.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.difficulty!.includes(func.difficulty)
+          )
+        }
 
-      // Apply difficulty filter
-      if (searchFilters.difficulty && searchFilters.difficulty.length > 0) {
-        filteredResults = filteredResults.filter(func =>
-          searchFilters.difficulty!.includes(func.difficulty)
-        )
-      }
+        // Apply tags filter
+        if (searchFilters.tags && searchFilters.tags.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.tags!.some(tag => func.tags.includes(tag))
+          )
+        }
+      } else {
+        // No text search, just apply filters to all functions
+        // Apply language filter
+        if (searchFilters.language && searchFilters.language.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.language!.includes(func.language)
+          )
+        }
 
-      // Apply tags filter
-      if (searchFilters.tags && searchFilters.tags.length > 0) {
-        filteredResults = filteredResults.filter(func =>
-          searchFilters.tags!.some(tag => func.tags.includes(tag))
-        )
+        // Apply category filter
+        if (searchFilters.category && searchFilters.category.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.category!.includes(func.category)
+          )
+        }
+
+        // Apply difficulty filter
+        if (searchFilters.difficulty && searchFilters.difficulty.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.difficulty!.includes(func.difficulty)
+          )
+        }
+
+        // Apply tags filter
+        if (searchFilters.tags && searchFilters.tags.length > 0) {
+          filteredResults = filteredResults.filter(func =>
+            searchFilters.tags!.some(tag => func.tags.includes(tag))
+          )
+        }
       }
 
       // Apply sorting
