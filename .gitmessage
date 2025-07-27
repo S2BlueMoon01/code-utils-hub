@@ -1,0 +1,16 @@
+# <type>: <description>
+#
+# Type can be:
+#   feat     (new feature)
+#   fix      (bug fix)
+#   docs     (documentation)
+#   style    (formatting, missing semicolons, etc)
+#   refactor (refactoring production code)
+#   test     (adding tests, refactoring test)
+#   chore    (updating build tasks, package manager configs, etc)
+#
+# Description: 50 characters or less
+# Remember to:
+# - Use imperative mood ("add" not "added")
+# - Don't capitalize first letter
+# - No period at the end

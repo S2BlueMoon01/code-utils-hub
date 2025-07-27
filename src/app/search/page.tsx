@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { sampleUtilityFunctions, categories, popularTags } from '@/data/sample-functions'
 import { UtilityFunction } from '@/types'
 import { Search, Filter, SortAsc, SortDesc, Star, Eye } from 'lucide-react'
+import { formatDownloads, formatRating } from '@/lib/utils/formatters'
 import Link from 'next/link'
 
 export default function SearchPage() {
@@ -21,6 +22,9 @@ export default function SearchPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [filteredFunctions, setFilteredFunctions] = useState<UtilityFunction[]>(sampleUtilityFunctions)
   const [isLoading, setIsLoading] = useState(false)
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const [minRating, setMinRating] = useState(0)
+  const [selectedLanguage, setSelectedLanguage] = useState('all')
 
   const filterAndSortFunctions = useCallback(() => {
     setIsLoading(true)
@@ -46,6 +50,16 @@ export default function SearchPage() {
     // Filter by tag
     if (selectedTag !== 'all') {
       filtered = filtered.filter(func => func.tags.includes(selectedTag))
+    }
+
+    // Filter by minimum rating
+    if (minRating > 0) {
+      filtered = filtered.filter(func => (func.rating || 0) >= minRating)
+    }
+
+    // Filter by language
+    if (selectedLanguage !== 'all') {
+      filtered = filtered.filter(func => func.language === selectedLanguage)
     }
 
     // Sort functions
@@ -84,7 +98,7 @@ export default function SearchPage() {
 
     setFilteredFunctions(filtered)
     setIsLoading(false)
-  }, [searchQuery, selectedCategory, selectedTag, sortBy, sortOrder])
+  }, [searchQuery, selectedCategory, selectedTag, sortBy, sortOrder, minRating, selectedLanguage])
 
   useEffect(() => {
     filterAndSortFunctions()
@@ -96,6 +110,8 @@ export default function SearchPage() {
     setSelectedTag('all')
     setSortBy('popularity')
     setSortOrder('desc')
+    setMinRating(0)
+    setSelectedLanguage('all')
   }
 
   return (
@@ -205,6 +221,77 @@ export default function SearchPage() {
             </div>
           </div>
 
+          {/* Advanced Filters Toggle */}
+          <div className="pt-4 border-t">
+            <Button
+              variant="ghost"
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              className="text-sm"
+            >
+              <Filter className="w-4 h-4 mr-2" />
+              {showAdvancedFilters ? 'Ẩn bộ lọc nâng cao' : 'Hiện bộ lọc nâng cao'}
+            </Button>
+          </div>
+
+          {/* Advanced Filters */}
+          {showAdvancedFilters && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
+              {/* Language Filter */}
+              <div>
+                <label className="text-sm font-medium mb-2 block">Ngôn ngữ</label>
+                <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Chọn ngôn ngữ" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả ngôn ngữ</SelectItem>
+                    <SelectItem value="JavaScript">JavaScript</SelectItem>
+                    <SelectItem value="TypeScript">TypeScript</SelectItem>
+                    <SelectItem value="Python">Python</SelectItem>
+                    <SelectItem value="Java">Java</SelectItem>
+                    <SelectItem value="C#">C#</SelectItem>
+                    <SelectItem value="Go">Go</SelectItem>
+                    <SelectItem value="Rust">Rust</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Minimum Rating Filter */}
+              <div>
+                <label className="text-sm font-medium mb-2 block">Đánh giá tối thiểu</label>
+                <Select value={minRating.toString()} onValueChange={(value: string) => setMinRating(Number(value))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Chọn rating" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">Tất cả</SelectItem>
+                    <SelectItem value="1">⭐ 1+ sao</SelectItem>
+                    <SelectItem value="2">⭐ 2+ sao</SelectItem>
+                    <SelectItem value="3">⭐ 3+ sao</SelectItem>
+                    <SelectItem value="4">⭐ 4+ sao</SelectItem>
+                    <SelectItem value="4.5">⭐ 4.5+ sao</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Placeholder for future filter */}
+              <div>
+                <label className="text-sm font-medium mb-2 block">Độ phức tạp</label>
+                <Select defaultValue="all">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Chọn độ khó" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả</SelectItem>
+                    <SelectItem value="easy">Dễ</SelectItem>
+                    <SelectItem value="medium">Trung bình</SelectItem>
+                    <SelectItem value="hard">Khó</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+
           {/* Clear Filters */}
           <div className="flex justify-between items-center pt-4 border-t">
             <span className="text-sm text-muted-foreground">
@@ -284,11 +371,11 @@ export default function SearchPage() {
                         <div className="flex items-center gap-3">
                           <div className="flex items-center gap-1">
                             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span>{func.rating || 0}</span>
+                            <span>{formatRating(func.rating || 0).replace('⭐ ', '')}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Eye className="w-4 h-4" />
-                            <span>{func.usage_count || 0}</span>
+                            <span>{formatDownloads(func.usage_count || 0).replace(' downloads', ' uses')}</span>
                           </div>
                         </div>
                         <Badge variant="outline" className="text-xs">
