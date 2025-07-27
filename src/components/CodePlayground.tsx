@@ -326,7 +326,7 @@ export default function CodePlayground({
     setOutput("Running...");
 
     try {
-      if (selectedLanguage.id === "javascript" || selectedLanguage.id === "typescript") {
+      if (selectedLanguage.id === "javascript") {
         // Create a safe execution environment
         const logs: string[] = [];
         const originalConsoleLog = console.log;
@@ -364,6 +364,64 @@ export default function CodePlayground({
         }
 
         setOutput(logs.length > 0 ? logs.join('\n') : 'No output');
+      } else if (selectedLanguage.id === "typescript") {
+        // For TypeScript, we need to compile to JavaScript first
+        try {
+          // Import TypeScript dynamically
+          const ts = await import('typescript');
+          
+          // Compile TypeScript to JavaScript
+          const compilerOptions = {
+            target: ts.ScriptTarget.ES2020,
+            module: ts.ModuleKind.None,
+            strict: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            removeComments: true,
+          } as const;
+
+          const result = ts.transpile(code, compilerOptions);
+          
+          // Create a safe execution environment for the compiled JS
+          const logs: string[] = [];
+          const originalConsoleLog = console.log;
+          const originalConsoleError = console.error;
+          const originalConsoleWarn = console.warn;
+
+          // Override console methods to capture output
+          console.log = (...args) => {
+            logs.push(args.map(arg => 
+              typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' '));
+          };
+          console.error = (...args) => {
+            logs.push('ERROR: ' + args.map(arg => String(arg)).join(' '));
+          };
+          console.warn = (...args) => {
+            logs.push('WARNING: ' + args.map(arg => String(arg)).join(' '));
+          };
+
+          try {
+            // Execute the compiled JavaScript
+            const func = new Function(result);
+            const executionResult = func();
+            
+            if (executionResult !== undefined) {
+              logs.push('Return value: ' + (typeof executionResult === 'object' ? JSON.stringify(executionResult, null, 2) : String(executionResult)));
+            }
+          } catch (error) {
+            logs.push('ERROR: ' + (error as Error).message);
+          } finally {
+            // Restore original console methods
+            console.log = originalConsoleLog;
+            console.error = originalConsoleError;
+            console.warn = originalConsoleWarn;
+          }
+
+          setOutput(logs.length > 0 ? logs.join('\n') : 'No output');
+        } catch (tsError) {
+          setOutput('TypeScript compilation error: ' + (tsError as Error).message);
+        }
       } else if (selectedLanguage.id === "python") {
         // For Python, we would need Pyodide or a backend service
         setOutput("Python execution coming soon! We're working on integrating Pyodide for client-side Python execution.");
