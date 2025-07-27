@@ -49,6 +49,10 @@ console.log(isPalindrome("hello")); // false`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-15T00:00:00Z'
     },
+    likes_count: 321,
+
+    comments_count: 44,
+
     rating: 4.8,
     usage_count: 342,
     created_at: '2024-01-10T00:00:00Z',
@@ -107,6 +111,10 @@ console.log(fibonacci(5));  // [0, 1, 1, 2, 3]`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 190,
+
+    comments_count: 59,
+
     rating: 4.9,
     usage_count: 567,
     created_at: '2024-01-12T00:00:00Z',
@@ -158,6 +166,10 @@ console.log(arraySum([]));              // 0`,
       created_at: '2024-01-05T00:00:00Z',
       updated_at: '2024-01-18T00:00:00Z'
     },
+    likes_count: 147,
+
+    comments_count: 21,
+
     rating: 4.6,
     usage_count: 189,
     created_at: '2024-01-15T00:00:00Z',
@@ -217,6 +229,10 @@ console.log(isPrime(1));  // false`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-15T00:00:00Z'
     },
+    likes_count: 253,
+
+    comments_count: 60,
+
     rating: 4.7,
     usage_count: 423,
     created_at: '2024-01-08T00:00:00Z',
@@ -272,6 +288,10 @@ console.log(reverseString("12345"));     // "54321"`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 259,
+
+    comments_count: 70,
+
     rating: 4.5,
     usage_count: 234,
     created_at: '2024-01-14T00:00:00Z',
@@ -330,6 +350,10 @@ console.log(factorial(3)); // 6`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 168,
+
+    comments_count: 70,
+
     rating: 4.8,
     usage_count: 345,
     created_at: '2024-01-16T00:00:00Z',
@@ -389,6 +413,10 @@ console.log(findMax([42]));             // 42`,
       created_at: '2024-01-05T00:00:00Z',
       updated_at: '2024-01-18T00:00:00Z'
     },
+    likes_count: 389,
+
+    comments_count: 28,
+
     rating: 4.4,
     usage_count: 278,
     created_at: '2024-01-17T00:00:00Z',
@@ -445,6 +473,10 @@ console.log(countChars("JavaScript")); // {j: 1, a: 2, v: 1, s: 1, c: 1, r: 1, i
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 273,
+
+    comments_count: 87,
+
     rating: 4.6,
     usage_count: 156,
     created_at: '2024-01-18T00:00:00Z',
@@ -505,6 +537,10 @@ console.log(removeDuplicates(['a', 'b', 'a', 'c']));   // ['a', 'b', 'c']`,
       created_at: '2024-01-05T00:00:00Z',
       updated_at: '2024-01-18T00:00:00Z'
     },
+    likes_count: 492,
+
+    comments_count: 68,
+
     rating: 4.7,
     usage_count: 398,
     created_at: '2024-01-19T00:00:00Z',
@@ -568,6 +604,10 @@ console.log(calculator(15, '/', 3));  // 5`,
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 452,
+
+    comments_count: 60,
+
     rating: 4.5,
     usage_count: 467,
     created_at: '2024-01-20T00:00:00Z',

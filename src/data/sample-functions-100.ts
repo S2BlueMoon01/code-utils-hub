@@ -64,6 +64,10 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => voi
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-15T00:00:00Z'
     },
+    likes_count: 363,
+
+    comments_count: 81,
+
     rating: 4.8,
     usage_count: 342,
     created_at: '2024-01-10T00:00:00Z',
@@ -122,6 +126,10 @@ function useDebounce<T>(value: T, delay: number): T {
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-15T00:00:00Z'
     },
+    likes_count: 475,
+
+    comments_count: 83,
+
     rating: 4.9,
     usage_count: 567,
     created_at: '2024-01-12T00:00:00Z',
@@ -204,6 +212,10 @@ function useFetch<T>(url: string): FetchState<T> {
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-20T00:00:00Z'
     },
+    likes_count: 173,
+
+    comments_count: 33,
+
     rating: 4.7,
     usage_count: 423,
     created_at: '2024-01-08T00:00:00Z',
