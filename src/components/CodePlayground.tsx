@@ -10,6 +10,7 @@ import { Badge } from "./ui/badge";
 import { Play, Save, Download, Settings, Copy, RotateCcw, RefreshCw } from "lucide-react";
 import { sampleUtilityFunctions } from "@/data/sample-functions";
 import { multiLanguageVersions, convertToLanguage } from "@/data/multi-language-functions";
+import { getPlaygroundCode, clearPlaygroundCode, persistPlaygroundCode, getPersistedCode, clearPersistedCode } from "@/lib/playground-storage";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -309,6 +310,8 @@ export default function CodePlayground({
   const [isRunning, setIsRunning] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [currentUtilityId, setCurrentUtilityId] = useState<string | null>(null);
+  const [hasLoadedSharedCode, setHasLoadedSharedCode] = useState(false);
+  const [currentCodeId, setCurrentCodeId] = useState<string | null>(null);
 
   const handleLanguageChange = useCallback((language: Language) => {
     setSelectedLanguage(language);
@@ -323,8 +326,38 @@ export default function CodePlayground({
     const utilityId = searchParams.get('utilityId');
     const languageParam = searchParams.get('language');
     const codeParam = searchParams.get('code');
+    const codeId = searchParams.get('codeId');
 
-    if (utilityId) {
+    if (codeId && !hasLoadedSharedCode) {
+      setCurrentCodeId(codeId);
+      
+      // First try to get persisted code from localStorage
+      const persistedCode = getPersistedCode(codeId);
+      if (persistedCode) {
+        const lang = languages.find(l => l.id === persistedCode.language);
+        if (lang) {
+          setSelectedLanguage(lang);
+          setCode(persistedCode.code);
+          setOutput("");
+          setHasLoadedSharedCode(true);
+          return;
+        }
+      }
+      
+      // If no persisted code, get shared code from generator
+      const sharedCode = getPlaygroundCode(codeId);
+      if (sharedCode) {
+        const lang = languages.find(l => l.id === sharedCode.language);
+        if (lang) {
+          setSelectedLanguage(lang);
+          setCode(sharedCode.code);
+          setOutput("");
+          setHasLoadedSharedCode(true);
+          // Persist the code immediately for future page reloads
+          persistPlaygroundCode(codeId, sharedCode.code, sharedCode.language);
+        }
+      }
+    } else if (utilityId) {
       // Find utility function by ID
       const utility = sampleUtilityFunctions.find(func => func.id === utilityId);
       if (utility) {
@@ -343,7 +376,19 @@ export default function CodePlayground({
         setCode(decodeURIComponent(codeParam));
       }
     }
-  }, [searchParams]);
+  }, [searchParams, hasLoadedSharedCode]);
+
+  // Persist code changes when user modifies code
+  useEffect(() => {
+    if (currentCodeId && hasLoadedSharedCode && code !== selectedLanguage.defaultCode) {
+      // Debounce the persist operation to avoid too many writes
+      const timeoutId = setTimeout(() => {
+        persistPlaygroundCode(currentCodeId, code, selectedLanguage.id);
+      }, 1000);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [code, selectedLanguage.id, currentCodeId, hasLoadedSharedCode]);
 
   // Function to convert current utility to different language
   const convertUtilityToLanguage = useCallback((targetLanguage: Language) => {
@@ -504,7 +549,12 @@ export default function CodePlayground({
     setCode(selectedLanguage.defaultCode);
     setOutput("");
     setIsSaved(false);
-  }, [selectedLanguage]);
+    
+    // Clear persisted code if from generator
+    if (currentCodeId) {
+      clearPersistedCode(currentCodeId);
+    }
+  }, [selectedLanguage.defaultCode, currentCodeId]);
 
   const copyCode = useCallback(async () => {
     try {

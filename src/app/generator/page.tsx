@@ -8,7 +8,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Wand2, Copy, Download, Sparkles, Code2, FileText, ChevronDown, ChevronUp, Plus, X } from 'lucide-react'
+import { Wand2, Copy, Download, Sparkles, Code2, FileText, ChevronDown, ChevronUp, Plus, X, Play } from 'lucide-react'
+import { storePlaygroundCode } from '@/lib/playground-storage'
 
 interface TestCase {
   id: number
@@ -332,6 +333,28 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
     URL.revokeObjectURL(url)
   }
 
+  const openInPlayground = () => {
+    if (!generatedCode) return
+    
+    try {
+      const codeId = storePlaygroundCode({
+        language: selectedLanguage,
+        code: generatedCode,
+        functionName: functionName.trim(),
+        description: description.trim()
+      })
+      
+      const playgroundUrl = `/playground?codeId=${codeId}`
+      window.open(playgroundUrl, '_blank')
+    } catch (error) {
+      console.error('Failed to open in playground:', error)
+      // Fallback to URL encoding if storage fails
+      const encodedCode = encodeURIComponent(generatedCode)
+      const playgroundUrl = `/playground?language=${selectedLanguage}&code=${encodedCode}`
+      window.open(playgroundUrl, '_blank')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
@@ -533,6 +556,10 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                 
                 {generatedCode && (
                   <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={openInPlayground}>
+                      <Play className="w-4 h-4 mr-2" />
+                      Run in Playground
+                    </Button>
                     <Button variant="outline" size="sm" onClick={copyCode}>
                       <Copy className="w-4 h-4 mr-2" />
                       Copy
