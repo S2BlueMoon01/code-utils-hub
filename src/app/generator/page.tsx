@@ -242,7 +242,7 @@ export default function GeneratorPage() {
   // New states for prompt functionality
   const [showPromptModal, setShowPromptModal] = useState(false)
   const [generatedPrompt, setGeneratedPrompt] = useState('')
-
+  
   const generatePromptForAI = () => {
     if (!functionName.trim() || !description.trim()) {
       setGeneratedPrompt('Please fill in function name and description first.')
@@ -450,13 +450,21 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
       
       const playgroundUrl = `/playground?codeId=${codeId}`
       
-      // Use a more reliable way to open new window
+      // Try to open in new tab with improved popup detection
       const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer')
+      
+      // Better popup blocked detection
       if (!newWindow) {
-        console.warn('Popup blocked, trying alternative method')
-        // Fallback: navigate in current window
-        window.location.href = playgroundUrl
+        console.warn('Popup was blocked by browser. Playground could not be opened in new tab.')
+        return
       }
+      
+      // Additional check after a brief delay to ensure window opened successfully
+      setTimeout(() => {
+        if (newWindow.closed) {
+          console.warn('New tab was closed immediately, popup may have been blocked.')
+        }
+      }, 100)
     } catch (error) {
       console.error('Failed to open in playground:', error)
       // Fallback to URL encoding if storage fails
@@ -464,9 +472,18 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
         const encodedCode = encodeURIComponent(generatedCode)
         const playgroundUrl = `/playground?language=${selectedLanguage}&code=${encodedCode}`
         const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer')
+        
         if (!newWindow) {
-          window.location.href = playgroundUrl
+          console.warn('Popup was blocked by browser. Playground could not be opened in new tab.')
+          return
         }
+        
+        // Additional check for fallback method too
+        setTimeout(() => {
+          if (newWindow.closed) {
+            console.warn('New tab was closed immediately, popup may have been blocked.')
+          }
+        }, 100)
       } catch (fallbackError) {
         console.error('Fallback method also failed:', fallbackError)
         alert('Failed to open playground. Please try again.')

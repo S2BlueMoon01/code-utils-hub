@@ -82,7 +82,19 @@ export default function FunctionDetailPage() {
 
   const openPlayground = () => {
     const playgroundUrl = `/playground?utilityId=${utility.id}`
-    window.open(playgroundUrl, '_blank')
+    const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer')
+    
+    if (!newWindow) {
+      console.warn('Popup was blocked by browser. Playground could not be opened in new tab.')
+      return
+    }
+    
+    // Additional check to ensure window opened successfully
+    setTimeout(() => {
+      if (newWindow.closed) {
+        console.warn('New tab was closed immediately, popup may have been blocked.')
+      }
+    }, 100)
   }
 
   const getDifficultyColor = (difficulty: string) => {

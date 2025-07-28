@@ -2,6 +2,13 @@
  * Utility functions for sharing code between generator and playground
  */
 
+import { autoCleanup } from './storage-manager'
+
+// Auto cleanup on module load
+if (typeof window !== 'undefined') {
+  autoCleanup()
+}
+
 export interface PlaygroundCodeData {
   id: string
   language: string

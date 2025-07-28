@@ -71,7 +71,7 @@ export function Footer({ className }: FooterProps) {
             
             {/* Newsletter Signup */}
             <div className="space-y-2">
-              <h4 className="text-sm font-medium">Stay updated</h4>
+              <p className="text-sm font-medium">Stay updated</p>
               <form onSubmit={handleSubscribe} className="flex space-x-2">
                 <Input
                   type="email"

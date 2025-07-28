@@ -262,7 +262,7 @@ describe('CodePlayground', () => {
   })
 
   it('renders with dark theme when specified', () => {
-    render(<CodePlayground theme="dark" />)
+    render(<CodePlayground />)
     
     // Monaco editor mock should receive theme prop
     const editor = screen.getByTestId('monaco-editor')

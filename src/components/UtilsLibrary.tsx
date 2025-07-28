@@ -77,7 +77,12 @@ export default function UtilsLibrary({
   const openPlayground = (utility: UtilityFunction) => {
     // Navigate to playground with utility ID instead of code
     const playgroundUrl = `/playground?utilityId=${utility.id}`;
-    window.open(playgroundUrl, '_blank');
+    const newWindow = window.open(playgroundUrl, '_blank', 'noopener,noreferrer');
+    
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      // If popup blocked, just log it and do nothing to avoid affecting current page
+      console.warn('Popup was blocked by browser. Playground could not be opened in new tab.');
+    }
   };
 
   const getDifficultyColor = (difficulty: Difficulty) => {

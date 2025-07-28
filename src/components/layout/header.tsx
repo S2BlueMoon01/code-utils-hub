@@ -43,6 +43,7 @@ export function Header({ className }: HeaderProps) {
     { name: t('navigation.utils'), href: '/utils' },
     { name: t('navigation.playground'), href: '/playground' },
     { name: 'Generator', href: '/generator' },
+    { name: 'Storage', href: '/storage' },
     { name: 'Favorites', href: '/favorites' },
     { name: t('navigation.blog'), href: '/blog' },
     { name: t('navigation.contribute'), href: '/contribute' },
@@ -142,10 +143,6 @@ export function Header({ className }: HeaderProps) {
               {t('auth.login')}
             </Button>
           )}
-
-          <Button variant="ghost" size="icon" className="hidden md:flex">
-            <User className="h-4 w-4" />
-          </Button>
 
           {/* Mobile Menu Toggle */}
           <Button
