@@ -6,7 +6,7 @@ describe('useSearch Hook', () => {
   it('initializes with default values', () => {
     const { result } = renderHook(() => useSearch())
     
-    expect(result.current.results).toHaveLength(5) // Sample data length
+    expect(result.current.results).toHaveLength(10) // Sample data length
     expect(result.current.isLoading).toBe(false)
     expect(result.current.filters).toEqual({})
   })
@@ -15,11 +15,11 @@ describe('useSearch Hook', () => {
     const { result } = renderHook(() => useSearch())
     
     await act(async () => {
-      await result.current.search({ query: 'debounce' })
+      await result.current.search({ query: 'isPalindrome' })
     })
     
     expect(result.current.results).toHaveLength(1)
-    expect(result.current.results[0].name).toBe('debounce')
+    expect(result.current.results[0].name).toBe('isPalindrome')
   })
 
   it('filters by language correctly', async () => {
@@ -62,7 +62,7 @@ describe('useSearch Hook', () => {
     })
     
     expect(result.current.filters).toEqual({})
-    expect(result.current.results).toHaveLength(5) // Back to original sample data
+    expect(result.current.results).toHaveLength(10) // Back to original sample data
   })
 
   it('shows loading state during search', async () => {

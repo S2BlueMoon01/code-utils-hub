@@ -186,3 +186,14 @@ function cleanupExpiredEntries(data: Record<string, PlaygroundCodeData>): void {
 function generateId(): string {
   return `code_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }
+
+/**
+ * Convenience function to store code for playground use
+ */
+export function storeCodeInPlayground(data: { code: string; language: string }): string {
+  return storePlaygroundCode({
+    ...data,
+    functionName: 'Generated Code',
+    description: 'Code sent from generator'
+  })
+}

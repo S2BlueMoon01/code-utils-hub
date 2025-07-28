@@ -56,7 +56,7 @@ describe('Header', () => {
       </TestWrapper>
     )
 
-    const searchInput = screen.getByPlaceholderText('Search functions...')
+    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
     expect(searchInput).toBeInTheDocument()
   })
 
@@ -67,7 +67,7 @@ describe('Header', () => {
       </TestWrapper>
     )
 
-    const searchInput = screen.getByPlaceholderText('Search functions...')
+    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
     fireEvent.change(searchInput, { target: { value: 'test search' } })
     
     expect(searchInput).toHaveValue('test search')
@@ -106,7 +106,7 @@ describe('Header', () => {
     const nav = screen.getByRole('navigation')
     expect(nav).toBeInTheDocument()
     
-    const searchInput = screen.getByPlaceholderText('Search functions...')
+    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
     expect(searchInput).toHaveAttribute('type', 'search')
   })
 
