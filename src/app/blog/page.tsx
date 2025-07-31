@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -40,6 +41,7 @@ interface BlogPost {
 }
 
 export default function BlogPage() {
+  const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
 
@@ -183,9 +185,9 @@ export default function BlogPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Blog & Tutorials</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('blog.title')}</h1>
         <p className="text-muted-foreground">
-          Chia sẻ kiến thức, tips và tutorials về utility functions và web development
+          {t('blog.subtitle')}
         </p>
       </div>
 
@@ -196,7 +198,7 @@ export default function BlogPage() {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Tìm kiếm bài viết..."
+                placeholder={t('blog.search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -210,7 +212,7 @@ export default function BlogPage() {
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
                 >
-                  {category === 'all' ? 'Tất cả' : category}
+                  {category === 'all' ? t('blog.categories.all') : category}
                 </Button>
               ))}
             </div>
@@ -226,7 +228,7 @@ export default function BlogPage() {
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Star className="w-5 h-5 text-yellow-500" />
-                Bài viết nổi bật
+                {t('blog.featured.title')}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {featuredPosts.map((post) => (

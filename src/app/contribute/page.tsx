@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
 import { ContributeFunction } from '@/components/community/ContributeFunction'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -14,38 +15,40 @@ import {
 } from 'lucide-react'
 
 export default function ContributePage() {
+  const { t } = useTranslation()
+  
   const stats = [
     {
       icon: Users,
-      label: 'Contributors',
+      label: t('contribute.stats.contributors'),
       value: '248',
-      description: 'Active contributors'
+      description: t('contribute.stats.activeContributors')
     },
     {
       icon: Code2,
-      label: 'Functions',
+      label: t('contribute.stats.functions'),
       value: '1,284',
-      description: 'Total functions'
+      description: t('contribute.stats.totalFunctions')
     },
     {
       icon: Star,
-      label: 'Average Rating',
+      label: t('contribute.stats.averageRating'),
       value: '4.8',
-      description: 'Community rating'
+      description: t('contribute.stats.communityRating')
     },
     {
       icon: GitBranch,
-      label: 'Languages',
+      label: t('contribute.stats.languages'),
       value: '3',
-      description: 'Supported languages'
+      description: t('contribute.stats.supportedLanguages')
     }
   ]
 
   const guidelines = [
     {
       icon: CheckCircle,
-      title: 'Chất lượng code',
-      description: 'Code phải clean, có comment và follow best practices'
+      title: t('contribute.guidelines.codeQuality.title'),
+      description: t('contribute.guidelines.codeQuality.description')
     },
     {
       icon: CheckCircle,
@@ -96,11 +99,10 @@ export default function ContributePage() {
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-foreground">
-          Đóng góp cho CodeUtilsHub
+          {t('contribute.title')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Chia sẻ những utility functions hữu ích của bạn với cộng đồng developer. 
-          Mỗi đóng góp đều được đánh giá cao và mang lại giá trị.
+          {t('contribute.subtitle')}
         </p>
       </div>
 

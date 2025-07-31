@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,26 +20,27 @@ import {
 } from 'lucide-react'
 
 export default function DocsPage() {
+  const { t } = useTranslation()
   const quickStartSteps = [
     {
       step: 1,
-      title: 'Khám phá Library',
-      description: 'Duyệt qua hàng nghìn utility functions được tuyển chọn',
-      action: 'Xem Functions',
+      title: t('docs.quickStart.step1.title', 'Explore Library'),
+      description: t('docs.quickStart.step1.description', 'Browse through thousands of curated utility functions'),
+      action: t('docs.quickStart.step1.action', 'View Functions'),
       href: '/utils'
     },
     {
       step: 2,
-      title: 'Test trên Playground',
-      description: 'Chạy thử code trực tiếp trên trình duyệt',
-      action: 'Mở Playground',
+      title: t('docs.quickStart.step2.title', 'Test on Playground'),
+      description: t('docs.quickStart.step2.description', 'Run code directly in your browser'),
+      action: t('docs.quickStart.step2.action', 'Open Playground'),
       href: '/playground'
     },
     {
       step: 3,
-      title: 'Sử dụng trong Project',
-      description: 'Copy code hoặc download function cho project của bạn',
-      action: 'Bắt đầu sử dụng',
+      title: t('docs.quickStart.step3.title', 'Use in Project'),
+      description: t('docs.quickStart.step3.description', 'Copy code or download functions for your project'),
+      action: t('docs.quickStart.step3.action', 'Start Using'),
       href: '/utils'
     }
   ]
@@ -46,46 +48,46 @@ export default function DocsPage() {
   const features = [
     {
       icon: Search,
-      title: 'Advanced Search',
-      description: 'Tìm kiếm function theo tên, category, language, hoặc tags',
+      title: t('docs.features.search.title', 'Advanced Search'),
+      description: t('docs.features.search.description', 'Search functions by name, category, language, or tags'),
       details: [
-        'Fuzzy search với Fuse.js',
-        'Filter theo language và difficulty',
-        'Sort theo popularity hoặc date',
-        'Search suggestions realtime'
+        t('docs.features.search.detail1', 'Fuzzy search with Fuse.js'),
+        t('docs.features.search.detail2', 'Filter by language and difficulty'),
+        t('docs.features.search.detail3', 'Sort by popularity or date'),
+        t('docs.features.search.detail4', 'Real-time search suggestions')
       ]
     },
     {
       icon: Play,
-      title: 'Code Playground',
-      description: 'Chạy và test code trực tiếp trên browser',
+      title: t('docs.features.playground.title', 'Code Playground'),
+      description: t('docs.features.playground.description', 'Run and test code directly in browser'),
       details: [
-        'Support JavaScript, TypeScript, Python',
-        'Monaco Editor với syntax highlighting',
-        'Live execution và console output',
-        'Share code với URL parameters'
+        t('docs.features.playground.detail1', 'Support JavaScript, TypeScript, Python'),
+        t('docs.features.playground.detail2', 'Monaco Editor with syntax highlighting'),
+        t('docs.features.playground.detail3', 'Live execution and console output'),
+        t('docs.features.playground.detail4', 'Share code with URL parameters')
       ]
     },
     {
       icon: Users,
-      title: 'Community Features',
-      description: 'Tương tác với cộng đồng developers',
+      title: t('docs.features.community.title', 'Community Features'),
+      description: t('docs.features.community.description', 'Interact with the developer community'),
       details: [
-        'Rate và review functions',
-        'Comment và thảo luận',
-        'Contribute functions mới',
-        'User profiles và reputation system'
+        t('docs.features.community.detail1', 'Rate and review functions'),
+        t('docs.features.community.detail2', 'Comment and discuss'),
+        t('docs.features.community.detail3', 'Contribute new functions'),
+        t('docs.features.community.detail4', 'User profiles and reputation system')
       ]
     },
     {
       icon: Download,
-      title: 'Export Options',
-      description: 'Nhiều cách để sử dụng functions',
+      title: t('docs.features.export.title', 'Export Options'),
+      description: t('docs.features.export.description', 'Multiple ways to use functions'),
       details: [
-        'Copy to clipboard',
-        'Download single file',
-        'Export collection',
-        'NPM package format'
+        t('docs.features.export.detail1', 'Copy to clipboard'),
+        t('docs.features.export.detail2', 'Download single file'),
+        t('docs.features.export.detail3', 'Export collection'),
+        t('docs.features.export.detail4', 'NPM package format')
       ]
     }
   ]
@@ -166,11 +168,10 @@ print(price)  # "$1,234.56"`
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-foreground">
-          Documentation
+          {t('docs.title', 'Documentation')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Hướng dẫn toàn diện để sử dụng CodeUtilsHub hiệu quả nhất. 
-          Từ cơ bản đến nâng cao, API references và best practices.
+          {t('docs.subtitle', 'Comprehensive guide to using CodeUtilsHub effectively. From basics to advanced, API references and best practices.')}
         </p>
       </div>
 
@@ -179,10 +180,10 @@ print(price)  # "$1,234.56"`
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Rocket className="w-5 h-5 text-primary" />
-            <span>Quick Start</span>
+            <span>{t('docs.quickStart.title', 'Quick Start')}</span>
           </CardTitle>
           <CardDescription>
-            Bắt đầu sử dụng CodeUtilsHub trong 3 bước đơn giản
+            {t('docs.quickStart.subtitle', 'Start using CodeUtilsHub in 3 simple steps')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -213,7 +214,7 @@ print(price)  # "$1,234.56"`
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Book className="w-5 h-5 text-primary" />
-            <span>Tính năng chính</span>
+            <span>{t('docs.features.title', 'Main Features')}</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -248,10 +249,10 @@ print(price)  # "$1,234.56"`
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Code2 className="w-5 h-5 text-primary" />
-            <span>Code Examples</span>
+            <span>{t('docs.examples.title', 'Code Examples')}</span>
           </CardTitle>
           <CardDescription>
-            Ví dụ sử dụng trong các ngôn ngữ khác nhau
+            {t('docs.examples.subtitle', 'Usage examples in different languages')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -286,9 +287,9 @@ print(price)  # "$1,234.56"`
       {/* API Reference */}
       <Card>
         <CardHeader>
-          <CardTitle>API Reference</CardTitle>
+          <CardTitle>{t('docs.api.title', 'API Reference')}</CardTitle>
           <CardDescription>
-            REST API endpoints để tích hợp CodeUtilsHub vào ứng dụng của bạn
+            {t('docs.api.subtitle', 'REST API endpoints to integrate CodeUtilsHub into your application')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -324,27 +325,27 @@ print(price)  # "$1,234.56"`
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Star className="w-5 h-5 text-primary" />
-            <span>Best Practices</span>
+            <span>{t('docs.bestPractices.title', 'Best Practices')}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-3">Performance Tips</h4>
+              <h4 className="font-semibold mb-3">{t('docs.bestPractices.performance.title', 'Performance Tips')}</h4>
               <ul className="space-y-2 text-sm">
-                <li>• Tree-shake functions khi import</li>
-                <li>• Sử dụng lazy loading cho playground</li>
-                <li>• Cache search results khi có thể</li>
-                <li>• Debounce search input để giảm API calls</li>
+                <li>• {t('docs.bestPractices.performance.tip1', 'Tree-shake functions when importing')}</li>
+                <li>• {t('docs.bestPractices.performance.tip2', 'Use lazy loading for playground')}</li>
+                <li>• {t('docs.bestPractices.performance.tip3', 'Cache search results when possible')}</li>
+                <li>• {t('docs.bestPractices.performance.tip4', 'Debounce search input to reduce API calls')}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3">Code Quality</h4>
+              <h4 className="font-semibold mb-3">{t('docs.bestPractices.quality.title', 'Code Quality')}</h4>
               <ul className="space-y-2 text-sm">
-                <li>• Luôn test functions trước khi sử dụng</li>
-                <li>• Đọc documentation và examples</li>
-                <li>• Contribute back nếu tìm thấy bugs</li>
-                <li>• Follow naming conventions</li>
+                <li>• {t('docs.bestPractices.quality.tip1', 'Always test functions before using')}</li>
+                <li>• {t('docs.bestPractices.quality.tip2', 'Read documentation and examples')}</li>
+                <li>• {t('docs.bestPractices.quality.tip3', 'Contribute back if you find bugs')}</li>
+                <li>• {t('docs.bestPractices.quality.tip4', 'Follow naming conventions')}</li>
               </ul>
             </div>
           </div>
@@ -355,10 +356,10 @@ print(price)  # "$1,234.56"`
       <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
         <CardContent className="p-8 text-center space-y-4">
           <h3 className="text-2xl font-bold text-foreground">
-            Cần hỗ trợ thêm?
+            {t('docs.support.title', 'Need More Help?')}
           </h3>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Tham gia community Discord, check GitHub issues, hoặc liên hệ team support.
+            {t('docs.support.subtitle', 'Join our Discord community, check GitHub issues, or contact our support team.')}
           </p>
           <div className="flex justify-center space-x-4">
             <Button variant="outline" asChild>
@@ -376,7 +377,7 @@ print(price)  # "$1,234.56"`
             <Button variant="outline" asChild>
               <a href="mailto:support@codeutilshub.com">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Email Support
+                {t('docs.support.emailSupport', 'Email Support')}
               </a>
             </Button>
           </div>

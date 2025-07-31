@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 import { Code, Github, Twitter, Linkedin, Mail, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,6 +13,7 @@ interface FooterProps {
 }
 
 export function Footer({ className }: FooterProps) {
+  const { t } = useTranslation()
   const [email, setEmail] = React.useState('')
 
   const handleSubscribe = (e: React.FormEvent) => {

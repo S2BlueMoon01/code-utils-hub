@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -11,6 +12,7 @@ import { Heart, Trash2, Calendar, Filter } from 'lucide-react'
 import Link from 'next/link'
 
 export default function FavoritesPage() {
+  const { t } = useTranslation()
   const { favorites, clearFavorites, getFavoritesByLanguage, getFavoritesByCategory } = useFavoritesStore()
   const [filterBy, setFilterBy] = useState<'all' | 'language' | 'category'>('all')
   const [filterValue, setFilterValue] = useState('all')
@@ -61,9 +63,9 @@ export default function FavoritesPage() {
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Favorites</h1>
+            <h1 className="text-3xl font-bold mb-2">{t('favorites.title', 'Favorites')}</h1>
             <p className="text-muted-foreground">
-              Your saved utility functions
+              {t('favorites.subtitle', 'Your saved utility functions')}
             </p>
           </div>
 
@@ -71,13 +73,13 @@ export default function FavoritesPage() {
             <CardContent className="pt-6">
               <div className="text-center">
                 <Heart className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-semibold mb-2">No favorites yet</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('favorites.empty.title', 'No favorites yet')}</h3>
                 <p className="text-muted-foreground mb-4">
-                  Start exploring utility functions and add them to your favorites!
+                  {t('favorites.empty.subtitle', 'Start exploring utility functions and add them to your favorites!')}
                 </p>
                 <Button asChild>
                   <Link href="/search">
-                    Browse Functions
+                    {t('favorites.empty.action', 'Browse Functions')}
                   </Link>
                 </Button>
               </div>
@@ -95,9 +97,9 @@ export default function FavoritesPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Favorites</h1>
+              <h1 className="text-3xl font-bold mb-2">{t('favorites.title', 'Favorites')}</h1>
               <p className="text-muted-foreground">
-                {favorites.length} saved utility functions
+                {t('favorites.count', `${favorites.length} saved utility functions`, { count: favorites.length })}
               </p>
             </div>
             <Button 
@@ -106,7 +108,7 @@ export default function FavoritesPage() {
               className="text-destructive hover:text-destructive"
             >
               <Trash2 className="w-4 h-4 mr-2" />
-              Clear All
+              {t('favorites.clearAll', 'Clear All')}
             </Button>
           </div>
         </div>
@@ -116,14 +118,14 @@ export default function FavoritesPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Filter className="w-5 h-5" />
-              Filters & Sorting
+              {t('favorites.filters.title', 'Filters & Sorting')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Filter Type */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Filter by</label>
+                <label className="text-sm font-medium mb-2 block">{t('favorites.filters.filterBy', 'Filter by')}</label>
                 <Select value={filterBy} onValueChange={(value: typeof filterBy) => {
                   setFilterBy(value)
                   setFilterValue('all')
@@ -132,26 +134,26 @@ export default function FavoritesPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All favorites</SelectItem>
-                    <SelectItem value="language">Language</SelectItem>
-                    <SelectItem value="category">Category</SelectItem>
+                    <SelectItem value="all">{t('favorites.filters.allFavorites', 'All favorites')}</SelectItem>
+                    <SelectItem value="language">{t('favorites.filters.language', 'Language')}</SelectItem>
+                    <SelectItem value="category">{t('favorites.filters.category', 'Category')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Filter Value */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Value</label>
+                <label className="text-sm font-medium mb-2 block">{t('favorites.filters.value', 'Value')}</label>
                 <Select 
                   value={filterValue} 
                   onValueChange={setFilterValue}
                   disabled={filterBy === 'all'}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select value" />
+                    <SelectValue placeholder={t('favorites.filters.selectValue', 'Select value')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="all">{t('common.all', 'All')}</SelectItem>
                     {filterBy === 'language' && uniqueLanguages.map(lang => (
                       <SelectItem key={lang} value={lang}>{lang}</SelectItem>
                     ))}
@@ -164,15 +166,15 @@ export default function FavoritesPage() {
 
               {/* Sort */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Sort by</label>
+                <label className="text-sm font-medium mb-2 block">{t('favorites.filters.sortBy', 'Sort by')}</label>
                 <Select value={sortBy} onValueChange={(value: typeof sortBy) => setSortBy(value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="date">Date added</SelectItem>
-                    <SelectItem value="name">Name A-Z</SelectItem>
-                    <SelectItem value="language">Language</SelectItem>
+                    <SelectItem value="date">{t('favorites.filters.dateAdded', 'Date added')}</SelectItem>
+                    <SelectItem value="name">{t('favorites.filters.nameAZ', 'Name A-Z')}</SelectItem>
+                    <SelectItem value="language">{t('favorites.filters.language', 'Language')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -180,7 +182,10 @@ export default function FavoritesPage() {
               {/* Results count */}
               <div className="flex items-end">
                 <div className="text-sm text-muted-foreground">
-                  Showing {filteredFavorites.length} of {favorites.length} favorites
+                  {t('favorites.filters.showing', 'Showing {{filtered}} of {{total}} favorites', { 
+                    filtered: filteredFavorites.length, 
+                    total: favorites.length 
+                  })}
                 </div>
               </div>
             </div>
@@ -200,7 +205,7 @@ export default function FavoritesPage() {
                         <Badge variant="secondary">{favorite.language}</Badge>
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        Category: {favorite.category}
+                        {t('favorites.category', 'Category')}: {favorite.category}
                       </CardDescription>
                     </div>
                     <FavoriteButton
@@ -215,7 +220,7 @@ export default function FavoritesPage() {
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
-                      <span>Added {formatDate(favorite.addedAt)}</span>
+                      <span>{t('favorites.added', 'Added')} {formatDate(favorite.addedAt)}</span>
                     </div>
                     <Heart className="w-4 h-4 fill-red-500 text-red-500" />
                   </div>
@@ -230,15 +235,15 @@ export default function FavoritesPage() {
             <CardContent className="pt-6">
               <div className="text-center">
                 <Filter className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-semibold mb-2">No matches found</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('favorites.noMatches.title', 'No matches found')}</h3>
                 <p className="text-muted-foreground mb-4">
-                  Try adjusting your filters to see more results.
+                  {t('favorites.noMatches.subtitle', 'Try adjusting your filters to see more results.')}
                 </p>
                 <Button variant="outline" onClick={() => {
                   setFilterBy('all')
                   setFilterValue('all')
                 }}>
-                  Clear Filters
+                  {t('favorites.noMatches.clearFilters', 'Clear Filters')}
                 </Button>
               </div>
             </CardContent>

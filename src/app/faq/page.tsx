@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,106 +26,75 @@ interface FAQItem {
 }
 
 export default function FAQPage() {
+  const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
   const categories = [
     'all',
-    'Getting Started',
-    'Functions',
-    'Community',
-    'Account',
-    'Technical',
-    'Billing'
+    'gettingStarted',
+    'functions',
+    'community',
+    'account',
+    'technical',
+    'billing'
   ]
 
   const faqItems: FAQItem[] = [
     {
       id: '1',
-      question: 'CodeUtilsHub là gì và nó hoạt động như thế nào?',
-      answer: 'CodeUtilsHub là một nền tảng cộng đồng dành cho developers, cung cấp và chia sẻ các utility functions hữu ích. Bạn có thể tìm kiếm, sử dụng và đóng góp các functions để tăng tốc quá trình phát triển phần mềm. Nền tảng hỗ trợ nhiều ngôn ngữ lập trình như JavaScript, TypeScript và Python.',
-      category: 'Getting Started',
+      question: t('faq.questions.whatIs.question'),
+      answer: t('faq.questions.whatIs.answer'),
+      category: 'gettingStarted',
       tags: ['platform', 'overview', 'basics']
     },
     {
       id: '2',
-      question: 'Làm thế nào để đóng góp một function mới?',
-      answer: 'Để đóng góp function mới, bạn cần: 1) Đăng ký tài khoản, 2) Truy cập trang "Contribute", 3) Điền thông tin function bao gồm tên, mô tả, code, và ví dụ, 4) Chọn category và tags phù hợp, 5) Submit để review. Function sẽ được community review trước khi được phê duyệt.',
-      category: 'Functions',
-      tags: ['contribute', 'submit', 'functions']
+      question: t('faq.questions.howToUse.question'),
+      answer: t('faq.questions.howToUse.answer'),
+      category: 'functions',
+      tags: ['usage', 'library', 'functions']
     },
     {
       id: '3',
-      question: 'Tôi có thể sử dụng các functions này trong dự án thương mại không?',
-      answer: 'Có, tất cả functions trên CodeUtilsHub đều có thể sử dụng miễn phí trong các dự án thương mại. Chúng tôi khuyến khích ghi credit cho tác giả gốc khi có thể. Tuy nhiên, hãy kiểm tra license cụ thể của từng function để đảm bảo tuân thủ đúng quy định.',
-      category: 'Technical',
-      tags: ['commercial', 'license', 'usage']
+      question: t('faq.questions.howToContribute.question'),
+      answer: t('faq.questions.howToContribute.answer'),
+      category: 'community',
+      tags: ['contribute', 'community', 'submission']
     },
     {
       id: '4',
-      question: 'Làm thế nào để tìm kiếm functions phù hợp?',
-      answer: 'Bạn có thể sử dụng tính năng tìm kiếm nâng cao với các bộ lọc: 1) Tìm kiếm theo từ khóa, 2) Lọc theo category (array, string, date, etc.), 3) Lọc theo ngôn ngữ lập trình, 4) Sắp xếp theo popularity, rating hoặc ngày tạo. Ngoài ra, bạn có thể browse theo tags phổ biến.',
-      category: 'Functions',
-      tags: ['search', 'filters', 'discovery']
+      question: t('faq.questions.isItFree.question'),
+      answer: t('faq.questions.isItFree.answer'),
+      category: 'billing',
+      tags: ['free', 'pricing', 'cost']
     },
     {
       id: '5',
-      question: 'Playground có những tính năng gì?',
-      answer: 'Playground cho phép bạn: 1) Test các functions trực tiếp trong browser, 2) Chỉnh sửa code và xem kết quả real-time, 3) Thử nghiệm với different inputs, 4) Save và share code snippets, 5) Hỗ trợ multiple tabs cho nhiều functions cùng lúc. Đây là môi trường an toàn để thử nghiệm trước khi sử dụng trong dự án.',
-      category: 'Technical',
-      tags: ['playground', 'testing', 'features']
+      question: t('faq.questions.whatLanguages.question'),
+      answer: t('faq.questions.whatLanguages.answer'),
+      category: 'technical',
+      tags: ['languages', 'support', 'javascript', 'python']
     },
     {
       id: '6',
-      question: 'Làm thế nào để tạo tài khoản và đăng nhập?',
-      answer: 'Bạn có thể tạo tài khoản bằng cách: 1) Click nút "Đăng nhập" ở header, 2) Chọn tab "Đăng ký", 3) Nhập email và password, 4) Xác nhận email nếu được yêu cầu. Bạn cũng có thể đăng nhập bằng GitHub hoặc Google để thuận tiện hơn.',
-      category: 'Account',
-      tags: ['account', 'registration', 'login']
-    },
-    {
-      id: '7',
-      question: 'Tôi có thể edit hoặc xóa functions đã submit không?',
-      answer: 'Có, bạn có thể manage các functions của mình thông qua Dashboard: 1) Truy cập Dashboard từ menu user, 2) Vào tab "Functions", 3) Click vào function muốn chỉnh sửa, 4) Sử dụng options Edit hoặc Delete. Lưu ý rằng việc xóa function có thể ảnh hưởng đến users khác đang sử dụng.',
-      category: 'Functions',
-      tags: ['edit', 'delete', 'manage']
-    },
-    {
-      id: '8',
-      question: 'Community guidelines là gì?',
-      answer: 'Community guidelines bao gồm: 1) Code phải clean, có comment rõ ràng, 2) Không submit malicious code, 3) Respect tác giả và credit nguồn gốc, 4) Functions phải có test cases đầy đủ, 5) Mô tả phải accurate và helpful, 6) Tương tác lịch sự trong comments. Vi phạm có thể dẫn đến account bị suspend.',
-      category: 'Community',
-      tags: ['guidelines', 'rules', 'community']
-    },
-    {
-      id: '9',
-      question: 'Hệ thống rating và comments hoạt động ra sao?',
-      answer: 'Users có thể: 1) Rate functions từ 1-5 sao, 2) Viết comments và feedback, 3) Reply cho comments khác, 4) Report inappropriate content. Rating giúp cộng đồng identify các functions chất lượng cao. Authors nhận notifications khi có rating/comments mới.',
-      category: 'Community',
-      tags: ['rating', 'comments', 'feedback']
-    },
-    {
-      id: '10',
-      question: 'Có mobile app không?',
-      answer: 'Hiện tại chúng tôi chưa có mobile app riêng, nhưng website được optimize cho mobile browser. Bạn có thể truy cập đầy đủ tính năng thông qua mobile browser. Mobile app native đang trong roadmap phát triển và sẽ được ra mắt trong tương lai.',
-      category: 'Technical',
-      tags: ['mobile', 'app', 'responsive']
-    },
-    {
-      id: '11',
-      question: 'Làm thế nào để báo cáo bugs hoặc suggest features?',
-      answer: 'Bạn có thể: 1) Tạo issue trên GitHub repository, 2) Gửi email đến support team, 3) Sử dụng feedback form trong website, 4) Join Discord community để discussion. Chúng tôi welcome mọi feedback và suggestions để cải thiện platform.',
-      category: 'Technical',
-      tags: ['bugs', 'features', 'feedback', 'support']
-    },
-    {
-      id: '12',
-      question: 'CodeUtilsHub có miễn phí không?',
-      answer: 'Có, CodeUtilsHub hoàn toàn miễn phí cho personal use. Tất cả core features như tìm kiếm, sử dụng functions, playground đều free. Trong tương lai có thể có premium features cho enterprise users, nhưng community version sẽ luôn miễn phí.',
-      category: 'Billing',
-      tags: ['free', 'pricing', 'cost']
+      question: t('faq.questions.howToSearch.question'),
+      answer: t('faq.questions.howToSearch.answer'),
+      category: 'functions',
+      tags: ['search', 'filter', 'find']
     }
   ]
+
+  const toggleExpand = (id: string) => {
+    const newExpanded = new Set(expandedItems)
+    if (newExpanded.has(id)) {
+      newExpanded.delete(id)
+    } else {
+      newExpanded.add(id)
+    }
+    setExpandedItems(newExpanded)
+  }
 
   const filteredFAQs = faqItems.filter(item => {
     const matchesSearch = item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -158,9 +128,9 @@ export default function FAQPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Frequently Asked Questions</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('faq.title')}</h1>
         <p className="text-muted-foreground">
-          Tìm câu trả lời cho các câu hỏi thường gặp về CodeUtilsHub
+          {t('faq.subtitle')}
         </p>
       </div>
 
@@ -171,7 +141,7 @@ export default function FAQPage() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Tìm kiếm câu hỏi..."
+                placeholder={t('faq.search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -185,16 +155,16 @@ export default function FAQPage() {
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
                 >
-                  {category === 'all' ? 'Tất cả' : category}
+                  {t(`faq.categories.${category}`)}
                 </Button>
               ))}
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={expandAll}>
-                Mở rộng tất cả
+                {t('common.expandAll', 'Expand All')}
               </Button>
               <Button variant="outline" size="sm" onClick={collapseAll}>
-                Thu gọn tất cả
+                {t('common.collapseAll', 'Collapse All')}
               </Button>
             </div>
           </div>
@@ -208,9 +178,9 @@ export default function FAQPage() {
             <Card>
               <CardContent className="text-center py-12">
                 <HelpCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Không tìm thấy câu hỏi</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('faq.noResults')}</h3>
                 <p className="text-muted-foreground">
-                  Thử thay đổi từ khóa tìm kiếm hoặc category
+                  {t('faq.tryDifferentSearch', 'Try changing your search keywords or category')}
                 </p>
               </CardContent>
             </Card>
@@ -261,20 +231,20 @@ export default function FAQPage() {
           {/* Quick Stats */}
           <Card>
             <CardHeader>
-              <CardTitle>FAQ Stats</CardTitle>
+              <CardTitle>{t('faq.stats.title', 'FAQ Stats')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm">Tổng câu hỏi</span>
+                  <span className="text-sm">{t('faq.stats.totalQuestions', 'Total Questions')}</span>
                   <Badge variant="outline">{faqItems.length}</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm">Categories</span>
+                  <span className="text-sm">{t('faq.stats.categories', 'Categories')}</span>
                   <Badge variant="outline">{categories.length - 1}</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm">Hiển thị</span>
+                  <span className="text-sm">{t('faq.stats.showing', 'Showing')}</span>
                   <Badge variant="outline">{filteredFAQs.length}</Badge>
                 </div>
               </div>
@@ -284,7 +254,7 @@ export default function FAQPage() {
           {/* Popular Categories */}
           <Card>
             <CardHeader>
-              <CardTitle>Categories phổ biến</CardTitle>
+              <CardTitle>{t('faq.popularCategories', 'Popular Categories')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -298,7 +268,7 @@ export default function FAQPage() {
                         className="w-full justify-start"
                         onClick={() => setSelectedCategory(category)}
                       >
-                        {category}
+                        {t(`faq.categories.${category}`)}
                       </Button>
                       <Badge variant="outline">{count}</Badge>
                     </div>
@@ -313,24 +283,24 @@ export default function FAQPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageCircle className="w-5 h-5" />
-                Cần hỗ trợ thêm?
+                {t('faq.needMoreHelp', 'Need More Help?')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Không tìm thấy câu trả lời? Chúng tôi sẵn sàng giúp đỡ!
+                {t('faq.cantFindAnswer', 'Can\'t find the answer? We\'re here to help!')}
               </p>
               <div className="space-y-2">
                 <Link href="/contact">
                   <Button className="w-full" variant="outline">
                     <Mail className="w-4 h-4 mr-2" />
-                    Liên hệ Support
+                    {t('faq.contactSupport', 'Contact Support')}
                   </Button>
                 </Link>
                 <Link href="/docs">
                   <Button className="w-full" variant="outline">
                     <Book className="w-4 h-4 mr-2" />
-                    Xem Documentation
+                    {t('faq.viewDocs', 'View Documentation')}
                   </Button>
                 </Link>
               </div>

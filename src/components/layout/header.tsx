@@ -42,13 +42,15 @@ export function Header({ className }: HeaderProps) {
     { name: t('navigation.search'), href: '/search' },
     { name: t('navigation.utils'), href: '/utils' },
     { name: t('navigation.playground'), href: '/playground' },
-    { name: 'Generator', href: '/generator' },
-    { name: 'Storage', href: '/storage' },
-    { name: 'Favorites', href: '/favorites' },
+    { name: t('navigation.generator'), href: '/generator' },
+    { name: t('navigation.storage'), href: '/storage' },
+    { name: t('navigation.favorites'), href: '/favorites' },
     { name: t('navigation.blog'), href: '/blog' },
     { name: t('navigation.contribute'), href: '/contribute' },
     { name: t('navigation.docs'), href: '/docs' },
     { name: t('navigation.about'), href: '/about' },
+    { name: t('navigation.analytics'), href: '/analytics' },
+    { name: t('navigation.faq'), href: '/faq' },
     ...(user ? [{ name: t('navigation.dashboard'), href: '/dashboard' }] : [])
   ]
 

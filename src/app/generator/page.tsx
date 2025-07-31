@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -228,6 +229,7 @@ else:
 }
 
 export default function GeneratorPage() {
+  const { t } = useTranslation()
   const [functionName, setFunctionName] = useState('')
   const [description, setDescription] = useState('')
   const [selectedLanguage, setSelectedLanguage] = useState<keyof typeof codeTemplates>('javascript')
@@ -498,10 +500,10 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
             <Wand2 className="w-8 h-8 text-primary" />
-            Code Generator
+            {t('generator.title')}
           </h1>
           <p className="text-muted-foreground">
-            Generate utility function boilerplate from description
+            {t('generator.subtitle')}
           </p>
         </div>
 
@@ -511,34 +513,34 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Function Details
+                {t('generator.form.functionDetails', 'Function Details')}
               </CardTitle>
               <CardDescription>
-                Describe your function and we&apos;ll generate the code template
+                {t('generator.form.description', 'Describe your function and we\'ll generate the code template')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Function Name */}
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  Function Name
+                  {t('generator.form.functionName', 'Function Name')}
                 </label>
                 <Input
                   value={functionName}
                   onChange={(e) => setFunctionName(e.target.value)}
-                  placeholder="e.g., formatDate, validateEmail, debounce"
+                  placeholder={t('generator.form.functionNamePlaceholder', 'e.g., formatDate, validateEmail, debounce')}
                 />
               </div>
 
               {/* Description */}
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  Description
+                  {t('generator.form.descriptionLabel', 'Description')}
                 </label>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe what this function should do..."
+                  placeholder={t('generator.form.descriptionPlaceholder', 'Describe what this function should do...')}
                   rows={3}
                 />
               </div>
@@ -546,7 +548,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
               {/* Language Selection */}
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  Language
+                  {t('generator.form.language', 'Language')}
                 </label>
                 <Select value={selectedLanguage} onValueChange={(value: keyof typeof codeTemplates) => {
                   setSelectedLanguage(value)
@@ -566,7 +568,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
               {/* Template Selection */}
               <div>
                 <label className="text-sm font-medium mb-2 block">
-                  Template Style
+                  {t('generator.form.templateStyle', 'Template Style')}
                 </label>
                 <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
                   <SelectTrigger>
@@ -586,7 +588,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium">
-                    Advanced Settings
+                    {t('generator.form.advancedSettings', 'Advanced Settings')}
                   </label>
                   <Button 
                     variant="ghost" 
@@ -602,13 +604,13 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                   <div className="space-y-4 border rounded-lg p-4 bg-muted/50">
                     <div>
                       <label className="text-sm font-medium mb-2 block">
-                        Test Cases
+                        {t('generator.form.testCases', 'Test Cases')}
                       </label>
                       <div className="space-y-3">
                         {testCases.map((testCase, index) => (
                           <div key={testCase.id} className="space-y-2 border rounded-lg p-3 bg-background">
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium">Test Case {index + 1}</span>
+                              <span className="text-sm font-medium">{t('generator.form.testCase', 'Test Case')} {index + 1}</span>
                               {testCases.length > 1 && (
                                 <Button
                                   variant="ghost"
@@ -621,20 +623,20 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                               )}
                             </div>
                             <Input
-                              placeholder="Description (optional)"
+                              placeholder={t('generator.form.descriptionOptional', 'Description (optional)')}
                               value={testCase.description}
                               onChange={(e) => updateTestCase(testCase.id, 'description', e.target.value)}
                               className="text-sm"
                             />
                             <div className="grid grid-cols-2 gap-2">
                               <Input
-                                placeholder="Input value"
+                                placeholder={t('generator.form.inputValue', 'Input value')}
                                 value={testCase.input}
                                 onChange={(e) => updateTestCase(testCase.id, 'input', e.target.value)}
                                 className="text-sm"
                               />
                               <Input
-                                placeholder="Expected output"
+                                placeholder={t('generator.form.expectedOutput', 'Expected output')}
                                 value={testCase.expectedOutput}
                                 onChange={(e) => updateTestCase(testCase.id, 'expectedOutput', e.target.value)}
                                 className="text-sm"
@@ -649,7 +651,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                           className="w-full"
                         >
                           <Plus className="w-4 h-4 mr-2" />
-                          Add Test Case
+                          {t('generator.form.addTestCase', 'Add Test Case')}
                         </Button>
                       </div>
                     </div>
@@ -667,12 +669,12 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                   {isGenerating ? (
                     <>
                       <div className="w-4 h-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2" />
-                      Generating...
+                      {t('generator.buttons.generating', 'Generating...')}
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 mr-2" />
-                      Generate Code
+                      {t('generator.buttons.generateCode', 'Generate Code')}
                     </>
                   )}
                 </Button>
@@ -684,7 +686,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                   className="w-full"
                 >
                   <Zap className="w-4 h-4 mr-2" />
-                  Generate AI Prompt
+                  {t('generator.buttons.generateAIPrompt', 'Generate AI Prompt')}
                 </Button>
               </div>
             </CardContent>
@@ -696,7 +698,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   <Code2 className="w-5 h-5" />
-                  Generated Code
+                  {t('generator.output.title', 'Generated Code')}
                   {generatedCode && (
                     <Badge variant="secondary">{selectedLanguage}</Badge>
                   )}
@@ -706,21 +708,21 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                   <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm" onClick={openInPlayground}>
                       <Play className="w-4 h-4 mr-2" />
-                      Run in Playground
+                      {t('generator.output.runInPlayground', 'Run in Playground')}
                     </Button>
                     <Button variant="outline" size="sm" onClick={copyCode}>
                       <Copy className="w-4 h-4 mr-2" />
-                      Copy
+                      {t('generator.output.copy', 'Copy')}
                     </Button>
                     <Button variant="outline" size="sm" onClick={downloadCode}>
                       <Download className="w-4 h-4 mr-2" />
-                      Download
+                      {t('generator.output.download', 'Download')}
                     </Button>
                   </div>
                 )}
               </div>
               <CardDescription>
-                Your generated function template ready to use
+                {t('generator.output.description', 'Your generated function template ready to use')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -733,7 +735,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
               ) : (
                 <div className="text-center py-12 text-muted-foreground">
                   <Code2 className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                  <p>Fill in the function details and click &quot;Generate Code&quot; to see your template</p>
+                  <p>{t('generator.output.placeholder', 'Fill in the function details and click "Generate Code" to see your template')}</p>
                 </div>
               )}
             </CardContent>
@@ -743,9 +745,9 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
         {/* Quick Examples */}
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle>Quick Examples</CardTitle>
+            <CardTitle>{t('generator.examples.title', 'Quick Examples')}</CardTitle>
             <CardDescription>
-              Click on any example to auto-fill the form
+              {t('generator.examples.description', 'Click on any example to auto-fill the form')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -759,7 +761,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                 }}
               >
                 <div>
-                  <div className="font-medium">Date Formatter</div>
+                  <div className="font-medium">{t('generator.examples.dateFormatter', 'Date Formatter')}</div>
                   <div className="text-sm text-muted-foreground">formatDate function</div>
                 </div>
               </Button>
@@ -773,7 +775,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                 }}
               >
                 <div>
-                  <div className="font-medium">Email Validator</div>
+                  <div className="font-medium">{t('generator.examples.emailValidator', 'Email Validator')}</div>
                   <div className="text-sm text-muted-foreground">validateEmail function</div>
                 </div>
               </Button>
@@ -787,7 +789,7 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
                 }}
               >
                 <div>
-                  <div className="font-medium">Debounce Utility</div>
+                  <div className="font-medium">{t('generator.examples.debounceUtility', 'Debounce Utility')}</div>
                   <div className="text-sm text-muted-foreground">debounce function</div>
                 </div>
               </Button>
@@ -803,25 +805,25 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <MessageSquare className="w-5 h-5" />
-                AI Prompt Generated
+                {t('generator.prompt.title', 'AI Prompt Generated')}
               </CardTitle>
               <Button onClick={() => setShowPromptModal(false)} variant="ghost" size="sm">
                 <X className="w-4 h-4" />
               </Button>
             </div>
             <CardDescription>
-              Copy this prompt and send it to any AI (GPT-4, Claude, Gemini) to generate your code
+              {t('generator.prompt.description', 'Copy this prompt and send it to any AI (GPT-4, Claude, Gemini) to generate your code')}
             </CardDescription>
           </CardHeader>
           
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <Badge variant="outline">
-                Ready to copy & paste
+                {t('generator.prompt.readyToCopy', 'Ready to copy & paste')}
               </Badge>
               <Button onClick={copyPrompt} variant="outline" size="sm">
                 <Copy className="w-4 h-4 mr-2" />
-                Copy Prompt
+                {t('generator.prompt.copyPrompt', 'Copy Prompt')}
               </Button>
             </div>
             
@@ -833,14 +835,14 @@ console.assert(result${tc.id} === expected${tc.id}, \`Expected \${expected${tc.i
             
             <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                💡 How to use this prompt:
+                💡 {t('generator.prompt.howToUse', 'How to use this prompt:')}
               </h4>
               <ol className="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-decimal list-inside">
-                <li>Copy the prompt above using the &quot;Copy Prompt&quot; button</li>
-                <li>Go to your favorite AI (ChatGPT, Claude, Gemini, etc.)</li>
-                <li>Paste the prompt and send it</li>
-                <li>The AI will generate optimized, production-ready code</li>
-                <li>Copy the generated code back to your project</li>
+                <li>{t('generator.prompt.step1', 'Copy the prompt above using the "Copy Prompt" button')}</li>
+                <li>{t('generator.prompt.step2', 'Go to your favorite AI (ChatGPT, Claude, Gemini, etc.)')}</li>
+                <li>{t('generator.prompt.step3', 'Paste the prompt and send it')}</li>
+                <li>{t('generator.prompt.step4', 'The AI will generate optimized, production-ready code')}</li>
+                <li>{t('generator.prompt.step5', 'Copy the generated code back to your project')}</li>
               </ol>
             </div>
           </CardContent>

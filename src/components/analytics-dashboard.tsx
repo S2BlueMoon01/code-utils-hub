@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -77,6 +78,7 @@ interface PerformanceSummary {
 }
 
 export function AnalyticsDashboard() {
+  const { t } = useTranslation()
   const [summary, setSummary] = useState<PerformanceSummary | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -128,7 +130,7 @@ export function AnalyticsDashboard() {
         <CardContent className="flex items-center justify-center h-64">
           <div className="flex items-center gap-2">
             <RefreshCw className="h-4 w-4 animate-spin" />
-            Loading analytics...
+            {t('common.loading')}
           </div>
         </CardContent>
       </Card>
@@ -140,9 +142,9 @@ export function AnalyticsDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h2>
+          <h2 className="text-3xl font-bold tracking-tight">{t('analytics.title')}</h2>
           <p className="text-muted-foreground">
-            Real-time performance metrics and user engagement data
+            {t('analytics.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">

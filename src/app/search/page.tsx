@@ -130,7 +130,7 @@ export default function SearchPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5" />
-            Bộ lọc tìm kiếm
+            {t('search.filters.title', 'Search Filters')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -138,7 +138,7 @@ export default function SearchPage() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
-              placeholder="Tìm kiếm function, tag, hoặc category..."
+              placeholder={t('search.placeholder', 'Search functions, tags, or categories...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -149,13 +149,13 @@ export default function SearchPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Category Filter */}
             <div>
-              <label className="text-sm font-medium mb-2 block">Category</label>
+              <label className="text-sm font-medium mb-2 block">{t('search.filters.category', 'Category')}</label>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Chọn category" />
+                  <SelectValue placeholder={t('search.filters.selectCategory', 'Select category')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tất cả category</SelectItem>
+                  <SelectItem value="all">{t('search.filters.allCategories', 'All categories')}</SelectItem>
                   {categories.map((category, index) => (
                     <SelectItem key={`search-category-${index}-${category.id}`} value={category.id}>
                       {category.name}
@@ -167,13 +167,13 @@ export default function SearchPage() {
 
             {/* Tag Filter */}
             <div>
-              <label className="text-sm font-medium mb-2 block">Tag</label>
+              <label className="text-sm font-medium mb-2 block">{t('search.filters.tag', 'Tag')}</label>
               <Select value={selectedTag} onValueChange={setSelectedTag}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Chọn tag" />
+                  <SelectValue placeholder={t('search.filters.selectTag', 'Select tag')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tất cả tag</SelectItem>
+                  <SelectItem value="all">{t('search.filters.allTags', 'All tags')}</SelectItem>
                   {popularTags.map((tag, index) => (
                     <SelectItem key={`search-tag-select-${index}-${tag.name}`} value={tag.name}>
                       {tag.name}
@@ -185,23 +185,23 @@ export default function SearchPage() {
 
             {/* Sort By */}
             <div>
-              <label className="text-sm font-medium mb-2 block">Sắp xếp theo</label>
+              <label className="text-sm font-medium mb-2 block">{t('search.filters.sortBy', 'Sort by')}</label>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sắp xếp theo" />
+                  <SelectValue placeholder={t('search.filters.sortBy', 'Sort by')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="popularity">Lượt xem</SelectItem>
-                  <SelectItem value="rating">Đánh giá</SelectItem>
-                  <SelectItem value="name">Tên A-Z</SelectItem>
-                  <SelectItem value="date">Ngày tạo</SelectItem>
+                  <SelectItem value="popularity">{t('search.filters.views', 'Views')}</SelectItem>
+                  <SelectItem value="rating">{t('search.filters.rating', 'Rating')}</SelectItem>
+                  <SelectItem value="name">{t('search.filters.nameAZ', 'Name A-Z')}</SelectItem>
+                  <SelectItem value="date">{t('search.filters.dateCreated', 'Date Created')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {/* Sort Order */}
             <div>
-              <label className="text-sm font-medium mb-2 block">Thứ tự</label>
+              <label className="text-sm font-medium mb-2 block">{t('search.filters.order', 'Order')}</label>
               <Button
                 variant="outline"
                 onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
@@ -210,12 +210,12 @@ export default function SearchPage() {
                 {sortOrder === 'asc' ? (
                   <>
                     <SortAsc className="w-4 h-4 mr-2" />
-                    Tăng dần
+                    {t('search.filters.ascending', 'Ascending')}
                   </>
                 ) : (
                   <>
                     <SortDesc className="w-4 h-4 mr-2" />
-                    Giảm dần
+                    {t('search.filters.descending', 'Descending')}
                   </>
                 )}
               </Button>
@@ -230,7 +230,7 @@ export default function SearchPage() {
               className="text-sm"
             >
               <Filter className="w-4 h-4 mr-2" />
-              {showAdvancedFilters ? 'Ẩn bộ lọc nâng cao' : 'Hiện bộ lọc nâng cao'}
+              {showAdvancedFilters ? t('search.filters.hideAdvanced', 'Hide advanced filters') : t('search.filters.showAdvanced', 'Show advanced filters')}
             </Button>
           </div>
 
@@ -239,13 +239,13 @@ export default function SearchPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
               {/* Language Filter */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Ngôn ngữ</label>
+                <label className="text-sm font-medium mb-2 block">{t('search.filters.language', 'Language')}</label>
                 <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Chọn ngôn ngữ" />
+                    <SelectValue placeholder={t('search.filters.selectLanguage', 'Select language')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tất cả ngôn ngữ</SelectItem>
+                    <SelectItem value="all">{t('search.filters.allLanguages', 'All languages')}</SelectItem>
                     <SelectItem value="JavaScript">JavaScript</SelectItem>
                     <SelectItem value="TypeScript">TypeScript</SelectItem>
                     <SelectItem value="Python">Python</SelectItem>
@@ -259,34 +259,34 @@ export default function SearchPage() {
 
               {/* Minimum Rating Filter */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Đánh giá tối thiểu</label>
+                <label className="text-sm font-medium mb-2 block">{t('search.filters.minRating', 'Minimum Rating')}</label>
                 <Select value={minRating.toString()} onValueChange={(value: string) => setMinRating(Number(value))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Chọn rating" />
+                    <SelectValue placeholder={t('search.filters.selectRating', 'Select rating')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="0">Tất cả</SelectItem>
-                    <SelectItem value="1">⭐ 1+ sao</SelectItem>
-                    <SelectItem value="2">⭐ 2+ sao</SelectItem>
-                    <SelectItem value="3">⭐ 3+ sao</SelectItem>
-                    <SelectItem value="4">⭐ 4+ sao</SelectItem>
-                    <SelectItem value="4.5">⭐ 4.5+ sao</SelectItem>
+                    <SelectItem value="0">{t('common.all', 'All')}</SelectItem>
+                    <SelectItem value="1">⭐ {t('search.filters.onePlusStar', '1+ stars')}</SelectItem>
+                    <SelectItem value="2">⭐ {t('search.filters.twoPlusStar', '2+ stars')}</SelectItem>
+                    <SelectItem value="3">⭐ {t('search.filters.threePlusStar', '3+ stars')}</SelectItem>
+                    <SelectItem value="4">⭐ {t('search.filters.fourPlusStar', '4+ stars')}</SelectItem>
+                    <SelectItem value="4.5">⭐ {t('search.filters.fourHalfPlusStar', '4.5+ stars')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Placeholder for future filter */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Độ phức tạp</label>
+                <label className="text-sm font-medium mb-2 block">{t('search.filters.complexity', 'Complexity')}</label>
                 <Select defaultValue="all">
                   <SelectTrigger>
-                    <SelectValue placeholder="Chọn độ khó" />
+                    <SelectValue placeholder={t('search.filters.selectComplexity', 'Select complexity')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tất cả</SelectItem>
-                    <SelectItem value="easy">Dễ</SelectItem>
-                    <SelectItem value="medium">Trung bình</SelectItem>
-                    <SelectItem value="hard">Khó</SelectItem>
+                    <SelectItem value="all">{t('common.all', 'All')}</SelectItem>
+                    <SelectItem value="easy">{t('search.filters.easy', 'Easy')}</SelectItem>
+                    <SelectItem value="medium">{t('search.filters.medium', 'Medium')}</SelectItem>
+                    <SelectItem value="hard">{t('search.filters.hard', 'Hard')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -296,10 +296,10 @@ export default function SearchPage() {
           {/* Clear Filters */}
           <div className="flex justify-between items-center pt-4 border-t">
             <span className="text-sm text-muted-foreground">
-              Tìm thấy {filteredFunctions.length} kết quả
+              {t('search.results.found', 'Found {{count}} results', { count: filteredFunctions.length })}
             </span>
             <Button variant="outline" onClick={clearFilters}>
-              Xóa bộ lọc
+              {t('search.filters.clearFilters', 'Clear Filters')}
             </Button>
           </div>
         </CardContent>
@@ -328,11 +328,11 @@ export default function SearchPage() {
           <Card>
             <CardContent className="text-center py-12">
               <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Không tìm thấy kết quả</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('search.results.noResults', 'No results found')}</h3>
               <p className="text-muted-foreground mb-4">
-                Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc
+                {t('search.results.tryDifferent', 'Try changing your search keywords or filters')}
               </p>
-              <Button onClick={clearFilters}>Xóa bộ lọc</Button>
+              <Button onClick={clearFilters}>{t('search.filters.clearFilters', 'Clear Filters')}</Button>
             </CardContent>
           </Card>
         ) : (
