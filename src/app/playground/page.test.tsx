@@ -5,13 +5,13 @@ import PlaygroundPage from './page'
 // Mock PlaygroundWrapper component
 vi.mock('@/components/PlaygroundWrapper', () => ({
   default: ({ 
-    onCodeChange, 
-    onLanguageChange, 
-    onRun 
+    onCodeChange = vi.fn(), 
+    onLanguageChange = vi.fn(), 
+    onRun = vi.fn() 
   }: { 
-    onCodeChange: (code: string) => void;
-    onLanguageChange: (language: string) => void;
-    onRun: () => void;
+    onCodeChange?: (code: string) => void;
+    onLanguageChange?: (language: string) => void;
+    onRun?: () => void;
   }) => (
     <div data-testid="playground-wrapper">
       <div data-testid="playground-header">

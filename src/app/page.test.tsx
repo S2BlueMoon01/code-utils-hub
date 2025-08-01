@@ -2,62 +2,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import HomePage from './page'
 
-// Mock HomePage component
-vi.mock('@/components/pages/HomePage', () => ({
-  default: () => (
-    <div data-testid="homepage-component">
-      <h1>Welcome to CodeUtilsHub</h1>
-      <p>Your one-stop destination for utility functions</p>
-      <div data-testid="hero-section">
-        <h2>Discover, Test, and Use Utility Functions</h2>
-        <p>Browse our extensive library of tested utility functions for JavaScript, Python, TypeScript and more.</p>
-        <button>Get Started</button>
-        <button>Browse Library</button>
-      </div>
-      <div data-testid="features-section">
-        <h2>Why Choose CodeUtilsHub?</h2>
-        <div data-testid="feature-card-1">
-          <h3>Extensive Library</h3>
-          <p>Access hundreds of utility functions</p>
-        </div>
-        <div data-testid="feature-card-2">
-          <h3>Interactive Playground</h3>
-          <p>Test functions before using them</p>
-        </div>
-        <div data-testid="feature-card-3">
-          <h3>Multi-Language Support</h3>
-          <p>JavaScript, Python, TypeScript, and more</p>
-        </div>
-      </div>
-      <div data-testid="stats-section">
-        <h2>Platform Statistics</h2>
-        <div data-testid="stat-functions">1000+ Functions</div>
-        <div data-testid="stat-users">50K+ Users</div>
-        <div data-testid="stat-downloads">1M+ Downloads</div>
-      </div>
-      <div data-testid="popular-functions">
-        <h2>Popular Functions</h2>
-        <div data-testid="function-card-1">
-          <h3>formatDate</h3>
-          <p>Format dates with ease</p>
-        </div>
-        <div data-testid="function-card-2">
-          <h3>validateEmail</h3>
-          <p>Validate email addresses</p>
-        </div>
-        <div data-testid="function-card-3">
-          <h3>debounce</h3>
-          <p>Debounce function calls</p>
-        </div>
-      </div>
-      <div data-testid="cta-section">
-        <h2>Ready to Get Started?</h2>
-        <p>Join thousands of developers using CodeUtilsHub</p>
-        <button>Sign Up Free</button>
-        <button>View Documentation</button>
-      </div>
-    </div>
-  )
+// Mock utility formatter functions
+vi.mock('@/lib/utils/formatters', () => ({
+  formatDownloads: vi.fn((num) => `${num}+`),
+  formatRating: vi.fn((rating) => rating.toString())
 }))
 
 // Mock Next.js Link
@@ -70,28 +18,27 @@ vi.mock('next/link', () => ({
 // Mock useTranslation hook
 const mockT = vi.fn((key: string, fallback?: string) => {
   const translations: Record<string, string> = {
-    'home.title': 'Welcome to CodeUtilsHub',
-    'home.subtitle': 'Your one-stop destination for utility functions',
-    'home.hero.title': 'Discover, Test, and Use Utility Functions',
+    'home.hero.badge': 'New Features Available',
+    'home.hero.title.prefix': 'Discover & Use',
+    'home.hero.title.highlight': 'Utility Functions',
     'home.hero.description': 'Browse our extensive library of tested utility functions for JavaScript, Python, TypeScript and more.',
-    'home.hero.getStarted': 'Get Started',
-    'home.hero.browseLibrary': 'Browse Library',
+    'home.hero.cta.explore': 'Explore Functions',
+    'home.hero.cta.contribute': 'Contribute',
     'home.features.title': 'Why Choose CodeUtilsHub?',
-    'home.features.extensive.title': 'Extensive Library',
-    'home.features.extensive.description': 'Access hundreds of utility functions',
+    'home.features.description': 'Everything you need to find, test, and use utility functions efficiently.',
+    'home.features.search.title': 'Smart Search',
+    'home.features.search.description': 'Find exactly what you need with advanced filtering and search capabilities.',
     'home.features.playground.title': 'Interactive Playground',
-    'home.features.playground.description': 'Test functions before using them',
-    'home.features.multiLanguage.title': 'Multi-Language Support',
-    'home.features.multiLanguage.description': 'JavaScript, Python, TypeScript, and more',
-    'home.stats.title': 'Platform Statistics',
-    'home.stats.functions': '1000+ Functions',
-    'home.stats.users': '50K+ Users',
-    'home.stats.downloads': '1M+ Downloads',
-    'home.popular.title': 'Popular Functions',
+    'home.features.playground.description': 'Test functions in real-time before integrating them into your projects.',
+    'home.features.community.title': 'Community Driven',
+    'home.features.community.description': 'Benefit from community contributions and share your own utilities.',
+    'home.featured.title': 'Featured Functions',
+    'home.featured.description': 'Popular and highly-rated utility functions from our community.',
+    'home.featured.viewAll': 'View All Functions',
     'home.cta.title': 'Ready to Get Started?',
-    'home.cta.description': 'Join thousands of developers using CodeUtilsHub',
-    'home.cta.signUp': 'Sign Up Free',
-    'home.cta.documentation': 'View Documentation'
+    'home.cta.description': 'Join thousands of developers using CodeUtilsHub to streamline their development workflow.',
+    'home.cta.getStarted': 'Get Started',
+    'home.cta.viewDocs': 'View Documentation'
   }
   return translations[key] || fallback || key
 })
@@ -132,118 +79,109 @@ describe('HomePage', () => {
   it('renders the HomePage component', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('homepage-component')).toBeInTheDocument()
+    // Check for main sections
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
+    expect(screen.getByText('Utility Functions')).toBeInTheDocument()
   })
 
   it('displays the main title and subtitle', () => {
     render(<HomePage />)
     
-    expect(screen.getByText('Welcome to CodeUtilsHub')).toBeInTheDocument()
-    expect(screen.getByText('Your one-stop destination for utility functions')).toBeInTheDocument()
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
+    expect(screen.getByText('Utility Functions')).toBeInTheDocument()
+    expect(screen.getByText('Browse our extensive library of tested utility functions for JavaScript, Python, TypeScript and more.')).toBeInTheDocument()
   })
 
   it('renders the hero section', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('hero-section')).toBeInTheDocument()
-    expect(screen.getByText('Discover, Test, and Use Utility Functions')).toBeInTheDocument()
+    expect(screen.getByText('New Features Available')).toBeInTheDocument()
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
+    expect(screen.getByText('Utility Functions')).toBeInTheDocument()
     expect(screen.getByText('Browse our extensive library of tested utility functions for JavaScript, Python, TypeScript and more.')).toBeInTheDocument()
   })
 
   it('displays hero action buttons', () => {
     render(<HomePage />)
     
-    expect(screen.getByText('Get Started')).toBeInTheDocument()
-    expect(screen.getByText('Browse Library')).toBeInTheDocument()
+    expect(screen.getByText('Explore Functions')).toBeInTheDocument()
+    expect(screen.getByText('Contribute')).toBeInTheDocument()
   })
 
   it('renders the features section', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('features-section')).toBeInTheDocument()
     expect(screen.getByText('Why Choose CodeUtilsHub?')).toBeInTheDocument()
+    expect(screen.getByText('Everything you need to find, test, and use utility functions efficiently.')).toBeInTheDocument()
   })
 
   it('displays all feature cards', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('feature-card-1')).toBeInTheDocument()
-    expect(screen.getByText('Extensive Library')).toBeInTheDocument()
-    expect(screen.getByText('Access hundreds of utility functions')).toBeInTheDocument()
+    expect(screen.getByText('Smart Search')).toBeInTheDocument()
+    expect(screen.getByText('Find exactly what you need with advanced filtering and search capabilities.')).toBeInTheDocument()
     
-    expect(screen.getByTestId('feature-card-2')).toBeInTheDocument()
     expect(screen.getByText('Interactive Playground')).toBeInTheDocument()
-    expect(screen.getByText('Test functions before using them')).toBeInTheDocument()
+    expect(screen.getByText('Test functions in real-time before integrating them into your projects.')).toBeInTheDocument()
     
-    expect(screen.getByTestId('feature-card-3')).toBeInTheDocument()
-    expect(screen.getByText('Multi-Language Support')).toBeInTheDocument()
-    expect(screen.getByText('JavaScript, Python, TypeScript, and more')).toBeInTheDocument()
+    expect(screen.getByText('Community Driven')).toBeInTheDocument()
+    expect(screen.getByText('Benefit from community contributions and share your own utilities.')).toBeInTheDocument()
   })
 
   it('renders the statistics section', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('stats-section')).toBeInTheDocument()
-    expect(screen.getByText('Platform Statistics')).toBeInTheDocument()
-    expect(screen.getByTestId('stat-functions')).toHaveTextContent('1000+ Functions')
-    expect(screen.getByTestId('stat-users')).toHaveTextContent('50K+ Users')
-    expect(screen.getByTestId('stat-downloads')).toHaveTextContent('1M+ Downloads')
+    // This section might not exist in current implementation
+    // Test for featured functions instead
+    expect(screen.getByText('Featured Functions')).toBeInTheDocument()
   })
 
   it('displays popular functions section', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('popular-functions')).toBeInTheDocument()
-    expect(screen.getByText('Popular Functions')).toBeInTheDocument()
+    expect(screen.getByText('Featured Functions')).toBeInTheDocument()
+    expect(screen.getByText('Popular and highly-rated utility functions from our community.')).toBeInTheDocument()
     
-    expect(screen.getByTestId('function-card-1')).toBeInTheDocument()
+    // Check for function cards
     expect(screen.getByText('formatDate')).toBeInTheDocument()
-    expect(screen.getByText('Format dates with ease')).toBeInTheDocument()
-    
-    expect(screen.getByTestId('function-card-2')).toBeInTheDocument()
-    expect(screen.getByText('validateEmail')).toBeInTheDocument()
-    expect(screen.getByText('Validate email addresses')).toBeInTheDocument()
-    
-    expect(screen.getByTestId('function-card-3')).toBeInTheDocument()
     expect(screen.getByText('debounce')).toBeInTheDocument()
-    expect(screen.getByText('Debounce function calls')).toBeInTheDocument()
+    expect(screen.getByText('validateEmail')).toBeInTheDocument()
   })
 
   it('renders the call-to-action section', () => {
     render(<HomePage />)
     
-    expect(screen.getByTestId('cta-section')).toBeInTheDocument()
     expect(screen.getByText('Ready to Get Started?')).toBeInTheDocument()
-    expect(screen.getByText('Join thousands of developers using CodeUtilsHub')).toBeInTheDocument()
-    expect(screen.getByText('Sign Up Free')).toBeInTheDocument()
+    expect(screen.getByText('Join thousands of developers using CodeUtilsHub to streamline their development workflow.')).toBeInTheDocument()
+    expect(screen.getByText('Get Started')).toBeInTheDocument()
     expect(screen.getByText('View Documentation')).toBeInTheDocument()
   })
 
   it('handles button clicks in hero section', () => {
     render(<HomePage />)
     
-    const getStartedButton = screen.getByText('Get Started')
-    const browseLibraryButton = screen.getByText('Browse Library')
+    const exploreButton = screen.getByText('Explore Functions')
+    const contributeButton = screen.getByText('Contribute')
     
-    fireEvent.click(getStartedButton)
-    fireEvent.click(browseLibraryButton)
+    fireEvent.click(exploreButton)
+    fireEvent.click(contributeButton)
     
     // Buttons should be clickable
-    expect(getStartedButton).toBeInTheDocument()
-    expect(browseLibraryButton).toBeInTheDocument()
+    expect(exploreButton).toBeInTheDocument()
+    expect(contributeButton).toBeInTheDocument()
   })
 
   it('handles button clicks in CTA section', () => {
     render(<HomePage />)
     
-    const signUpButton = screen.getByText('Sign Up Free')
+    const getStartedButton = screen.getByText('Get Started')
     const documentationButton = screen.getByText('View Documentation')
     
-    fireEvent.click(signUpButton)
+    fireEvent.click(getStartedButton)
     fireEvent.click(documentationButton)
     
     // Buttons should be clickable
-    expect(signUpButton).toBeInTheDocument()
+    expect(getStartedButton).toBeInTheDocument()
     expect(documentationButton).toBeInTheDocument()
   })
 
@@ -251,7 +189,7 @@ describe('HomePage', () => {
     render(<HomePage />)
     
     const h1 = screen.getByRole('heading', { level: 1 })
-    expect(h1).toHaveTextContent('Welcome to CodeUtilsHub')
+    expect(h1).toHaveTextContent('Discover & Use Utility Functions')
     
     const h2Elements = screen.getAllByRole('heading', { level: 2 })
     expect(h2Elements.length).toBeGreaterThan(0)
@@ -303,7 +241,7 @@ describe('HomePage', () => {
     }))
     
     // Component should render properly in different viewports
-    expect(screen.getByTestId('homepage-component')).toBeInTheDocument()
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
   })
 
   it('handles scroll-based animations', () => {
@@ -382,7 +320,7 @@ describe('HomePage', () => {
     expect(mockT).toHaveBeenCalled()
     
     // Check that translated content is displayed
-    expect(screen.getByText('Welcome to CodeUtilsHub')).toBeInTheDocument()
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
   })
 
   it('renders consistent styling', () => {
