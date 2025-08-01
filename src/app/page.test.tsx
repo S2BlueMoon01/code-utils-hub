@@ -271,7 +271,7 @@ describe('HomePage', () => {
     render(<HomePage />)
     
     // Component should render without errors
-    expect(screen.getByTestId('homepage-component')).toBeInTheDocument()
+    expect(screen.getByText('Discover & Use')).toBeInTheDocument()
   })
 
   it('provides proper ARIA labels', () => {

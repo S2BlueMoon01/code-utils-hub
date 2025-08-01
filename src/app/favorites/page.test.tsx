@@ -42,17 +42,46 @@ vi.mock('@/data/sample-functions', () => ({
 }))
 
 // Mock favorites store
-const mockFavorites = ['1', '3']
+const mockFavorites = [
+  {
+    id: '1',
+    name: 'formatDate',
+    description: 'Format date objects into readable strings',
+    category: 'date',
+    tags: ['date', 'format', 'utility'],
+    language: 'JavaScript',
+    rating: 4.5,
+    usage_count: 1200,
+    created_at: '2024-01-01',
+    addedAt: '2024-01-01T10:00:00Z'
+  },
+  {
+    id: '3',
+    name: 'debounce',
+    description: 'Debounce function calls to improve performance',
+    category: 'performance',
+    tags: ['debounce', 'performance', 'utility'],
+    language: 'JavaScript',
+    rating: 4.8,
+    usage_count: 1500,
+    created_at: '2024-01-03',
+    addedAt: '2024-01-03T10:00:00Z'
+  }
+]
 const mockAddFavorite = vi.fn()
 const mockRemoveFavorite = vi.fn()
 const mockClearFavorites = vi.fn()
+const mockGetFavoritesByLanguage = vi.fn((language: string) => mockFavorites.filter(f => f.language === language))
+const mockGetFavoritesByCategory = vi.fn((category: string) => mockFavorites.filter(f => f.category === category))
 
 vi.mock('@/stores/favoritesStore', () => ({
   useFavoritesStore: () => ({
     favorites: mockFavorites,
     addFavorite: mockAddFavorite,
     removeFavorite: mockRemoveFavorite,
-    clearFavorites: mockClearFavorites
+    clearFavorites: mockClearFavorites,
+    getFavoritesByLanguage: mockGetFavoritesByLanguage,
+    getFavoritesByCategory: mockGetFavoritesByCategory
   })
 }))
 

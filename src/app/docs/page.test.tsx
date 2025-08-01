@@ -52,7 +52,17 @@ const mockT = vi.fn((key: string, fallback?: string) => {
     'docs.recent.title': 'Recent Updates',
     'docs.recent.newFeatures': 'New playground features added',
     'docs.recent.apiUpdates': 'API documentation updated',
-    'docs.recent.bugFixes': 'Bug fixes and improvements'
+    'docs.recent.bugFixes': 'Bug fixes and improvements',
+    // Add missing quick start translations
+    'docs.quickStart.step1.title': 'Explore Library',
+    'docs.quickStart.step1.description': 'Browse through thousands of curated utility functions',
+    'docs.quickStart.step1.action': 'View Functions',
+    'docs.quickStart.step2.title': 'Test on Playground',
+    'docs.quickStart.step2.description': 'Run code directly in your browser',
+    'docs.quickStart.step2.action': 'Open Playground',
+    'docs.quickStart.step3.title': 'Use in Project',
+    'docs.quickStart.step3.description': 'Copy code or download functions for your project',
+    'docs.quickStart.step3.action': 'Start Using'
   }
   return translations[key] || fallback || key
 })

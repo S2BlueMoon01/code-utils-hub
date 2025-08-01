@@ -60,7 +60,20 @@ const mockT = vi.fn((key: string, fallback?: string) => {
     'about.technology.frontend': 'Frontend: Next.js, React, TypeScript, Tailwind CSS',
     'about.technology.backend': 'Backend: Node.js, Supabase, Vercel',
     'about.technology.testing': 'Testing: Vitest, Playwright, Lighthouse CI',
-    'about.technology.deployment': 'Deployment: Vercel, Docker, GitHub Actions'
+    'about.technology.deployment': 'Deployment: Vercel, Docker, GitHub Actions',
+    // Add missing team member translations
+    'about.team.members.member1.name': 'John Doe',
+    'about.team.members.member1.role': 'Founder & Lead Developer',
+    'about.team.members.member1.bio': 'Passionate developer with 10+ years experience',
+    'about.team.members.member2.name': 'Jane Smith',
+    'about.team.members.member2.role': 'Backend Developer',
+    'about.team.members.member2.bio': 'Expert in scalable backend systems',
+    'about.team.members.member3.name': 'Bob Johnson',
+    'about.team.members.member3.role': 'Frontend Developer',
+    'about.team.members.member3.bio': 'UI/UX specialist and React expert',
+    'about.team.members.member4.name': 'Alice Wilson',
+    'about.team.members.member4.role': 'UI/UX Designer',
+    'about.team.members.member4.bio': 'Creative designer focused on user experience'
   }
   return translations[key] || fallback || key
 })
