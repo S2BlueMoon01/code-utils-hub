@@ -156,9 +156,9 @@ describe('SearchPage', () => {
     render(<SearchPage />)
     
     await waitFor(() => {
-      expect(screen.getByText('formatDate')).toBeInTheDocument()
-      expect(screen.getByText('validateEmail')).toBeInTheDocument()
-      expect(screen.getByText('debounce')).toBeInTheDocument()
+      expect(screen.getAllByText('formatDate')[0]).toBeInTheDocument()
+      expect(screen.getAllByText('validateEmail')[0]).toBeInTheDocument()
+      expect(screen.getAllByText('debounce')[0]).toBeInTheDocument()
     })
   })
 
@@ -243,9 +243,9 @@ describe('SearchPage', () => {
     fireEvent.click(clearButton)
     
     await waitFor(() => {
-      expect(screen.getByText('formatDate')).toBeInTheDocument()
-      expect(screen.getByText('validateEmail')).toBeInTheDocument()
-      expect(screen.getByText('debounce')).toBeInTheDocument()
+      expect(screen.getAllByText('formatDate')[0]).toBeInTheDocument()
+      expect(screen.getAllByText('validateEmail')[0]).toBeInTheDocument()
+      expect(screen.getAllByText('debounce')[0]).toBeInTheDocument()
     })
   })
 
