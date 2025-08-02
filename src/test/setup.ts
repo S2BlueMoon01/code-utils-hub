@@ -7,6 +7,57 @@ afterEach(() => {
   cleanup()
 })
 
+// Mock Python Runtime globally to prevent Pyodide CDN access
+vi.mock('@/lib/python-runtime', () => ({
+  PythonRuntime: class MockPythonRuntime {
+    static getInstance() {
+      return new MockPythonRuntime()
+    }
+    
+    async runCode() {
+      return {
+        output: 'Mocked Python output',
+        error: null,
+        executionTime: 100
+      }
+    }
+
+    isReady() {
+      return true
+    }
+
+    getLoadingStatus() {
+      return {
+        loading: false,
+        ready: true
+      }
+    }
+
+    getAvailablePackages() {
+      return ['numpy', 'pandas', 'matplotlib']
+    }
+
+    async initialize() {
+      return Promise.resolve()
+    }
+  },
+  pythonRuntime: {
+    runCode: vi.fn(async () => ({
+      success: true,
+      output: 'Mocked Python output',
+      error: null,
+      executionTime: 100
+    })),
+    isReady: vi.fn(() => true),
+    getLoadingStatus: vi.fn(() => ({
+      loading: false,
+      ready: true
+    })),
+    getAvailablePackages: vi.fn(() => ['numpy', 'pandas', 'matplotlib']),
+    initialize: vi.fn(async () => Promise.resolve())
+  }
+}))
+
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
   useRouter: () => ({

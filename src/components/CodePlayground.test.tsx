@@ -222,12 +222,40 @@ describe('CodePlayground', () => {
   it('displays appropriate message for Python execution', async () => {
     render(<CodePlayground initialLanguage="python" />)
     
+    const editor = screen.getByTestId('monaco-editor')
+    fireEvent.change(editor, { target: { value: 'print("Hello Python")' } })
+    
+    const runButton = screen.getByRole('button', { name: /run/i })
+    fireEvent.click(runButton)
+    
+    // Check that Python execution works with mock
+    await waitFor(() => {
+      expect(screen.getByText(/Mocked Python output/)).toBeInTheDocument()
+    }, { timeout: 2000 })
+  })
+
+  it('handles Python execution errors', async () => {
+    const { pythonRuntime } = await import('@/lib/python-runtime')
+    vi.mocked(pythonRuntime.runCode).mockResolvedValueOnce({
+      success: false,
+      output: '',
+      error: 'Python execution error',
+      executionTime: 100
+    })
+    
+    render(<CodePlayground initialLanguage="python" />)
+    
+    const editor = screen.getByTestId('monaco-editor')
+    fireEvent.change(editor, { target: { value: 'error code' } })
+    
     const runButton = screen.getByRole('button', { name: /run/i })
     fireEvent.click(runButton)
     
     await waitFor(() => {
-      expect(screen.getByText(/Python execution coming soon/)).toBeInTheDocument()
-    })
+      expect(screen.getByText((content) => {
+        return content.includes('Python Error: Python execution error')
+      })).toBeInTheDocument()
+    }, { timeout: 2000 })
   })
 
   it('displays usage instructions and shortcuts', () => {

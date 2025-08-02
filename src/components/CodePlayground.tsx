@@ -8,9 +8,11 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Play, Save, Download, Settings, Copy, RotateCcw, RefreshCw } from "lucide-react";
+import { PythonStatus } from "./ui/python-status";
 import { sampleUtilityFunctions } from "@/data/sample-functions";
-import { multiLanguageVersions, convertToLanguage } from "@/data/multi-language-functions";
-import { getPlaygroundCode, clearPlaygroundCode, persistPlaygroundCode, getPersistedCode, clearPersistedCode } from "@/lib/playground-storage";
+import { convertToLanguage } from "@/data/multi-language-functions";
+import { persistPlaygroundCode, getPersistedCode, clearPersistedCode, getPlaygroundCode } from "@/lib/playground-storage";
+import { pythonRuntime } from "@/lib/python-runtime";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -548,8 +550,20 @@ export default function CodePlayground({
           setOutput('TypeScript compilation error: ' + (tsError as Error).message);
         }
       } else if (selectedLanguage.id === "python") {
-        // For Python, we would need Pyodide or a backend service
-        setOutput("Python execution coming soon! We're working on integrating Pyodide for client-side Python execution.");
+        // Python execution with Pyodide
+        try {
+          const result = await pythonRuntime.runCode(code);
+          
+          if (result.success) {
+            const output = result.output || 'Code executed successfully (no output)';
+            const timing = `\n\n--- Execution completed in ${result.executionTime.toFixed(2)}ms ---`;
+            setOutput(output + timing);
+          } else {
+            setOutput(`Python Error: ${result.error}\n\nOutput: ${result.output}`);
+          }
+        } catch (error) {
+          setOutput(`Python Runtime Error: ${(error as Error).message}`);
+        }
       }
     } catch (error) {
       setOutput(`Error: ${(error as Error).message}`);
@@ -735,6 +749,9 @@ export default function CodePlayground({
             </CardTitle>
           </CardHeader>
           <CardContent>
+            {selectedLanguage.id === "python" && (
+              <PythonStatus showDetails={false} />
+            )}
             <div className="h-96 overflow-auto rounded-md border border-border bg-muted p-4">
               {selectedLanguage.id === "html" ? (
                 <iframe
