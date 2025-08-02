@@ -18,9 +18,12 @@ import {
   ExternalLink,
   ArrowRight
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { useState } from 'react'
 
 export default function DocsPage() {
   const { t } = useTranslation()
+  const [searchQuery, setSearchQuery] = useState('')
   const quickStartSteps = [
     {
       step: 1,
@@ -171,16 +174,30 @@ print(price)  # "$1,234.56"`
           {t('docs.title', 'Documentation')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          {t('docs.subtitle', 'Comprehensive guide to using CodeUtilsHub effectively. From basics to advanced, API references and best practices.')}
+          {t('docs.subtitle', 'Everything you need to know about CodeUtilsHub')}
         </p>
+        
+        {/* Search Input */}
+        <div className="max-w-md mx-auto">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              type="text"
+              placeholder={t('docs.search.placeholder', 'Search documentation...')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Quick Start */}
-      <Card>
+      <Card className="hover:shadow-lg transition-shadow">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Rocket className="w-5 h-5 text-primary" />
-            <span>{t('docs.quickStart.title', 'Quick Start')}</span>
+            <span>{t('docs.quickStart.title', 'Quick Start Guide')}</span>
           </CardTitle>
           <CardDescription>
             {t('docs.quickStart.subtitle', 'Start using CodeUtilsHub in 3 simple steps')}
@@ -210,7 +227,7 @@ print(price)  # "$1,234.56"`
       </Card>
 
       {/* Features Documentation */}
-      <Card>
+      <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Book className="w-5 h-5 text-primary" />
@@ -245,7 +262,7 @@ print(price)  # "$1,234.56"`
       </Card>
 
       {/* Code Examples */}
-      <Card>
+      <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Code2 className="w-5 h-5 text-primary" />
@@ -285,9 +302,11 @@ print(price)  # "$1,234.56"`
       </Card>
 
       {/* API Reference */}
-      <Card>
+      <Card className="hover:shadow-lg transition-shadow">
         <CardHeader>
-          <CardTitle>{t('docs.api.title', 'API Reference')}</CardTitle>
+          <h2 className="text-2xl font-semibold leading-none tracking-tight">
+            {t('docs.api.title', 'API Reference')}
+          </h2>
           <CardDescription>
             {t('docs.api.subtitle', 'REST API endpoints to integrate CodeUtilsHub into your application')}
           </CardDescription>
@@ -365,13 +384,13 @@ print(price)  # "$1,234.56"`
             <Button variant="outline" asChild>
               <a href="https://github.com/codeutilshub" target="_blank">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                GitHub
+                GitHub Issues
               </a>
             </Button>
             <Button variant="outline" asChild>
               <a href="https://discord.gg/codeutilshub" target="_blank">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Discord
+                Join Discord
               </a>
             </Button>
             <Button variant="outline" asChild>

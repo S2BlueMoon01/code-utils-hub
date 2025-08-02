@@ -334,7 +334,94 @@
   },
   "docs": {
     "title": "Documentation",
-    "subtitle": "Everything you need to know about using CodeUtilsHub",
+    "subtitle": "Everything you need to know about CodeUtilsHub",
+    "search": {
+      "placeholder": "Search documentation..."
+    },
+    "quickStart": {
+      "title": "Quick Start Guide",
+      "subtitle": "Get up and running with CodeUtilsHub in minutes",
+      "step1": {
+        "title": "Explore Library",
+        "description": "Browse through thousands of curated utility functions",
+        "action": "View Functions"
+      },
+      "step2": {
+        "title": "Test on Playground",
+        "description": "Run code directly in your browser",
+        "action": "Open Playground"
+      },
+      "step3": {
+        "title": "Use in Project",
+        "description": "Copy code or download functions for your project",
+        "action": "Start Using"
+      }
+    },
+    "features": {
+      "title": "Main Features",
+      "search": {
+        "title": "Advanced Search",
+        "description": "Search functions by name, category, language, or tags",
+        "detail1": "Fuzzy search with Fuse.js",
+        "detail2": "Filter by language and difficulty",
+        "detail3": "Sort by popularity or date",
+        "detail4": "Real-time search suggestions"
+      },
+      "playground": {
+        "title": "Code Playground",
+        "description": "Run and test code directly in browser",
+        "detail1": "Support JavaScript, TypeScript, Python",
+        "detail2": "Monaco Editor with syntax highlighting",
+        "detail3": "Live execution and console output",
+        "detail4": "Share code with URL parameters"
+      },
+      "community": {
+        "title": "Community Features",
+        "description": "Interact with the developer community",
+        "detail1": "Rate and review functions",
+        "detail2": "Comment and discuss",
+        "detail3": "Contribute new functions",
+        "detail4": "User profiles and reputation system"
+      },
+      "export": {
+        "title": "Export Options",
+        "description": "Multiple ways to use functions",
+        "detail1": "Copy to clipboard",
+        "detail2": "Download single file",
+        "detail3": "Export collection",
+        "detail4": "NPM package format"
+      }
+    },
+    "examples": {
+      "title": "Code Examples",
+      "subtitle": "Real-world examples and use cases"
+    },
+    "api": {
+      "title": "API Reference",
+      "subtitle": "Complete reference for all available functions and endpoints"
+    },
+    "bestPractices": {
+      "title": "Best Practices",
+      "performance": {
+        "title": "Performance Tips",
+        "tip1": "Tree-shake functions when importing",
+        "tip2": "Use lazy loading for playground",
+        "tip3": "Cache search results when possible",
+        "tip4": "Debounce search input to reduce API calls"
+      },
+      "quality": {
+        "title": "Code Quality",
+        "tip1": "Always test functions before using",
+        "tip2": "Read documentation and examples",
+        "tip3": "Contribute back if you find bugs",
+        "tip4": "Follow naming conventions"
+      }
+    },
+    "support": {
+      "title": "Need Help?",
+      "subtitle": "Join our Discord community, check GitHub issues, or contact our support team.",
+      "emailSupport": "Email Support"
+    },
     "sections": {
       "gettingStarted": "Getting Started",
       "apiReference": "API Reference",
@@ -419,7 +506,7 @@
   },
   "storage": {
     "title": "Storage Manager",
-    "subtitle": "Manage your local storage and preferences",
+    "subtitle": "Manage your playground code storage and clean up old entries",
     "clear": "Clear Storage",
     "export": "Export Data",
     "import": "Import Data"
