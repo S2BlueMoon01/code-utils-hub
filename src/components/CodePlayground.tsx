@@ -7,8 +7,10 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Play, Save, Download, Settings, Copy, RotateCcw, RefreshCw } from "lucide-react";
+import { Play, Save, Download, Settings, Copy, RotateCcw, RefreshCw, Server } from "lucide-react";
 import { PythonStatus } from "./ui/python-status";
+import { MultiLanguageExecutor } from "./ui/multi-language-executor";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { sampleUtilityFunctions } from "@/data/sample-functions";
 import { convertToLanguage } from "@/data/multi-language-functions";
 import { persistPlaygroundCode, getPersistedCode, clearPersistedCode, getPlaygroundCode } from "@/lib/playground-storage";
@@ -315,6 +317,7 @@ export default function CodePlayground({
   const [hasLoadedSharedCode, setHasLoadedSharedCode] = useState(false);
   const [currentCodeId, setCurrentCodeId] = useState<string | null>(null);
   const [originalGeneratedCode, setOriginalGeneratedCode] = useState<string | null>(null);
+  const [showServerExecutor, setShowServerExecutor] = useState(false);
 
   const handleLanguageChange = useCallback((language: Language) => {
     setSelectedLanguage(language);
@@ -689,6 +692,16 @@ export default function CodePlayground({
           Download
         </Button>
         
+        <Button 
+          onClick={() => setShowServerExecutor(true)} 
+          variant="outline" 
+          size="sm"
+          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-950"
+        >
+          <Server className="h-4 w-4 mr-2" />
+          Server Executor
+        </Button>
+        
         <div className="ml-auto">
           <Button variant="ghost" size="sm">
             <Settings className="h-4 w-4" />
@@ -802,6 +815,27 @@ export default function CodePlayground({
           </div>
         </CardContent>
       </Card>
+
+      {/* Server Executor Modal */}
+      <Dialog open={showServerExecutor} onOpenChange={setShowServerExecutor}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Server className="h-5 w-5" />
+              Multi-Language Server Executor
+            </DialogTitle>
+            <DialogDescription>
+              Execute code in multiple programming languages using secure server-side execution.
+              Supports C++, Java, Python, Go, Rust, and many more languages.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <MultiLanguageExecutor 
+            initialCode={code}
+            onCodeChange={setCode}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
