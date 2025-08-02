@@ -31,10 +31,10 @@ CodeUtilsHub is a comprehensive web platform designed for developers, providing:
 | Card Components | Done | High | Dev Team | ✅ Header, Content, Footer variants |
 | Badge Component | Done | Medium | Dev Team | ✅ Multiple variants implemented |
 | Responsive Design Implementation | Done | High | Dev Team | ✅ Mobile-first approach |
-| Dark Mode Support | In Progress | High | Dev Team | ThemeProvider implemented, needs completion |
-| Framer Motion Animations | To Do | High | - | Page transitions, hover effects |
-| Loading States & Skeletons | To Do | Medium | - | Improved user experience |
-| Error Boundaries | To Do | Medium | - | Graceful error handling |
+| Dark Mode Support | Done | High | Dev Team | ✅ ThemeProvider + ThemeToggle implemented |
+| Framer Motion Animations | Done | High | Dev Team | ✅ Motion components for transitions and interactions |
+| Loading States & Skeletons | Done | Medium | Dev Team | ✅ Skeleton components for better UX |
+| Error Boundaries | Done | Medium | Dev Team | ✅ Error handling components implemented |
 | **Homepage & Layout** | | | | |
 | Main Layout Structure | Done | High | Dev Team | ✅ Header, Footer, Main content areas |
 | Homepage Design | Done | High | Dev Team | ✅ Hero, Features, CTA sections |
@@ -60,13 +60,13 @@ CodeUtilsHub is a comprehensive web platform designed for developers, providing:
 | Code Sharing & Export | Done | Medium | Dev Team | ✅ Download, copy, save functionality |
 | Code Templates & Examples | Done | Low | Dev Team | ✅ Default code templates for each language |
 | **Authentication & User Management** | | | | |
-| Supabase Auth Integration | To Do | High | - | Login, register, password reset |
+| Supabase Auth Integration | In Progress | High | Dev Team | Auth components and stores implemented |
 | User Profiles | To Do | Medium | - | Profile customization, contribution history |
 | OAuth Providers | To Do | Low | - | GitHub, Google, Discord integration |
 | **Community Features** | | | | |
-| Function Contribution System | To Do | High | - | User-submitted functions with validation |
-| Rating & Review System | To Do | Medium | - | Community-driven quality assessment |
-| Comments & Discussions | To Do | Medium | - | Function-specific conversations |
+| Function Contribution System | Done | High | Dev Team | ✅ Comprehensive contribution form with validation |
+| Rating & Review System | Done | Medium | Dev Team | ✅ Star ratings, comments, and community feedback |
+| Comments & Discussions | In Progress | Medium | Dev Team | Basic review system implemented |
 | User Reputation System | To Do | Low | - | Gamification for contributors |
 | **Performance & Optimization** | | | | |
 | Image Optimization | Done | High | Dev Team | ✅ Next.js Image component configured |

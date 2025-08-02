@@ -12,6 +12,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AnimatedPage, FadeIn, SlideUp } from '@/components/ui/motion'
+import { CodeEditorSkeleton } from '@/components/ui/skeleton'
+import { PlaygroundErrorBoundary } from '@/components/ui/error-boundary'
 import { 
   Code2, 
   Send, 

@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,12 +10,11 @@ import { useAuthStore } from '@/stores/authStore'
 import { AuthModal } from '@/components/auth/AuthModal'
 import { UserProfile } from '@/components/auth/UserProfile'
 import { LanguageSwitcher } from '@/components/ui/language-switcher'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { 
   Search, 
   Menu, 
   X, 
-  Sun, 
-  Moon, 
   Code, 
   User,
   LogIn,
@@ -33,7 +31,6 @@ export function Header({ className }: HeaderProps) {
   const [searchQuery, setSearchQuery] = React.useState('')
   const [showAuthModal, setShowAuthModal] = React.useState(false)
   const [showUserProfile, setShowUserProfile] = React.useState(false)
-  const { theme, setTheme } = useTheme()
   const { t } = useTranslation()
   const { user, profile, loading } = useAuthStore()
 
@@ -55,7 +52,6 @@ export function Header({ className }: HeaderProps) {
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
-  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark')
 
   return (
     <header className={cn('sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60', className)}>
@@ -99,15 +95,7 @@ export function Header({ className }: HeaderProps) {
           <LanguageSwitcher />
           
           {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
+          <ThemeToggle />
 
           {/* GitHub Link */}
           <Button variant="ghost" size="icon" asChild>
