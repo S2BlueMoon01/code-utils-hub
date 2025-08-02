@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from './label'
 import { Switch } from './switch'
 import { Slider } from './slider'
+import { useAnalytics } from '@/lib/analytics'
 import dynamic from 'next/dynamic'
 
 // Dynamic import Monaco Editor
@@ -102,6 +103,7 @@ export function AdvancedCodeEditor() {
   const [output, setOutput] = useState('')
   const [isRunning, setIsRunning] = useState(false)
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null) // Monaco editor reference
+  const { trackCodeExecution, trackEvent } = useAnalytics()
 
   const activeFile = files.find(f => f.id === activeFileId)
 
@@ -116,6 +118,12 @@ export function AdvancedCodeEditor() {
     }
     setFiles([...files, newFile])
     setActiveFileId(newFile.id)
+    
+    trackEvent('file_created', {
+      fileName: newFile.name,
+      language: newFile.language,
+      totalFiles: files.length + 1
+    })
   }
 
   const closeFile = (fileId: string) => {
@@ -164,6 +172,12 @@ export function AdvancedCodeEditor() {
     
     // Save to localStorage
     localStorage.setItem('advanced-editor-files', JSON.stringify(files))
+    
+    trackEvent('file_saved', {
+      fileName: activeFile.name,
+      language: activeFile.language,
+      contentLength: activeFile.content.length
+    })
   }
 
   const downloadFile = () => {
@@ -211,9 +225,14 @@ export function AdvancedCodeEditor() {
       }
       
       const result = await response.json()
+      const success = !result.error
       setOutput(result.output || result.error || 'Code executed')
+      
+      trackCodeExecution(activeFile.language, success)
     } catch (error) {
-      setOutput(`Execution Error: ${(error as Error).message}`)
+      const errorMessage = `Execution Error: ${(error as Error).message}`
+      setOutput(errorMessage)
+      trackCodeExecution(activeFile.language, false)
     } finally {
       setIsRunning(false)
     }

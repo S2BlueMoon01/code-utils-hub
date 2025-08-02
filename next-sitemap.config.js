@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://codeutils-hub.vercel.app',
+  siteUrl: process.env.SITE_URL || 'https://code-utils-hub-dev.vercel.app',
   generateRobotsTxt: true,
   generateIndexSitemap: true,
   sitemapSize: 7000,
@@ -77,7 +77,7 @@ module.exports = {
       }
     ],
     additionalSitemaps: [
-      'https://codeutils-hub.vercel.app/server-sitemap.xml'
+      'https://code-utils-hub-dev.vercel.app/server-sitemap.xml'
     ]
   },
   transform: async (config, path) => {
