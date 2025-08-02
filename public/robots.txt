@@ -1,0 +1,18 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Host
+Host: https://codeutils-hub.vercel.app
+
+# Sitemaps
+Sitemap: https://codeutils-hub.vercel.app/sitemap.xml
+Sitemap: https://codeutils-hub.vercel.app/server-sitemap.xml

@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { pythonRuntime } from '@/lib/python-runtime'
 import { Loader2, CheckCircle, AlertCircle, Play } from 'lucide-react'
 import { Button } from './button'
 import { Card, CardContent } from './card'
@@ -22,32 +21,54 @@ export function PythonStatus({ onInitialize, showDetails = true }: PythonStatusP
   const [packages, setPackages] = useState<string[]>([])
 
   useEffect(() => {
-    // Check initial status
-    const initialStatus = pythonRuntime.getLoadingStatus()
-    setStatus(initialStatus)
+    // Only run in browser
+    if (typeof window === 'undefined') return;
 
-    // Poll for status updates
-    const interval = setInterval(() => {
-      const currentStatus = pythonRuntime.getLoadingStatus()
-      setStatus(prevStatus => {
-        if (prevStatus.loading !== currentStatus.loading || 
-            prevStatus.ready !== currentStatus.ready) {
-          return currentStatus
-        }
-        return prevStatus
-      })
+    let interval: NodeJS.Timeout;
 
-      // If ready, get available packages
-      if (currentStatus.ready && packages.length === 0) {
-        setPackages(pythonRuntime.getAvailablePackages())
+    const initializeStatus = async () => {
+      try {
+        const { pythonRuntime } = await import('@/lib/python-runtime');
+        
+        // Check initial status
+        const initialStatus = pythonRuntime.getLoadingStatus()
+        setStatus(initialStatus)
+
+        // Poll for status updates
+        interval = setInterval(() => {
+          const currentStatus = pythonRuntime.getLoadingStatus()
+          setStatus(prevStatus => {
+            if (prevStatus.loading !== currentStatus.loading || 
+                prevStatus.ready !== currentStatus.ready) {
+              return currentStatus
+            }
+            return prevStatus
+          })
+
+          // If ready, get available packages
+          if (currentStatus.ready && packages.length === 0) {
+            setPackages(pythonRuntime.getAvailablePackages())
+          }
+        }, 500)
+      } catch (error) {
+        setStatus({ loading: false, ready: false, error: 'Failed to load Python runtime' });
       }
-    }, 500)
+    };
 
-    return () => clearInterval(interval)
+    initializeStatus();
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [packages.length])
 
   const handleInitialize = async () => {
     try {
+      if (typeof window === 'undefined') {
+        throw new Error('Python runtime is only available in the browser');
+      }
+      
+      const { pythonRuntime } = await import('@/lib/python-runtime');
       setStatus({ loading: true, ready: false })
       await pythonRuntime.initialize()
       setStatus({ loading: false, ready: true })
