@@ -21,33 +21,7 @@ const nextConfig: NextConfig = {
   },
 
   // Webpack configuration
-  webpack: (config: Configuration, { isServer }) => {
-    // Exclude Pyodide from server-side builds
-    if (isServer) {
-      config.externals = config.externals || []
-      if (Array.isArray(config.externals)) {
-        config.externals.push('pyodide')
-      }
-    }
-
-    // Handle Pyodide Node.js modules
-    if (!isServer) {
-      config.resolve = config.resolve || {}
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        "fs": false,
-        "path": false,
-        "crypto": false,
-        "child_process": false,
-        "fs/promises": false,
-        "node:fs": false,
-        "node:path": false,
-        "node:crypto": false,
-        "node:child_process": false,
-        "node:fs/promises": false,
-      }
-    }
-
+  webpack: (config: Configuration) => {
     // Bundle analyzer
     if (process.env.ANALYZE === 'true') {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
