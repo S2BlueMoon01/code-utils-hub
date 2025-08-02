@@ -16,7 +16,49 @@
     "generator": "Trình tạo"
   },
   "search": {
-    "placeholder": "Tìm kiếm functions, mô tả hoặc tags..."
+    "title": "Tìm kiếm Hàm Tiện ích",
+    "subtitle": "Tìm các hàm tiện ích hoàn hảo cho dự án của bạn",
+    "placeholder": "Tìm kiếm functions, tags hoặc categories...",
+    "filters": {
+      "title": "Bộ lọc Tìm kiếm",
+      "category": "Danh mục",
+      "selectCategory": "Chọn danh mục",
+      "allCategories": "Tất cả danh mục",
+      "tag": "Tag",
+      "selectTag": "Chọn tag",
+      "allTags": "Tất cả tag",
+      "sortBy": "Sắp xếp theo",
+      "views": "Lượt xem",
+      "rating": "Đánh giá",
+      "nameAZ": "Tên A-Z",
+      "dateCreated": "Ngày tạo",
+      "order": "Thứ tự",
+      "ascending": "Tăng dần",
+      "descending": "Giảm dần",
+      "showAdvanced": "Hiện bộ lọc nâng cao",
+      "hideAdvanced": "Ẩn bộ lọc nâng cao",
+      "language": "Ngôn ngữ",
+      "selectLanguage": "Chọn ngôn ngữ",
+      "allLanguages": "Tất cả ngôn ngữ",
+      "minRating": "Đánh giá Tối thiểu",
+      "selectRating": "Chọn đánh giá",
+      "onePlusStar": "1+ sao",
+      "twoPlusStar": "2+ sao",
+      "threePlusStar": "3+ sao",
+      "fourPlusStar": "4+ sao",
+      "fourHalfPlusStar": "4.5+ sao",
+      "complexity": "Độ phức tạp",
+      "selectComplexity": "Chọn độ phức tạp",
+      "easy": "Dễ",
+      "medium": "Trung bình",
+      "hard": "Khó",
+      "clearFilters": "Xóa Bộ lọc"
+    },
+    "results": {
+      "found": "Tìm thấy {{count}} kết quả",
+      "noResults": "Không tìm thấy kết quả",
+      "tryDifferent": "Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc"
+    }
   },
   "auth": {
     "login": "Đăng nhập",
@@ -24,101 +66,265 @@
     "signup": "Đăng ký"
   },
   "docs": {
-    "title": "Documentation",
-    "subtitle": "Everything you need to know about CodeUtilsHub",
+    "title": "Tài liệu",
+    "subtitle": "Mọi thứ bạn cần biết về CodeUtilsHub",
     "search": {
-      "placeholder": "Search documentation..."
+      "placeholder": "Tìm kiếm tài liệu..."
     },
     "quickStart": {
-      "title": "Quick Start Guide",
-      "subtitle": "Get up and running with CodeUtilsHub in minutes"
+      "title": "Hướng dẫn Bắt đầu Nhanh",
+      "subtitle": "Bắt đầu sử dụng CodeUtilsHub trong vài phút"
     },
     "features": {
-      "title": "Main Features"
+      "title": "Tính năng Chính"
     },
     "api": {
-      "title": "API Reference",
-      "subtitle": "Complete reference for all available functions and endpoints"
+      "title": "Tài liệu API",
+      "subtitle": "Tài liệu đầy đủ về tất cả functions và endpoints có sẵn"
     },
     "bestPractices": {
-      "title": "Best Practices"
+      "title": "Thực hành Tốt nhất"
     },
     "support": {
-      "title": "Need Help?",
-      "subtitle": "Get support from our community and team"
+      "title": "Cần Thêm Trợ giúp?",
+      "subtitle": "Tham gia cộng đồng Discord, kiểm tra GitHub issues hoặc liên hệ team hỗ trợ.",
+      "emailSupport": "Hỗ trợ Email"
     },
     "stats": {
-      "totalFunctions": "Total Functions",
-      "activeUsers": "Active Users", 
-      "downloads": "Downloads"
+      "totalFunctions": "Tổng số Functions",
+      "activeUsers": "Người dùng Hoạt động", 
+      "downloads": "Lượt tải"
     },
     "topics": {
-      "title": "Popular Topics",
-      "authentication": "Authentication",
+      "title": "Chủ đề Phổ biến",
+      "authentication": "Xác thực",
       "playground": "Code Playground",
-      "api": "API Usage",
-      "deployment": "Deployment"
+      "api": "Sử dụng API",
+      "deployment": "Triển khai"
     },
     "updates": {
-      "title": "Recent Updates",
-      "playground": "New playground features added",
-      "api": "API documentation updated",
-      "fixes": "Bug fixes and improvements"
+      "title": "Cập nhật Gần đây",
+      "playground": "Thêm tính năng playground mới",
+      "api": "Cập nhật tài liệu API",
+      "fixes": "Sửa lỗi và cải thiện"
     }
   },
   "storage": {
-    "title": "Storage",
-    "subtitle": "Manage your saved functions and code snippets"
+    "title": "Quản lý Lưu trữ",
+    "subtitle": "Quản lý lưu trữ code playground và dọn dẹp các entries cũ"
   },
   "home": {
     "hero": {
-      "badge": "Powerful Utility Library",
-      "title": "Discover, Test, and Use Thousands of Utility Functions",
-      "subtitle": "Streamline your development workflow with curated utility functions, interactive playground, and community features.",
+      "badge": "Thư viện Tiện ích Mạnh mẽ",
+      "title": {
+        "prefix": "Khám phá, Kiểm thử và Sử dụng Hàng nghìn",
+        "highlight": "Hàm Tiện ích"
+      },
+      "description": "Tối ưu hóa quy trình phát triển của bạn với các hàm tiện ích được tuyển chọn, sân chơi tương tác và tính năng cộng đồng.",
       "cta": {
-        "explore": "Explore Functions",
-        "contribute": "Contribute"
+        "explore": "Khám phá Hàm",
+        "contribute": "Đóng góp"
       }
     },
     "features": {
-      "title": "Powerful Features",
-      "subtitle": "Everything you need to find, test, and use utility functions",
+      "title": "Tính năng Mạnh mẽ",
+      "description": "Tất cả những gì bạn cần để tìm kiếm, kiểm thử và sử dụng các hàm tiện ích",
       "search": {
-        "title": "Smart Search",
-        "description": "Find functions with advanced fuzzy search, filtering, and sorting"
+        "title": "Tìm kiếm Thông minh",
+        "description": "Tìm hàm với tìm kiếm fuzzy nâng cao, lọc và sắp xếp"
       },
       "playground": {
-        "title": "Code Playground",
-        "description": "Test functions directly in the browser with integrated editor"
+        "title": "Sân chơi Code",
+        "description": "Kiểm thử hàm trực tiếp trong trình duyệt với editor tích hợp"
       },
       "community": {
-        "title": "Community",
-        "description": "Contribute functions, rate, and share with other developers"
+        "title": "Cộng đồng",
+        "description": "Đóng góp hàm, đánh giá và chia sẻ với các nhà phát triển khác"
       }
     },
     "featured": {
-      "title": "Featured Functions",
-      "subtitle": "Most popular functions from the community",
-      "cta": "View All Functions"
+      "title": "Hàm Nổi bật",
+      "description": "Các hàm phổ biến nhất từ cộng đồng",
+      "viewAll": "Xem Tất cả Hàm"
     },
     "stats": {
-      "title": "Platform Stats",
-      "subtitle": "Join the growing community of developers",
-      "functions": "Functions",
-      "developers": "Developers",
-      "downloads": "Downloads",
-      "languages": "Languages"
+      "title": "Thống kê Nền tảng",
+      "subtitle": "Tham gia cộng đồng các nhà phát triển đang phát triển",
+      "functions": "Hàm",
+      "developers": "Nhà phát triển",
+      "downloads": "Lượt tải",
+      "languages": "Ngôn ngữ"
     },
     "cta": {
-      "title": "Ready to get started?",
-      "subtitle": "Join thousands of developers using CodeUtilsHub",
-      "primary": "Explore Functions",
-      "secondary": "Read Documentation"
+      "title": "Sẵn sàng bắt đầu?",
+      "description": "Tham gia hàng nghìn nhà phát triển đang sử dụng CodeUtilsHub",
+      "getStarted": "Khám phá Hàm",
+      "viewDocs": "Đọc Tài liệu"
     }
   },
+  "about": {
+    "title": "Về CodeUtilsHub",
+    "subtitle": "CodeUtilsHub là nền tảng cộng đồng dành cho các nhà phát triển, cung cấp và chia sẻ các hàm tiện ích hữu ích để đẩy nhanh quá trình phát triển phần mềm.",
+    "stats": {
+      "activeUsers": "Người dùng Hoạt động",
+      "functions": "Hàm",
+      "communityRating": "Đánh giá Cộng đồng",
+      "countries": "Quốc gia"
+    },
+    "mission": {
+      "title": "Sứ mệnh",
+      "description": "Chúng tôi tin rằng việc chia sẻ kiến thức và công cụ sẽ giúp cộng đồng lập trình viên phát triển mạnh mẽ hơn. CodeUtilsHub được tạo ra để trở thành trung tâm của các hàm tiện ích chất lượng cao, giúp các lập trình viên tiết kiệm thời gian và tập trung vào việc giải quyết những vấn đề kinh doanh quan trọng."
+    },
+    "vision": {
+      "title": "Tầm nhìn",
+      "description": "Trở thành nền tảng hàng đầu để chia sẻ và khám phá các hàm tiện ích, nơi mọi lập trình viên có thể tìm thấy những công cụ họ cần và đóng góp các giải pháp riêng của mình cho cộng đồng. Chúng tôi hướng tới một thế giới nơi lập trình trở nên hiệu quả và thú vị hơn."
+    },
+    "values": {
+      "title": "Giá trị Cốt lõi",
+      "quality": {
+        "title": "Chất lượng",
+        "description": "Chúng tôi cam kết cung cấp các hàm tiện ích chất lượng cao, được kiểm tra kỹ lưỡng."
+      },
+      "community": {
+        "title": "Cộng đồng",
+        "description": "Xây dựng một cộng đồng lập trình viên mạnh mẽ nơi mọi người cùng học hỏi và chia sẻ."
+      },
+      "innovation": {
+        "title": "Đổi mới",
+        "description": "Liên tục cập nhật và cải thiện để mang đến những công cụ tiên tiến nhất."
+      },
+      "transparency": {
+        "title": "Minh bạch",
+        "description": "Tất cả mã nguồn đều mở, mọi người có thể đóng góp và học hỏi."
+      }
+    },
+    "team": {
+      "title": "Đội ngũ Phát triển",
+      "members": {
+        "member1": {
+          "name": "Nguyễn Văn A",
+          "role": "Người sáng lập & Trưởng nhóm Phát triển",
+          "bio": "Đam mê tạo ra những công cụ giúp các lập trình viên làm việc hiệu quả hơn."
+        },
+        "member2": {
+          "name": "Trần Thị B",
+          "role": "UX/UI Designer",
+          "bio": "Chuyên về trải nghiệm người dùng và thiết kế giao diện để tạo ra sản phẩm dùng dễ."
+        },
+        "member3": {
+          "name": "Lê Văn C",
+          "role": "Backend Developer",
+          "bio": "Chuyên xây dựng hệ thống backend mạnh mẽ và bảo mật."
+        }
+      }
+    },
+    "tech": {
+      "title": "Công nghệ Sử dụng",
+      "subtitle": "Các công nghệ chúng tôi sử dụng để xây dựng CodeUtilsHub"
+    },
+    "cta": {
+      "title": "Tham gia cùng chúng tôi",
+      "subtitle": "Bạn có ý tưởng về tính năng mới hoặc muốn đóng góp cho dự án không? Chúng tôi luôn chào đón sự tham gia của cộng đồng!",
+      "contribute": "Đóng góp Hàm",
+      "github": "GitHub Repository",
+      "contact": "Liên hệ"
+    }
+  },
+  "generator": {
+    "title": "Trình tạo Hàm AI",
+    "subtitle": "Tạo các hàm tiện ích bằng AI",
+    "form": {
+      "functionDetails": "Chi tiết Hàm",
+      "description": "Mô tả hàm của bạn và chúng tôi sẽ tạo template code",
+      "functionName": "Tên Hàm",
+      "functionNamePlaceholder": "ví dụ: formatDate, validateEmail, debounce",
+      "descriptionLabel": "Mô tả",
+      "descriptionPlaceholder": "Mô tả hàm này nên làm gì...",
+      "language": "Ngôn ngữ",
+      "templateStyle": "Kiểu Template",
+      "advancedSettings": "Cài đặt Nâng cao",
+      "testCases": "Test Cases",
+      "testCase": "Test Case",
+      "descriptionOptional": "Mô tả (không bắt buộc)",
+      "inputValue": "Giá trị đầu vào",
+      "expectedOutput": "Kết quả mong đợi",
+      "addTestCase": "Thêm Test Case"
+    },
+    "buttons": {
+      "generating": "Đang tạo...",
+      "generateCode": "Tạo Code",
+      "generateAIPrompt": "Tạo AI Prompt"
+    },
+    "output": {
+      "title": "Code đã Tạo",
+      "runInPlayground": "Chạy trong Playground",
+      "copy": "Sao chép",
+      "download": "Tải xuống",
+      "description": "Template hàm được tạo sẵn sàng sử dụng",
+      "placeholder": "Điền thông tin hàm và click \"Tạo Code\" để xem template"
+    },
+    "examples": {
+      "title": "Ví dụ Nhanh",
+      "description": "Click vào ví dụ để tự động điền form",
+      "dateFormatter": "Format Ngày tháng",
+      "emailValidator": "Validate Email",
+      "debounceUtility": "Debounce Utility"
+    },
+    "prompt": {
+      "title": "AI Prompt đã được Tạo",
+      "description": "Sao chép prompt này và gửi cho bất kỳ AI nào (GPT-4, Claude, Gemini) để tạo code",
+      "readyToCopy": "Sẵn sàng copy & paste",
+      "copyPrompt": "Sao chép Prompt",
+      "howToUse": "Cách sử dụng prompt này:",
+      "step1": "Sao chép prompt ở trên bằng nút \"Sao chép Prompt\"",
+      "step2": "Vào AI yêu thích của bạn (ChatGPT, Claude, Gemini, v.v.)",
+      "step3": "Dán prompt và gửi",
+      "step4": "AI sẽ tạo code được tối ưu, sẵn sàng production",
+      "step5": "Sao chép code được tạo về dự án của bạn"
+    }
+  },
+  "footer": {
+    "description": "Nền tảng hiện đại cho các nhà phát triển cung cấp các hàm tiện ích và sân chơi code. Xây dựng phần mềm tốt hơn với bộ sưu tập tiện ích được tuyển chọn của chúng tôi.",
+    "sections": {
+      "product": "Sản phẩm",
+      "community": "Cộng đồng", 
+      "resources": "Tài nguyên"
+    },
+    "product": {
+      "utils": "Thư viện Utils",
+      "playground": "Sân chơi",
+      "api": "API",
+      "pricing": "Bảng giá"
+    },
+    "community": {
+      "contribute": "Đóng góp",
+      "guidelines": "Hướng dẫn",
+      "discord": "Discord",
+      "forum": "Diễn đàn"
+    },
+    "resources": {
+      "documentation": "Tài liệu",
+      "blog": "Blog",
+      "tutorials": "Hướng dẫn",
+      "examples": "Ví dụ"
+    },
+    "company": {
+      "about": "Giới thiệu",
+      "privacy": "Bảo mật",
+      "terms": "Điều khoản",
+      "contact": "Liên hệ"
+    },
+    "newsletter": {
+      "title": "Cập nhật mới nhất",
+      "placeholder": "Nhập email của bạn",
+      "subscribe": "Đăng ký"
+    },
+    "copyright": "© 2024 CodeUtilsHub. Tất cả quyền được bảo lưu."
+  },
   "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success"
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "all": "Tất cả"
   }
 }

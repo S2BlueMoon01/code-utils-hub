@@ -108,8 +108,11 @@
   "home": {
     "hero": {
       "badge": "New Features Available",
-      "title": "Build Better Software with Utility Functions",
-      "subtitle": "Discover, test, and integrate high-quality utility functions into your projects. From JavaScript to Python, find the perfect tools for any development challenge.",
+      "title": {
+        "prefix": "Build Better Software with",
+        "highlight": "Utility Functions"
+      },
+      "description": "Discover, test, and integrate high-quality utility functions into your projects. From JavaScript to Python, find the perfect tools for any development challenge.",
       "cta": {
         "explore": "Explore Functions",
         "contribute": "Contribute Code"
@@ -117,7 +120,7 @@
     },
     "features": {
       "title": "Why Choose CodeUtilsHub?",
-      "subtitle": "Our platform provides everything you need to discover, test, and implement utility functions efficiently in your development workflow.",
+      "description": "Our platform provides everything you need to discover, test, and implement utility functions efficiently in your development workflow.",
       "search": {
         "title": "Advanced Search",
         "description": "Find exactly what you need with our intelligent search engine. Filter by language, category, complexity, and more."
@@ -133,11 +136,11 @@
     },
     "featured": {
       "title": "Featured Utilities",
-      "subtitle": "Explore our most popular and highly-rated utility functions, trusted by developers worldwide.",
+      "description": "Explore our most popular and highly-rated utility functions, trusted by developers worldwide.",
       "stats": {
         "downloads": "{{count}} downloads"
       },
-      "cta": "View All Utilities"
+      "viewAll": "View All Functions"
     },
     "stats": {
       "title": "Trusted by Developers Worldwide",
@@ -149,24 +152,54 @@
     },
     "cta": {
       "title": "Ready to Get Started?",
-      "subtitle": "Join CodeUtilsHub today and accelerate your development workflow with our comprehensive utility function library.",
-      "primary": "Get Started Free",
-      "secondary": "View Documentation"
+      "description": "Join CodeUtilsHub today and accelerate your development workflow with our comprehensive utility function library.",
+      "getStarted": "Get Started Free",
+      "viewDocs": "View Documentation"
     }
   },
   "search": {
     "title": "Search Utility Functions",
-    "placeholder": "Search for functions, descriptions, or tags...",
+    "subtitle": "Find the perfect utility functions for your project",
+    "placeholder": "Search functions, tags, or categories...",
     "filters": {
-      "title": "Filters",
-      "language": "Language",
+      "title": "Search Filters",
       "category": "Category",
-      "difficulty": "Difficulty",
-      "all": "All"
+      "selectCategory": "Select category",
+      "allCategories": "All categories",
+      "tag": "Tag",
+      "selectTag": "Select tag",
+      "allTags": "All tags",
+      "sortBy": "Sort by",
+      "views": "Views",
+      "rating": "Rating",
+      "nameAZ": "Name A-Z",
+      "dateCreated": "Date Created",
+      "order": "Order",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "showAdvanced": "Show advanced filters",
+      "hideAdvanced": "Hide advanced filters",
+      "language": "Language",
+      "selectLanguage": "Select language",
+      "allLanguages": "All languages",
+      "minRating": "Minimum Rating",
+      "selectRating": "Select rating",
+      "onePlusStar": "1+ stars",
+      "twoPlusStar": "2+ stars",
+      "threePlusStar": "3+ stars",
+      "fourPlusStar": "4+ stars",
+      "fourHalfPlusStar": "4.5+ stars",
+      "complexity": "Complexity",
+      "selectComplexity": "Select complexity",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "clearFilters": "Clear Filters"
     },
     "results": {
-      "found": "functions found",
-      "noResults": "No functions found matching your criteria"
+      "found": "Found {{count}} results",
+      "noResults": "No results found",
+      "tryDifferent": "Try changing your search keywords or filters"
     }
   },
   "dashboard": {
@@ -484,9 +517,55 @@
   "generator": {
     "title": "AI Function Generator",
     "subtitle": "Generate utility functions using AI",
-    "placeholder": "Describe the function you need...",
-    "generate": "Generate Function",
-    "languages": "Programming Languages"
+    "form": {
+      "functionDetails": "Function Details",
+      "description": "Describe your function and we'll generate the code template",
+      "functionName": "Function Name",
+      "functionNamePlaceholder": "e.g., formatDate, validateEmail, debounce",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe what this function should do...",
+      "language": "Language",
+      "templateStyle": "Template Style",
+      "advancedSettings": "Advanced Settings",
+      "testCases": "Test Cases",
+      "testCase": "Test Case",
+      "descriptionOptional": "Description (optional)",
+      "inputValue": "Input value",
+      "expectedOutput": "Expected output",
+      "addTestCase": "Add Test Case"
+    },
+    "buttons": {
+      "generating": "Generating...",
+      "generateCode": "Generate Code",
+      "generateAIPrompt": "Generate AI Prompt"
+    },
+    "output": {
+      "title": "Generated Code",
+      "runInPlayground": "Run in Playground",
+      "copy": "Copy",
+      "download": "Download",
+      "description": "Your generated function template ready to use",
+      "placeholder": "Fill in the function details and click \"Generate Code\" to see your template"
+    },
+    "examples": {
+      "title": "Quick Examples",
+      "description": "Click on any example to auto-fill the form",
+      "dateFormatter": "Date Formatter",
+      "emailValidator": "Email Validator",
+      "debounceUtility": "Debounce Utility"
+    },
+    "prompt": {
+      "title": "AI Prompt Generated",
+      "description": "Copy this prompt and send it to any AI (GPT-4, Claude, Gemini) to generate your code",
+      "readyToCopy": "Ready to copy & paste",
+      "copyPrompt": "Copy Prompt",
+      "howToUse": "How to use this prompt:",
+      "step1": "Copy the prompt above using the \"Copy Prompt\" button",
+      "step2": "Go to your favorite AI (ChatGPT, Claude, Gemini, etc.)",
+      "step3": "Paste the prompt and send it",
+      "step4": "The AI will generate optimized, production-ready code",
+      "step5": "Copy the generated code back to your project"
+    }
   },
   "analytics": {
     "title": "Analytics Dashboard",
@@ -529,42 +608,40 @@
     "removeFromFavorites": "Remove from Favorites"
   },
   "footer": {
+    "description": "A modern platform for developers providing utility functions and code playground. Build better software with our curated collection of utilities.",
+    "sections": {
+      "product": "Product",
+      "community": "Community",
+      "resources": "Resources"
+    },
     "product": {
-      "title": "Product",
-      "utilsLibrary": "Utils Library",
+      "utils": "Utils Library",
       "playground": "Playground",
       "api": "API",
       "pricing": "Pricing"
     },
     "community": {
-      "title": "Community",
       "contribute": "Contribute",
       "guidelines": "Guidelines",
       "discord": "Discord",
       "forum": "Forum"
     },
     "resources": {
-      "title": "Resources",
       "documentation": "Documentation",
       "blog": "Blog",
       "tutorials": "Tutorials",
       "examples": "Examples"
     },
     "company": {
-      "title": "Company",
       "about": "About",
       "privacy": "Privacy",
       "terms": "Terms",
       "contact": "Contact"
     },
     "newsletter": {
-      "title": "Stay Updated",
-      "description": "Subscribe to our newsletter for the latest features and updates.",
+      "title": "Stay updated",
       "placeholder": "Enter your email",
       "subscribe": "Subscribe"
-    },
-    "social": {
-      "title": "Follow Us"
     },
     "copyright": "© 2024 CodeUtilsHub. All rights reserved."
   }

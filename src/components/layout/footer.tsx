@@ -25,28 +25,28 @@ export function Footer({ className }: FooterProps) {
 
   const footerLinks = {
     product: [
-      { name: 'Utils Library', href: '/utils' },
-      { name: 'Playground', href: '/playground' },
-      { name: 'API', href: '/api' },
-      { name: 'Pricing', href: '/pricing' },
+      { name: t('footer.product.utils'), href: '/utils' },
+      { name: t('footer.product.playground'), href: '/playground' },
+      { name: t('footer.product.api'), href: '/api' },
+      { name: t('footer.product.pricing'), href: '/pricing' },
     ],
     community: [
-      { name: 'Contribute', href: '/contribute' },
-      { name: 'Guidelines', href: '/guidelines' },
-      { name: 'Discord', href: '#', external: true },
-      { name: 'Forum', href: '#', external: true },
+      { name: t('footer.community.contribute'), href: '/contribute' },
+      { name: t('footer.community.guidelines'), href: '/guidelines' },
+      { name: t('footer.community.discord'), href: '#', external: true },
+      { name: t('footer.community.forum'), href: '#', external: true },
     ],
     resources: [
-      { name: 'Documentation', href: '/docs' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Tutorials', href: '/tutorials' },
-      { name: 'Examples', href: '/examples' },
+      { name: t('footer.resources.documentation'), href: '/docs' },
+      { name: t('footer.resources.blog'), href: '/blog' },
+      { name: t('footer.resources.tutorials'), href: '/tutorials' },
+      { name: t('footer.resources.examples'), href: '/examples' },
     ],
     company: [
-      { name: 'About', href: '/about' },
-      { name: 'Privacy', href: '/privacy' },
-      { name: 'Terms', href: '/terms' },
-      { name: 'Contact', href: '/contact' },
+      { name: t('footer.company.about'), href: '/about' },
+      { name: t('footer.company.privacy'), href: '/privacy' },
+      { name: t('footer.company.terms'), href: '/terms' },
+      { name: t('footer.company.contact'), href: '/contact' },
     ],
   }
 
@@ -67,24 +67,23 @@ export function Footer({ className }: FooterProps) {
               <span className="text-xl font-bold">CodeUtilsHub</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
-              A modern platform for developers providing utility functions and code playground. 
-              Build better software with our curated collection of utilities.
+              {t('footer.description')}
             </p>
             
             {/* Newsletter Signup */}
             <div className="space-y-2">
-              <p className="text-sm font-medium">Stay updated</p>
+              <p className="text-sm font-medium">{t('footer.newsletter.title')}</p>
               <form onSubmit={handleSubscribe} className="flex space-x-2">
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('footer.newsletter.placeholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
                   required
                 />
                 <Button type="submit" size="sm">
-                  Subscribe
+                  {t('footer.newsletter.subscribe')}
                 </Button>
               </form>
             </div>
@@ -92,7 +91,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Product Links */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Product</h3>
+            <h3 className="text-sm font-semibold mb-4">{t('footer.sections.product')}</h3>
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
@@ -109,7 +108,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Community Links */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Community</h3>
+            <h3 className="text-sm font-semibold mb-4">{t('footer.sections.community')}</h3>
             <ul className="space-y-2">
               {footerLinks.community.map((link) => (
                 <li key={link.name}>
@@ -128,7 +127,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Resources Links */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Resources</h3>
+            <h3 className="text-sm font-semibold mb-4">{t('footer.sections.resources')}</h3>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
@@ -148,7 +147,7 @@ export function Footer({ className }: FooterProps) {
         <div className="mt-8 pt-8 border-t flex flex-col md:flex-row justify-between items-center">
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
             <p className="text-sm text-muted-foreground">
-              © 2024 CodeUtilsHub. All rights reserved.
+              {t('footer.copyright')}
             </p>
             <div className="flex items-center space-x-4">
               {footerLinks.company.map((link) => (
