@@ -104,6 +104,7 @@ export function AdvancedCodeEditor() {
   const [isRunning, setIsRunning] = useState(false)
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null) // Monaco editor reference
   const editorContainerRef = useRef<HTMLDivElement>(null) // Container reference for ResizeObserver
+  const mainContainerRef = useRef<HTMLDivElement>(null) // Main flex container reference
   const { trackCodeExecution, trackEvent } = useAnalytics()
 
   const activeFile = files.find(f => f.id === activeFileId)
@@ -240,17 +241,16 @@ export function AdvancedCodeEditor() {
   }
 
   const toggleFileExplorer = () => {
-    setShowFileExplorer(!showFileExplorer)
+    const newShowState = !showFileExplorer
+    setShowFileExplorer(newShowState)
     
-    // Force Monaco Editor to recalculate layout after state change
+    // Trigger window resize event to let Monaco's automaticLayout handle it
     setTimeout(() => {
-      if (editorRef.current) {
-        editorRef.current.layout()
-      }
-    }, 50)
+      window.dispatchEvent(new Event('resize'))
+    }, 350) // Wait for CSS transition to complete
     
     trackEvent('file_explorer_toggled', {
-      show: !showFileExplorer
+      show: newShowState
     })
   }
 
@@ -276,49 +276,89 @@ export function AdvancedCodeEditor() {
     }
   }, [])
 
-  // Handle Monaco Editor resize when file explorer toggles
+  // Initial layout when editor mounts
   useEffect(() => {
-    if (editorRef.current) {
-      // Small delay to ensure DOM has updated
-      const timeoutId = setTimeout(() => {
-        editorRef.current?.layout()
-      }, 100)
+    if (editorRef.current && editorContainerRef.current) {
+      const handleInitialLayout = () => {
+        const containerRect = editorContainerRef.current!.getBoundingClientRect()
+        
+        if (containerRect.width > 0 && containerRect.height > 0) {
+          editorRef.current!.layout({
+            width: Math.floor(containerRect.width),
+            height: Math.floor(containerRect.height)
+          })
+        }
+      }
+
+      // Initial layout after a short delay
+      const timeoutId = setTimeout(handleInitialLayout, 100)
       
       return () => clearTimeout(timeoutId)
     }
+  }, [activeFileId]) // Trigger when active file changes
+
+  // Handle Monaco Editor resize when file explorer toggles
+  useEffect(() => {
+    // With automaticLayout enabled, just trigger window resize
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+    }, 350)
   }, [showFileExplorer])
 
   // Handle Monaco Editor resize when fullscreen toggles
   useEffect(() => {
-    if (editorRef.current) {
-      const timeoutId = setTimeout(() => {
-        editorRef.current?.layout()
-      }, 100)
-      
-      return () => clearTimeout(timeoutId)
-    }
+    // Trigger window resize for automatic layout
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+    }, 100)
   }, [isFullscreen])
 
-  // ResizeObserver to handle container size changes
+  // ResizeObserver to help Monaco's automaticLayout
   useEffect(() => {
-    const containerElement = editorContainerRef.current
-    if (!containerElement) return
+    const editorContainer = editorContainerRef.current
+    const mainContainer = mainContainerRef.current
+    
+    if (!editorContainer || !mainContainer) return
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.target === containerElement && editorRef.current) {
-          // Debounce the layout call
-          setTimeout(() => {
-            editorRef.current?.layout()
-          }, 50)
-        }
+    let resizeTimeout: NodeJS.Timeout
+
+    const resizeObserver = new ResizeObserver(() => {
+      // Clear previous timeout to prevent excessive calls
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
       }
+
+      // Debounce and trigger window resize for Monaco's automaticLayout
+      resizeTimeout = setTimeout(() => {
+        window.dispatchEvent(new Event('resize'))
+      }, 100)
     })
 
-    resizeObserver.observe(containerElement)
+    resizeObserver.observe(editorContainer)
+    resizeObserver.observe(mainContainer)
 
     return () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
       resizeObserver.disconnect()
+    }
+  }, [])
+
+  // Handle transition end events for automatic layout
+  useEffect(() => {
+    const mainContainer = mainContainerRef.current
+    if (!mainContainer) return
+
+    const handleTransitionEnd = () => {
+      // Trigger window resize for Monaco's automaticLayout
+      window.dispatchEvent(new Event('resize'))
+    }
+
+    mainContainer.addEventListener('transitionend', handleTransitionEnd)
+
+    return () => {
+      mainContainer.removeEventListener('transitionend', handleTransitionEnd)
     }
   }, [])
 
@@ -419,60 +459,71 @@ export function AdvancedCodeEditor() {
         </CardHeader>
         
         <CardContent className="p-0">
-          <div className="flex h-[600px]">
+          <div 
+            ref={mainContainerRef} 
+            className={`h-[600px] grid transition-all duration-300 ease-in-out ${
+              showFileExplorer 
+                ? 'grid-cols-[256px_1fr]' 
+                : 'grid-cols-[0px_1fr]'
+            }`}
+          >
             {/* File Explorer */}
-            {showFileExplorer && (
-              <div className="w-64 border-r bg-muted/30">
-                <div className="p-2 border-b">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={createNewFile}
-                    className="w-full justify-start"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    New File
-                  </Button>
-                </div>
-                
-                <div className="p-2">
-                  {files.map((file) => (
-                    <div
-                      key={file.id}
-                      className={`flex items-center justify-between p-2 rounded cursor-pointer hover:bg-muted ${
-                        activeFileId === file.id ? 'bg-muted' : ''
-                      }`}
-                      onClick={() => setActiveFileId(file.id)}
+            <div className={`bg-muted/30 border-r overflow-hidden transition-all duration-300 ease-in-out ${
+              showFileExplorer ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}>
+              {showFileExplorer && (
+                <>
+                  <div className="p-2 border-b">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={createNewFile}
+                      className="w-full justify-start"
                     >
-                      <div className="flex items-center gap-2 min-w-0 flex-1">
-                        <FileText className="h-4 w-4 flex-shrink-0" />
-                        <span className="text-sm truncate">
-                          {file.name}
-                          {file.modified && <span className="text-yellow-500 ml-1">●</span>}
-                        </span>
+                      <Plus className="h-4 w-4 mr-2" />
+                      New File
+                    </Button>
+                  </div>
+                  
+                  <div className="p-2">
+                    {files.map((file) => (
+                      <div
+                        key={file.id}
+                        className={`flex items-center justify-between p-2 rounded cursor-pointer hover:bg-muted ${
+                          activeFileId === file.id ? 'bg-muted' : ''
+                        }`}
+                        onClick={() => setActiveFileId(file.id)}
+                      >
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <FileText className="h-4 w-4 flex-shrink-0" />
+                          <span className="text-sm truncate">
+                            {file.name}
+                            {file.modified && <span className="text-yellow-500 ml-1">●</span>}
+                          </span>
+                        </div>
+                        
+                        {files.length > 1 && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              closeFile(file.id)
+                            }}
+                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        )}
                       </div>
-                      
-                      {files.length > 1 && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            closeFile(file.id)
-                          }}
-                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
             
             {/* Main Editor Area */}
-            <div className="flex-1 flex flex-col">
+            <div className="grid grid-rows-[auto_auto_1fr] min-w-0 overflow-hidden">
               {/* File Tabs */}
               <div className="flex items-center border-b bg-muted/30">
                 {files.map((file) => (
@@ -545,8 +596,8 @@ export function AdvancedCodeEditor() {
               </div>
               
               {/* Editor and Output */}
-              <div className="flex-1 flex">
-                <div ref={editorContainerRef} className="flex-1">
+              <div className="grid grid-cols-[1fr_auto] min-h-0">
+                <div ref={editorContainerRef} className="min-w-0 min-h-0">
                   {activeFile && (
                     <MonacoEditor
                       height="100%"
@@ -560,7 +611,7 @@ export function AdvancedCodeEditor() {
                         wordWrap: settings.wordWrap ? 'on' : 'off',
                         minimap: { enabled: settings.minimap },
                         lineNumbers: settings.lineNumbers ? 'on' : 'off',
-                        automaticLayout: true,
+                        automaticLayout: true, // Enable automatic layout
                         scrollBeyondLastLine: false,
                         tabSize: settings.tabSize,
                         formatOnPaste: true,
@@ -572,7 +623,7 @@ export function AdvancedCodeEditor() {
                 
                 {/* Output Panel */}
                 {output && (
-                  <div className="w-1/3 border-l bg-muted/30">
+                  <div className="w-80 border-l bg-muted/30">
                     <div className="p-2 border-b">
                       <h3 className="text-sm font-medium">Output</h3>
                     </div>
