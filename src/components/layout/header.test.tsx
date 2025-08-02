@@ -25,6 +25,48 @@ vi.mock('next-themes', async () => {
   }
 })
 
+// Mock react-i18next
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: { [key: string]: string } = {
+        'navigation.home': 'Home',
+        'navigation.search': 'Search', 
+        'navigation.utils': 'Utils Library',
+        'navigation.playground': 'Playground',
+        'navigation.generator': 'Generator',
+        'navigation.storage': 'Storage',
+        'navigation.favorites': 'Favorites',
+        'navigation.blog': 'Blog',
+        'navigation.contribute': 'Contribute',
+        'navigation.docs': 'Docs',
+        'navigation.about': 'About',
+        'navigation.analytics': 'Analytics',
+        'navigation.faq': 'FAQ',
+        'navigation.login': 'Login',
+        'navigation.logout': 'Logout',
+        'navigation.signup': 'Sign Up',
+        'header.search.placeholder': 'Search functions, tags, or categories...',
+        'search.placeholder': 'Search functions, tags, or categories...'
+      }
+      return translations[key] || key
+    }
+  }),
+  initReactI18next: {
+    type: '3rdParty',
+    init: vi.fn()
+  }
+}))
+
+// Mock auth store
+vi.mock('@/stores/authStore', () => ({
+  useAuthStore: () => ({
+    user: null,
+    profile: null,
+    loading: false
+  })
+}))
+
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
     {children}
@@ -56,7 +98,7 @@ describe('Header', () => {
       </TestWrapper>
     )
 
-    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
+    const searchInput = screen.getByPlaceholderText('Search functions, tags, or categories...')
     expect(searchInput).toBeInTheDocument()
   })
 
@@ -67,7 +109,7 @@ describe('Header', () => {
       </TestWrapper>
     )
 
-    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
+    const searchInput = screen.getByPlaceholderText('Search functions, tags, or categories...')
     fireEvent.change(searchInput, { target: { value: 'test search' } })
     
     expect(searchInput).toHaveValue('test search')
@@ -106,7 +148,7 @@ describe('Header', () => {
     const nav = screen.getByRole('navigation')
     expect(nav).toBeInTheDocument()
     
-    const searchInput = screen.getByPlaceholderText('Search for functions, descriptions, or tags...')
+    const searchInput = screen.getByPlaceholderText('Search functions, tags, or categories...')
     expect(searchInput).toHaveAttribute('type', 'search')
   })
 

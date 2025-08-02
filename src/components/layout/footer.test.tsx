@@ -11,6 +11,41 @@ vi.mock('next/link', () => ({
   ),
 }))
 
+// Mock react-i18next
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: { [key: string]: string } = {
+        'footer.description': 'A modern platform for developers providing utility functions and code playground.',
+        'footer.sections.product': 'Product',
+        'footer.sections.community': 'Community', 
+        'footer.sections.resources': 'Resources',
+        'footer.product.utils': 'Utils Library',
+        'footer.product.playground': 'Playground',
+        'footer.product.api': 'API',
+        'footer.product.pricing': 'Pricing',
+        'footer.community.contribute': 'Contribute',
+        'footer.community.guidelines': 'Guidelines',
+        'footer.community.discord': 'Discord',
+        'footer.community.forum': 'Forum',
+        'footer.resources.documentation': 'Documentation',
+        'footer.resources.blog': 'Blog',
+        'footer.resources.tutorials': 'Tutorials',
+        'footer.resources.examples': 'Examples',
+        'footer.company.about': 'About',
+        'footer.company.privacy': 'Privacy',
+        'footer.company.terms': 'Terms',
+        'footer.company.contact': 'Contact',
+        'footer.newsletter.title': 'Stay updated',
+        'footer.newsletter.placeholder': 'Enter your email',
+        'footer.newsletter.subscribe': 'Subscribe',
+        'footer.copyright': '© 2024 CodeUtilsHub. All rights reserved.'
+      }
+      return translations[key] || key
+    }
+  })
+}))
+
 describe('Footer', () => {
   it('renders the footer content', () => {
     render(<Footer />)
