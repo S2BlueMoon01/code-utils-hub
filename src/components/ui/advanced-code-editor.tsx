@@ -103,6 +103,7 @@ export function AdvancedCodeEditor() {
   const [output, setOutput] = useState('')
   const [isRunning, setIsRunning] = useState(false)
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null) // Monaco editor reference
+  const editorContainerRef = useRef<HTMLDivElement>(null) // Container reference for ResizeObserver
   const { trackCodeExecution, trackEvent } = useAnalytics()
 
   const activeFile = files.find(f => f.id === activeFileId)
@@ -238,6 +239,21 @@ export function AdvancedCodeEditor() {
     }
   }
 
+  const toggleFileExplorer = () => {
+    setShowFileExplorer(!showFileExplorer)
+    
+    // Force Monaco Editor to recalculate layout after state change
+    setTimeout(() => {
+      if (editorRef.current) {
+        editorRef.current.layout()
+      }
+    }, 50)
+    
+    trackEvent('file_explorer_toggled', {
+      show: !showFileExplorer
+    })
+  }
+
   const formatCode = () => {
     if (editorRef.current) {
       const action = editorRef.current.getAction('editor.action.formatDocument')
@@ -260,6 +276,52 @@ export function AdvancedCodeEditor() {
     }
   }, [])
 
+  // Handle Monaco Editor resize when file explorer toggles
+  useEffect(() => {
+    if (editorRef.current) {
+      // Small delay to ensure DOM has updated
+      const timeoutId = setTimeout(() => {
+        editorRef.current?.layout()
+      }, 100)
+      
+      return () => clearTimeout(timeoutId)
+    }
+  }, [showFileExplorer])
+
+  // Handle Monaco Editor resize when fullscreen toggles
+  useEffect(() => {
+    if (editorRef.current) {
+      const timeoutId = setTimeout(() => {
+        editorRef.current?.layout()
+      }, 100)
+      
+      return () => clearTimeout(timeoutId)
+    }
+  }, [isFullscreen])
+
+  // ResizeObserver to handle container size changes
+  useEffect(() => {
+    const containerElement = editorContainerRef.current
+    if (!containerElement) return
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === containerElement && editorRef.current) {
+          // Debounce the layout call
+          setTimeout(() => {
+            editorRef.current?.layout()
+          }, 50)
+        }
+      }
+    })
+
+    resizeObserver.observe(containerElement)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
   return (
     <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-background' : 'relative'}`}>
       <Card className="h-full">
@@ -274,7 +336,7 @@ export function AdvancedCodeEditor() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setShowFileExplorer(!showFileExplorer)}
+                onClick={toggleFileExplorer}
               >
                 <Folder className="h-4 w-4" />
               </Button>
@@ -484,7 +546,7 @@ export function AdvancedCodeEditor() {
               
               {/* Editor and Output */}
               <div className="flex-1 flex">
-                <div className="flex-1">
+                <div ref={editorContainerRef} className="flex-1">
                   {activeFile && (
                     <MonacoEditor
                       height="100%"
