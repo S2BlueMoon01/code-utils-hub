@@ -228,9 +228,9 @@ describe('CodePlayground', () => {
     const runButton = screen.getByRole('button', { name: /run/i })
     fireEvent.click(runButton)
     
-    // Check that Python execution works with mock
+    // Check that Python execution shows the correct message
     await waitFor(() => {
-      expect(screen.getByText(/Mocked Python output/)).toBeInTheDocument()
+      expect(screen.getByText(/Python execution now uses the Judge0 API/)).toBeInTheDocument()
     }, { timeout: 2000 })
   })
 

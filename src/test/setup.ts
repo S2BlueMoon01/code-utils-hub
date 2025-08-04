@@ -16,9 +16,10 @@ vi.mock('@/lib/python-runtime', () => ({
     
     async runCode() {
       return {
-        output: 'Mocked Python output',
-        error: null,
-        executionTime: 100
+        success: false,
+        output: '',
+        error: 'Python execution now uses the Judge0 API. Please use the Multi-Language Executor instead.',
+        executionTime: 0
       }
     }
 
@@ -29,32 +30,39 @@ vi.mock('@/lib/python-runtime', () => ({
     getLoadingStatus() {
       return {
         loading: false,
-        ready: true
+        ready: true,
+        error: 'Use Judge0 API for Python execution'
       }
     }
 
     getAvailablePackages() {
-      return ['numpy', 'pandas', 'matplotlib']
+      return ['numpy', 'pandas', 'matplotlib', 'requests', 'sys', 'os', 'json', 'datetime', 'math', 'random']
     }
 
     async initialize() {
       return Promise.resolve()
     }
+
+    async installPackage() {
+      return false
+    }
   },
   pythonRuntime: {
     runCode: vi.fn(async () => ({
-      success: true,
-      output: 'Mocked Python output',
-      error: null,
-      executionTime: 100
+      success: false,
+      output: '',
+      error: 'Python execution now uses the Judge0 API. Please use the Multi-Language Executor instead.',
+      executionTime: 0
     })),
     isReady: vi.fn(() => true),
     getLoadingStatus: vi.fn(() => ({
       loading: false,
-      ready: true
+      ready: true,
+      error: 'Use Judge0 API for Python execution'
     })),
-    getAvailablePackages: vi.fn(() => ['numpy', 'pandas', 'matplotlib']),
-    initialize: vi.fn(async () => Promise.resolve())
+    getAvailablePackages: vi.fn(() => ['numpy', 'pandas', 'matplotlib', 'requests', 'sys', 'os', 'json', 'datetime', 'math', 'random']),
+    initialize: vi.fn(async () => Promise.resolve()),
+    installPackage: vi.fn(async () => false)
   }
 }))
 

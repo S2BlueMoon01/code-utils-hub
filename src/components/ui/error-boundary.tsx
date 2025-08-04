@@ -1,15 +1,17 @@
 "use client"
 
 import React from 'react'
+import * as Sentry from '@sentry/nextjs'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertCircle, RefreshCw, Home } from 'lucide-react'
+import { AlertCircle, RefreshCw, Home, Bug } from 'lucide-react'
 import Link from 'next/link'
 
 interface ErrorBoundaryState {
   hasError: boolean
   error?: Error
   errorInfo?: React.ErrorInfo
+  eventId?: string
 }
 
 interface ErrorBoundaryProps {
@@ -34,9 +36,23 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
     
+    // Report to Sentry
+    const eventId = Sentry.captureException(error, {
+      contexts: {
+        react: {
+          componentStack: errorInfo.componentStack
+        }
+      },
+      tags: {
+        component: 'ErrorBoundary',
+        source: 'react-error-boundary'
+      }
+    })
+    
     this.setState({
       error,
-      errorInfo
+      errorInfo,
+      eventId
     })
 
     // Call optional error handler
@@ -46,7 +62,23 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   handleRetry = () => {
-    this.setState({ hasError: false, error: undefined, errorInfo: undefined })
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined, eventId: undefined })
+  }
+
+  handleReportBug = () => {
+    if (this.state.eventId) {
+      Sentry.showReportDialog({
+        eventId: this.state.eventId,
+        title: 'Something went wrong!',
+        subtitle: 'Our team has been notified. If you would like to help, tell us what happened below.',
+        labelName: 'Name',
+        labelEmail: 'Email',
+        labelComments: 'What happened?',
+        labelClose: 'Close',
+        labelSubmit: 'Submit',
+        successMessage: 'Thank you for your feedback!'
+      })
+    }
   }
 
   render() {
