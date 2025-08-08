@@ -4,15 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  BookOpenIcon,
-  CodeBracketIcon,
-  MagnifyingGlassIcon,
-  UserGroupIcon,
-  HeartIcon,
-  SparklesIcon,
-  RocketLaunchIcon,
-  DocumentTextIcon
-} from '@heroicons/react/24/outline';
+  BookOpen,
+  Code,
+  Search,
+  Users,
+  Heart,
+  Sparkles,
+  Rocket,
+  FileText
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'User Guide - CodeUtilsHub',
@@ -22,42 +22,42 @@ export const metadata: Metadata = {
 
 const guideFeatures = [
   {
-    icon: BookOpenIcon,
+    icon: BookOpen,
     title: 'Utility Function Library',
     description: 'Browse and discover curated utility functions',
     features: ['Function categories', 'Detailed documentation', 'Code examples', 'Performance notes'],
     link: '#utility-function-library'
   },
   {
-    icon: CodeBracketIcon,
+    icon: Code,
     title: 'Code Playground',
     description: 'Interactive coding environment with live execution',
     features: ['Multi-language support', 'Real-time execution', 'Code sharing', 'Template library'],
     link: '#code-playground'
   },
   {
-    icon: MagnifyingGlassIcon,
+    icon: Search,
     title: 'Search & Discovery',
     description: 'Advanced search with filtering and analytics',
     features: ['Text and code search', 'Advanced filters', 'Popular functions', 'Search history'],
     link: '#search--discovery'
   },
   {
-    icon: UserGroupIcon,
+    icon: Users,
     title: 'Community Features',
     description: 'Connect with developers and share knowledge',
     features: ['Rating system', 'Reviews & comments', 'User reputation', 'Contribution recognition'],
     link: '#community-features'
   },
   {
-    icon: HeartIcon,
+    icon: Heart,
     title: 'Contributing Functions',
     description: 'Share your code with the developer community',
     features: ['Quality guidelines', 'Review process', 'Recognition system', 'Best practices'],
     link: '#contributing-functions'
   },
   {
-    icon: SparklesIcon,
+    icon: Sparkles,
     title: 'Tips & Best Practices',
     description: 'Maximize your productivity with expert tips',
     features: ['Security considerations', 'Performance optimization', 'Platform shortcuts', 'Quality standards'],
@@ -88,7 +88,7 @@ export default function UserGuidePage() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
-              <BookOpenIcon className="w-12 h-12 text-white" />
+              <BookOpen className="w-12 h-12 text-white" />
             </div>
           </div>
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
@@ -101,13 +101,13 @@ export default function UserGuidePage() {
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/docs/USER_GUIDE.md">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                <DocumentTextIcon className="w-5 h-5 mr-2" />
+                <FileText className="w-5 h-5 mr-2" />
                 Read Full Guide
               </Button>
             </Link>
             <Link href="/playground">
               <Button variant="outline" size="lg">
-                <RocketLaunchIcon className="w-5 h-5 mr-2" />
+                <Rocket className="w-5 h-5 mr-2" />
                 Try Playground
               </Button>
             </Link>
