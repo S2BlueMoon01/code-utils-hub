@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useAuthStore } from '@/stores/authStore'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,7 +13,8 @@ import {
   Code, 
   Calendar,
   Edit3,
-  LogOut
+  LogOut,
+  X
 } from 'lucide-react'
 
 interface UserProfileProps {
@@ -22,11 +23,33 @@ interface UserProfileProps {
 }
 
 export function UserProfile({ isOpen, onClose }: UserProfileProps) {
-  const { t } = useTranslation()
   const { user, profile, signOut } = useAuthStore()
   const [loading, setLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  if (!isOpen || !user || !profile) return null
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.removeEventListener('keydown', handleEscape)
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [isOpen, onClose])
+
+  if (!mounted || !isOpen || !user || !profile) return null
 
   const handleSignOut = async () => {
     setLoading(true)
@@ -62,14 +85,29 @@ export function UserProfile({ isOpen, onClose }: UserProfileProps) {
     }
   }
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4">
-      <Card className="w-full max-w-md">
+  return createPortal(
+    <div 
+      className="fixed inset-0 flex items-start justify-center p-4 pt-20"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 999999
+      }}
+      onClick={onClose}
+    >
+      <Card 
+        className="w-full max-w-md shadow-2xl bg-background relative"
+        onClick={(e) => e.stopPropagation()}
+      >
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-between">
             <CardTitle>Hồ sơ người dùng</CardTitle>
             <Button variant="ghost" size="sm" onClick={onClose}>
-              ✕
+              <X className="h-4 w-4" />
             </Button>
           </div>
           
@@ -141,6 +179,7 @@ export function UserProfile({ isOpen, onClose }: UserProfileProps) {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </div>,
+    document.body
   )
 }

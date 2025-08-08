@@ -16,7 +16,17 @@
     "generator": "Generator",
     "login": "Login",
     "logout": "Logout",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "profile": "Profile"
   },
   "common": {
     "email": "Email",
@@ -644,5 +654,23 @@
       "subscribe": "Subscribe"
     },
     "copyright": "© 2024 CodeUtilsHub. All rights reserved."
+  },
+  "guide": {
+    "title": "CodeUtilsHub User Guide",
+    "subtitle": "Master the platform with our comprehensive guide. Learn how to discover functions, use the playground, contribute code, and connect with the developer community.",
+    "readFullGuide": "Read Full Guide",
+    "tryPlayground": "Try Playground",
+    "needHelp": "Need More Help?",
+    "helpDescription": "Explore our comprehensive documentation, join the community, or check out the FAQ section for answers to common questions.",
+    "quickLinks": {
+      "functionLibrary": "Function Library",
+      "functionLibraryDesc": "Browse all functions",
+      "codePlayground": "Code Playground", 
+      "codePlaygroundDesc": "Interactive coding environment",
+      "contribute": "Contribute",
+      "contributeDesc": "Share your functions",
+      "apiDocs": "API Documentation",
+      "apiDocsDesc": "Developer resources"
+    }
   }
 }

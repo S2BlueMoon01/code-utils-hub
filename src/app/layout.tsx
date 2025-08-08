@@ -5,6 +5,7 @@ import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { PerformanceMonitor } from "@/hooks/usePerformance";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from "@/providers/I18nProvider";
+import { AuthInitializer } from "@/components/auth/AuthInitializer";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
@@ -67,17 +68,19 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            <PerformanceMonitor feature="app">
-              <ErrorBoundary feature="app">
-                <div className="flex min-h-screen flex-col bg-background">
-                  <Header />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-              </ErrorBoundary>
-            </PerformanceMonitor>
+            <AuthInitializer>
+              <PerformanceMonitor feature="app">
+                <ErrorBoundary feature="app">
+                  <div className="flex min-h-screen flex-col bg-background">
+                    <Header />
+                    <main className="flex-1">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                </ErrorBoundary>
+              </PerformanceMonitor>
+            </AuthInitializer>
           </I18nProvider>
         </ThemeProvider>
       </body>

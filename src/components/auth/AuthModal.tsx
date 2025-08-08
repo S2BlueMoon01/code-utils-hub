@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,10 +22,21 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
+  // Reset form when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setError('')
+      setSuccess('')
+    }
+  }, [isOpen])
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -40,11 +51,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         const { setUser, setSession } = useAuthStore.getState()
         setUser(data.user)
         setSession(data.session)
-        console.log("Signed in successfully!")
-        onClose()
+        setSuccess('Đăng nhập thành công!')
+        setTimeout(() => onClose(), 1000)
       }
     } catch (error: unknown) {
-      console.error("Sign in error:", error instanceof Error ? error.message : "Unknown error")
+      const errorMessage = error instanceof Error ? error.message : "Lỗi không xác định"
+      setError(`Lỗi đăng nhập: ${errorMessage}`)
     } finally {
       setLoading(false)
     }
@@ -52,8 +64,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    
     if (password !== confirmPassword) {
-      console.error("Passwords don't match")
+      setError("Mật khẩu không khớp")
       return
     }
 
@@ -72,10 +86,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
       if (error) throw error
 
-      console.log("Check your email for the confirmation link!")
-      onClose()
+      setSuccess("Kiểm tra email để xác nhận tài khoản!")
+      setTimeout(() => onClose(), 2000)
     } catch (error: unknown) {
-      console.error("Sign up error:", error instanceof Error ? error.message : "Unknown error")
+      const errorMessage = error instanceof Error ? error.message : "Lỗi không xác định"
+      setError(`Lỗi đăng ký: ${errorMessage}`)
     } finally {
       setLoading(false)
     }
@@ -86,6 +101,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setPassword('')
     setConfirmPassword('')
     setName('')
+    setError('')
+    setSuccess('')
     setLoading(false)
   }
 
@@ -108,6 +125,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </TabsList>
 
           <TabsContent value="signin" className="space-y-4">
+            {error && (
+              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+                {success}
+              </div>
+            )}
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signin-email">Email</Label>
@@ -152,6 +179,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </TabsContent>
 
           <TabsContent value="signup" className="space-y-4">
+            {error && (
+              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+                {success}
+              </div>
+            )}
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signup-name">Name</Label>

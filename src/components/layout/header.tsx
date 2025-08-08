@@ -36,22 +36,23 @@ export function Header({ className }: HeaderProps) {
 
   const navigation = [
     { name: t('navigation.home'), href: '/' },
-    { name: t('navigation.search'), href: '/search' },
     { name: t('navigation.utils'), href: '/utils' },
     { name: t('navigation.playground'), href: '/playground' },
-    { name: 'Advanced Editor', href: '/editor' },
-    { name: 'Snippets', href: '/snippets' },
-    { name: t('navigation.generator'), href: '/generator' },
-    { name: t('navigation.storage'), href: '/storage' },
-    { name: t('navigation.favorites'), href: '/favorites' },
-    { name: t('navigation.blog'), href: '/blog' },
+    { name: t('navigation.search'), href: '/search' },
     { name: t('navigation.contribute'), href: '/contribute' },
     { name: 'User Guide', href: '/guide' },
     { name: t('navigation.docs'), href: '/docs' },
+    { name: t('navigation.blog'), href: '/blog' },
     { name: t('navigation.about'), href: '/about' },
-    { name: t('navigation.analytics'), href: '/analytics' },
     { name: t('navigation.faq'), href: '/faq' },
-    ...(user ? [{ name: t('navigation.dashboard'), href: '/dashboard' }] : [])
+    { name: t('navigation.analytics'), href: '/analytics' },
+    { name: t('navigation.storage'), href: '/storage' },
+    { name: t('navigation.generator'), href: '/generator' },
+    ...(user ? [
+      { name: t('navigation.dashboard'), href: '/dashboard' },
+      { name: t('navigation.favorites'), href: '/favorites' },
+      { name: t('navigation.profile'), href: '/profile' }
+    ] : [])
   ]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -66,16 +67,73 @@ export function Header({ className }: HeaderProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          {navigation.map((item) => (
+        <nav className="hidden lg:flex items-center space-x-3">
+          {/* Primary navigation items (always visible) */}
+          {navigation.slice(0, 5).map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary whitespace-nowrap px-2 py-1 rounded-md hover:bg-muted"
             >
               {item.name}
             </Link>
           ))}
+          
+          {/* More dropdown for additional items */}
+          {navigation.length > 5 && (
+            <div className="relative group">
+              <Button variant="ghost" size="sm" className="text-sm font-medium text-muted-foreground hover:text-primary">
+                More
+                <svg className="ml-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </Button>
+              <div className="absolute top-full left-0 mt-1 w-56 bg-background border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1">
+                {navigation.slice(5).map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block px-4 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </nav>
+
+        {/* Tablet Navigation (md to lg) */}
+        <nav className="hidden md:flex lg:hidden items-center space-x-2">
+          {navigation.slice(0, 3).map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary whitespace-nowrap px-2 py-1 rounded-md hover:bg-muted"
+            >
+              {item.name}
+            </Link>
+          ))}
+          
+          <div className="relative group">
+            <Button variant="ghost" size="sm" className="text-sm font-medium text-muted-foreground hover:text-primary">
+              More
+              <svg className="ml-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </Button>
+            <div className="absolute top-full left-0 mt-1 w-56 bg-background border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1 max-h-96 overflow-y-auto">
+              {navigation.slice(3).map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </nav>
 
         {/* Search Bar - Desktop */}
@@ -88,6 +146,11 @@ export function Header({ className }: HeaderProps) {
               className="w-64 pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && searchQuery.trim()) {
+                  window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`
+                }
+              }}
             />
           </div>
         </div>
@@ -109,13 +172,13 @@ export function Header({ className }: HeaderProps) {
 
           {/* Auth Buttons */}
           {loading ? (
-            <div className="hidden md:flex h-8 w-8 animate-pulse bg-muted rounded-full" />
+            <div className="h-8 w-8 animate-pulse bg-muted rounded-full" />
           ) : user ? (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setShowUserProfile(true)}
-              className="hidden md:flex items-center space-x-2"
+              className="flex items-center space-x-2"
             >
               <Avatar className="h-6 w-6">
                 <AvatarImage src={profile?.avatar_url} alt={profile?.username} />
@@ -130,10 +193,10 @@ export function Header({ className }: HeaderProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowAuthModal(true)}
-              className="hidden md:flex"
+              className="flex"
             >
               <LogIn className="mr-2 h-4 w-4" />
-              {t('auth.login')}
+              {t('navigation.login')}
             </Button>
           )}
 
@@ -163,6 +226,12 @@ export function Header({ className }: HeaderProps) {
                 className="w-full pl-10"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim()) {
+                    window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`
+                    setIsMenuOpen(false)
+                  }
+                }}
               />
             </div>
 
@@ -203,7 +272,7 @@ export function Header({ className }: HeaderProps) {
                     }}
                   >
                     <LogIn className="mr-2 h-4 w-4" />
-                    {t('auth.login')}
+                    {t('navigation.login')}
                   </Button>
                 )}
               </div>

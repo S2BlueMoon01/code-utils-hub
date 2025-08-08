@@ -63,7 +63,11 @@
   "auth": {
     "login": "Đăng nhập",
     "logout": "Đăng xuất",
-    "signup": "Đăng ký"
+    "signup": "Đăng ký",
+    "getStarted": "Bắt đầu",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "profile": "Hồ sơ"
   },
   "docs": {
     "title": "Tài liệu",
@@ -326,5 +330,23 @@
     "error": "Lỗi",
     "success": "Thành công",
     "all": "Tất cả"
+  },
+  "guide": {
+    "title": "Hướng Dẫn Sử Dụng CodeUtilsHub",
+    "subtitle": "Làm chủ nền tảng với hướng dẫn toàn diện của chúng tôi. Tìm hiểu cách khám phá functions, sử dụng playground, đóng góp code và kết nối với cộng đồng developer.",
+    "readFullGuide": "Đọc Hướng Dẫn Đầy Đủ",
+    "tryPlayground": "Thử Playground",
+    "needHelp": "Cần Thêm Trợ Giúp?",
+    "helpDescription": "Khám phá tài liệu toàn diện của chúng tôi, tham gia cộng đồng hoặc xem phần FAQ để có câu trả lời cho các câu hỏi thường gặp.",
+    "quickLinks": {
+      "functionLibrary": "Thư Viện Functions",
+      "functionLibraryDesc": "Duyệt tất cả functions",
+      "codePlayground": "Code Playground", 
+      "codePlaygroundDesc": "Môi trường code tương tác",
+      "contribute": "Đóng Góp",
+      "contributeDesc": "Chia sẻ functions của bạn",
+      "apiDocs": "Tài Liệu API",
+      "apiDocsDesc": "Tài nguyên cho developers"
+    }
   }
 }
