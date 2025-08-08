@@ -2,6 +2,8 @@ import { useState, useCallback, useMemo } from 'react'
 import Fuse from 'fuse.js'
 import { UtilityFunction, SearchFilters } from '@/types'
 import { sampleUtilityFunctions } from '@/data/sample-functions'
+import { useSearchAnalyticsStore } from '@/stores/searchAnalyticsStore'
+import { useAuthStore } from '@/stores/authStore'
 
 /**
  * Hook for searching utility functions
@@ -10,6 +12,9 @@ export function useSearch() {
   const [results, setResults] = useState<UtilityFunction[]>(sampleUtilityFunctions)
   const [isLoading, setIsLoading] = useState(false)
   const [filters, setFilters] = useState<SearchFilters>({})
+  
+  const { trackSearch } = useSearchAnalyticsStore()
+  const { user } = useAuthStore()
 
   // Configure Fuse.js for fuzzy search
   const fuse = useMemo(() => new Fuse(sampleUtilityFunctions, {
@@ -126,13 +131,26 @@ export function useSearch() {
       }
 
       setResults(filteredResults)
+      
+      // Track search analytics
+      if (searchFilters.query && searchFilters.query.trim()) {
+        trackSearch({
+          id: `search_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          query: searchFilters.query.trim(),
+          category: searchFilters.category?.[0],
+          language: searchFilters.language?.[0],
+          timestamp: Date.now(),
+          resultsCount: filteredResults.length,
+          userId: user?.id
+        })
+      }
     } catch (error) {
       console.error('Search error:', error)
       setResults([])
     } finally {
       setIsLoading(false)
     }
-  }, [fuse])
+  }, [fuse, trackSearch, user?.id])
 
   const clearSearch = useCallback(() => {
     setFilters({})
