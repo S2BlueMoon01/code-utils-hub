@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { PerformanceMonitor } from "@/hooks/usePerformance";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from "@/providers/I18nProvider";
 import { Header } from "@/components/layout/header";
@@ -66,15 +67,17 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            <ErrorBoundary>
-              <div className="flex min-h-screen flex-col bg-background">
-                <Header />
-                <main className="flex-1">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </ErrorBoundary>
+            <PerformanceMonitor feature="app">
+              <ErrorBoundary feature="app">
+                <div className="flex min-h-screen flex-col bg-background">
+                  <Header />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+              </ErrorBoundary>
+            </PerformanceMonitor>
           </I18nProvider>
         </ThemeProvider>
       </body>
