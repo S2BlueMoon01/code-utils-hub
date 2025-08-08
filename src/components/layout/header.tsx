@@ -46,6 +46,7 @@ export function Header({ className }: HeaderProps) {
     { name: t('navigation.favorites'), href: '/favorites' },
     { name: t('navigation.blog'), href: '/blog' },
     { name: t('navigation.contribute'), href: '/contribute' },
+    { name: 'User Guide', href: '/guide' },
     { name: t('navigation.docs'), href: '/docs' },
     { name: t('navigation.about'), href: '/about' },
     { name: t('navigation.analytics'), href: '/analytics' },
